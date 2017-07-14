@@ -1,0 +1,9 @@
+.project
+/target/
+/output/
+
+/src/main/resources/config.json
+/src/main/resources/log4j2-test.properties
+
+**/.DS_Store
+/dependency-reduced-pom.xml

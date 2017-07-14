@@ -1,0 +1,27 @@
+{
+  "localNamespace": "http://localhost:8080/bibframe/individual/",
+  "InputService": {
+    "class": "org.ld4l.bib2lod.io.FileInputService",
+    "source": "sample-data/1_row_hfa_test.xml",
+    "extension": "xml"
+  }, 
+  "OutputService": {
+    "class": "org.ld4l.bib2lod.io.FileOutputService",
+    "destination": "target/",
+    "format": "TURTLE"
+  },
+  "UriService": [
+    { 
+      "class": "org.ld4l.bib2lod.uris.RandomUriMinter"
+    } 
+  ],
+  "Converter": {
+    "class": "org.ld4l.bib2lod.conversion.xml.hfa.HfaConverter"
+  },
+  "Parser": {
+    "class": "org.ld4l.bib2lod.parsing.xml.hfa.HfaParser"
+  },
+  "EntityBuilderFactory": {
+    "class": "org.ld4l.bib2lod.entitybuilders.xml.hfa.ld4l.HfaToLd4lEntityBuilderFactory"
+  }
+}

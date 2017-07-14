@@ -1,0 +1,120 @@
+/* $This file is distributed under the terms of the license in /doc/license.txt$ */
+
+package org.ld4l.bib2lod.record.xml.hfa;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.ld4l.bib2lod.records.RecordField.RecordFieldException;
+import org.ld4l.bib2lod.records.xml.BaseXmlRecord;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+/**
+ * Represents a HFA XML record.
+ */
+public class HfaRecord extends BaseXmlRecord {
+    
+	/*
+	 * These are the text values of the 'column' attribute of the column elements.
+	 */
+    public enum ColumnAttributeText {
+    	HFA_NUMBER("HFA Number"),
+    	PREFIX("prefix"),
+    	TITLE("Original Titles");
+        
+        private final String attrText;
+        
+        private ColumnAttributeText(String tagName) {
+            this.attrText = tagName;
+        }
+        
+        public String getColumnAttributeText() {
+        	return attrText;
+        }
+    }
+    
+    private Map<ColumnAttributeText, HfaTextOnlyField> columnToField;
+    
+    private static final String COLUMN_ELEMENT_NAME = "col";
+    private static final String COLUMN_ATTRIBUTE_NAME = "column";
+
+	/**
+	 * Constructor
+	 * 
+	 * @param record - The top-most FGDC XML element.
+	 */
+	public HfaRecord(Element record) throws RecordException {
+		super(record);
+
+		columnToField = new HashMap<>();
+		
+		for (ColumnAttributeText attr : ColumnAttributeText.values()) {
+			HfaTextOnlyField field = buildField(record, attr);
+			if (field != null) {
+				columnToField.put(attr, field);
+			}
+		}
+		isValid();
+	}
+	
+	public HfaTextOnlyField getField(ColumnAttributeText attr) {
+		return columnToField.get(attr);
+	}
+	
+	private void isValid() throws RecordFieldException {
+		if (columnToField.isEmpty()) {
+			throw new RecordFieldException("No Data in HfaRecord.");
+		}
+		if (columnToField.get(ColumnAttributeText.HFA_NUMBER) == null ||
+				columnToField.get(ColumnAttributeText.HFA_NUMBER).getTextValue().isEmpty()) {
+			throw new RecordFieldException("HfaRecord has no " + ColumnAttributeText.HFA_NUMBER.getColumnAttributeText());
+		}
+	}
+	
+	private HfaTextOnlyField buildField(Element record, ColumnAttributeText field) throws RecordException {
+		NodeList columnNodes = 
+				record.getElementsByTagName(COLUMN_ELEMENT_NAME);
+        if (columnNodes.getLength() == 0) {
+            return null;
+        }
+        
+        for (int i = 0; i < columnNodes.getLength(); i++) {
+        	Element columnElement = (Element) columnNodes.item(i);
+        	String attrVal = columnElement.getAttribute(COLUMN_ATTRIBUTE_NAME);
+        	if (field.getColumnAttributeText().equals(attrVal)) {
+        		// found matching attribute text but if no text in element then return null
+                Node firstChild = columnElement.getFirstChild();
+                if (firstChild == null) {
+                    return null;
+                }
+                if (firstChild.getNodeType() == Node.TEXT_NODE || firstChild.getNodeType() == Node.CDATA_SECTION_NODE) {
+                	return new HfaTextOnlyField(columnElement, field.getColumnAttributeText());
+                }
+        	}
+        }
+        return null; // no match found
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder(getClass().getSimpleName());
+		builder.append(" [");
+		
+		boolean first = true;
+		for (ColumnAttributeText column : columnToField.keySet()) {
+			if (!first) {
+				builder.append(',');
+			} else {
+				first = false;
+			}
+			builder.append(column.getColumnAttributeText());
+			builder.append('=');
+			builder.append(columnToField.get(column).getTextValue());
+		}
+		builder.append("]");
+		return builder.toString();
+	}
+
+}
