@@ -8,14 +8,14 @@ import org.w3c.dom.Element;
 /**
  * Represents a field in a HFA input record.
  */
-public abstract class HfaField extends BaseXmlElement {
+public abstract class BaseHfaField extends BaseXmlElement {
 
 	/**
 	 * Constructor
 	 * 
 	 * @param element
 	 */
-	public HfaField(Element element) {
+	public BaseHfaField(Element element) {
 		super(element);
 	}
 

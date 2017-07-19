@@ -20,7 +20,7 @@ public class HfaRecord extends BaseXmlRecord {
 	 * These are the text values of the 'column' attribute of the column elements.
 	 */
     public enum ColumnAttributeText {
-    	HFA_NUMBER("HFA Number"),
+    	ITEM_NUMBER("Item number"),
     	PREFIX("prefix"),
     	TITLE("Original Titles");
         
@@ -35,7 +35,7 @@ public class HfaRecord extends BaseXmlRecord {
         }
     }
     
-    private Map<ColumnAttributeText, HfaTextOnlyField> columnToField;
+    private Map<ColumnAttributeText, HfaTextField> columnToField;
     
     private static final String COLUMN_ELEMENT_NAME = "col";
     private static final String COLUMN_ATTRIBUTE_NAME = "column";
@@ -51,7 +51,7 @@ public class HfaRecord extends BaseXmlRecord {
 		columnToField = new HashMap<>();
 		
 		for (ColumnAttributeText attr : ColumnAttributeText.values()) {
-			HfaTextOnlyField field = buildField(record, attr);
+			HfaTextField field = buildField(record, attr);
 			if (field != null) {
 				columnToField.put(attr, field);
 			}
@@ -59,7 +59,7 @@ public class HfaRecord extends BaseXmlRecord {
 		isValid();
 	}
 	
-	public HfaTextOnlyField getField(ColumnAttributeText attr) {
+	public HfaTextField getField(ColumnAttributeText attr) {
 		return columnToField.get(attr);
 	}
 	
@@ -67,13 +67,13 @@ public class HfaRecord extends BaseXmlRecord {
 		if (columnToField.isEmpty()) {
 			throw new RecordFieldException("No Data in HfaRecord.");
 		}
-		if (columnToField.get(ColumnAttributeText.HFA_NUMBER) == null ||
-				columnToField.get(ColumnAttributeText.HFA_NUMBER).getTextValue().isEmpty()) {
-			throw new RecordFieldException("HfaRecord has no " + ColumnAttributeText.HFA_NUMBER.getColumnAttributeText());
+		if (columnToField.get(ColumnAttributeText.ITEM_NUMBER) == null ||
+				columnToField.get(ColumnAttributeText.ITEM_NUMBER).getTextValue().isEmpty()) {
+			throw new RecordFieldException("HfaRecord has no " + ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText());
 		}
 	}
 	
-	private HfaTextOnlyField buildField(Element record, ColumnAttributeText field) throws RecordException {
+	private HfaTextField buildField(Element record, ColumnAttributeText field) throws RecordException {
 		NodeList columnNodes = 
 				record.getElementsByTagName(COLUMN_ELEMENT_NAME);
         if (columnNodes.getLength() == 0) {
@@ -90,7 +90,7 @@ public class HfaRecord extends BaseXmlRecord {
                     return null;
                 }
                 if (firstChild.getNodeType() == Node.TEXT_NODE || firstChild.getNodeType() == Node.CDATA_SECTION_NODE) {
-                	return new HfaTextOnlyField(columnElement, field.getColumnAttributeText());
+                	return new HfaTextField(columnElement, field.getColumnAttributeText());
                 }
         	}
         }

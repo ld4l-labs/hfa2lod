@@ -3,32 +3,42 @@
 package org.ld4l.bib2lod.record.xml.hfa;
 
 import org.ld4l.bib2lod.records.Record.RecordException;
+import org.ld4l.bib2lod.records.xml.XmlTextElement;
 import org.w3c.dom.Element;
 
 /**
  * Represents a generic text-only field in a HFA record.
  */
-public class HfaTextOnlyField extends HfaField {
+public class HfaTextField extends BaseHfaField implements XmlTextElement {
 	
+	private String textValue;
 	private String fieldName = "";
 
 	/**
 	 * Constructor without giving this generic field a specific name.
 	 */
-	public HfaTextOnlyField(Element element) throws RecordException {
-		super(element);
-		isValid();
+	public HfaTextField(Element element) throws RecordException {
+		this(element, null);
 	}
 
 	/**
 	 * Constructor giving this generic field a specific name.
 	 */
-	public HfaTextOnlyField(Element element, String fieldName) throws RecordException {
+	public HfaTextField(Element element, String fieldName) throws RecordException {
 		super(element);
+		textValue = setTextValue(element);
 		if (fieldName != null && !fieldName.isEmpty()) {
 			this.fieldName = fieldName;
 		}
 		isValid();
+	}
+
+	/**
+	 * @see org.ld4l.bib2lod.records.xml.XmlTextElement#getTextValue()
+	 */
+	@Override
+	public String getTextValue() {
+		return textValue;
 	}
 
 	/**

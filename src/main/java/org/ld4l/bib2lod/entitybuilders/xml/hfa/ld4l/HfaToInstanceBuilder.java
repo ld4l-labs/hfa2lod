@@ -28,7 +28,7 @@ public class HfaToInstanceBuilder extends HfaToLd4lEntityBuilder {
 					"A HfaRecord is required to build an Instance.");
 		}
 
-		this.work = params.getRelatedEntity();
+		this.work = params.getParentEntity();
         if (work == null) {
             throw new EntityBuilderException(
                     "A related Entity is required to build an Instance.");
@@ -48,7 +48,7 @@ public class HfaToInstanceBuilder extends HfaToLd4lEntityBuilder {
         EntityBuilder builder = getBuilder(Ld4lTitleType.class);
         BuildParams params = new BuildParams()
                 .setRecord(record)
-                .setRelatedEntity(instance);
+                .setParentEntity(instance);
         builder.build(params);
     }
 

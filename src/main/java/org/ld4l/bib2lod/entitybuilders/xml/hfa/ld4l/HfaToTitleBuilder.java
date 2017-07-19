@@ -9,8 +9,8 @@ import org.ld4l.bib2lod.entitybuilders.BuildParams;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lDatatypeProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lObjectProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lTitleType;
-import org.ld4l.bib2lod.record.xml.hfa.HfaField;
 import org.ld4l.bib2lod.record.xml.hfa.HfaRecord;
+import org.ld4l.bib2lod.record.xml.hfa.HfaTextField;
 
 /**
  * Builds a Title Entity.
@@ -28,18 +28,18 @@ public class HfaToTitleBuilder extends HfaToLd4lEntityBuilder {
                     "A HfaRecord is required to build a title.");
         }
 
-        Entity bibEntity = params.getRelatedEntity();
+        Entity bibEntity = params.getParentEntity();
         if (bibEntity == null) {
             throw new EntityBuilderException(
                     "A related Entity is required to build a title.");
         }
         
-        HfaField hfaTitle = record.getField(HfaRecord.ColumnAttributeText.TITLE);
+        HfaTextField hfaTitle = record.getField(HfaRecord.ColumnAttributeText.TITLE);
         if (hfaTitle == null) {
             throw new EntityBuilderException(
                     "A HfaField with column attribute [" + HfaRecord.ColumnAttributeText.TITLE.getColumnAttributeText() + "] is required to build a title.");
         }
-        HfaField hfaPrefix = record.getField(HfaRecord.ColumnAttributeText.PREFIX);
+        HfaTextField hfaPrefix = record.getField(HfaRecord.ColumnAttributeText.PREFIX);
         
         StringBuilder fullTitle = new StringBuilder();
         if (hfaPrefix != null) {

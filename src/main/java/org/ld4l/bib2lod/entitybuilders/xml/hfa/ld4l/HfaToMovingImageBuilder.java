@@ -5,8 +5,8 @@ package org.ld4l.bib2lod.entitybuilders.xml.hfa.ld4l;
 import org.ld4l.bib2lod.entity.Entity;
 import org.ld4l.bib2lod.entitybuilders.BuildParams;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilder;
+import org.ld4l.bib2lod.ontology.hfa.HarvardType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lDatatypeProp;
-import org.ld4l.bib2lod.ontology.ld4l.Ld4lIdentifierType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lInstanceType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lObjectProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lTitleType;
@@ -45,7 +45,7 @@ public class HfaToMovingImageBuilder extends HfaToLd4lEntityBuilder {
         EntityBuilder builder = getBuilder(Ld4lTitleType.class);
         BuildParams params = new BuildParams()
                 .setRecord(record)
-                .setRelatedEntity(work);
+                .setParentEntity(work);
         builder.build(params);
     }
     
@@ -55,14 +55,18 @@ public class HfaToMovingImageBuilder extends HfaToLd4lEntityBuilder {
 
         BuildParams params = new BuildParams()
                 .setRecord(record)
-                .setRelatedEntity(work);        
+                .setParentEntity(work);        
         builder.build(params);
     }
     
     private void addIdentifiers() {
     	
-		Entity identifier = new Entity(Ld4lIdentifierType.LOCAL);
-		String hfaNumber = record.getField(ColumnAttributeText.HFA_NUMBER).getTextValue(); // should have been validated as non-null
+		Entity identifier = new Entity(HarvardType.HGLID);
+		String hfaNumber = record.getField(ColumnAttributeText.ITEM_NUMBER).getTextValue(); // should have been validated as non-null
+		// pad this out with '0' to 10 characters
+		if (hfaNumber.length() < 10) {
+			hfaNumber = String.format("%10s", hfaNumber).replace(' ', '0');
+		}
 		identifier.addAttribute(Ld4lDatatypeProp.VALUE, hfaNumber);
 		work.addRelationship(Ld4lObjectProp.IDENTIFIED_BY, identifier);
     }

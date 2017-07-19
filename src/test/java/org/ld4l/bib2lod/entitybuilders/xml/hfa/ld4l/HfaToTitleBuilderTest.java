@@ -43,7 +43,7 @@ public class HfaToTitleBuilderTest extends AbstractTestClass {
 		
 		BuildParams params = new BuildParams();
 		params.setRecord(hfaRecord);
-		params.setRelatedEntity(relatedEntity);
+		params.setParentEntity(relatedEntity);
 		
 		Entity titleEntity = titleBuilder.build(params);
 
@@ -65,7 +65,7 @@ public class HfaToTitleBuilderTest extends AbstractTestClass {
 		
 		BuildParams params = new BuildParams();
 		params.setRecord(hfaRecord);
-		params.setRelatedEntity(relatedEntity);
+		params.setParentEntity(relatedEntity);
 		
 		Entity titleEntity = titleBuilder.build(params);
 
@@ -89,7 +89,7 @@ public class HfaToTitleBuilderTest extends AbstractTestClass {
 		expectException(EntityBuilderException.class, "A HfaField with column attribute [" + HfaRecord.ColumnAttributeText.TITLE.getColumnAttributeText() + "] is required to build a title.");
 		BuildParams params = new BuildParams();
 		params.setRecord(hfaRecord);
-		params.setRelatedEntity(relatedEntity);
+		params.setParentEntity(relatedEntity);
 		
 		titleBuilder.build(params);
 	}
@@ -99,7 +99,7 @@ public class HfaToTitleBuilderTest extends AbstractTestClass {
 		expectException(EntityBuilderException.class, "A HfaRecord is required to build a title.");
 		BuildParams params = new BuildParams();
 		params.setRecord(null);
-		params.setRelatedEntity(relatedEntity);
+		params.setParentEntity(relatedEntity);
 		
 		titleBuilder.build(params);
 	}
@@ -109,7 +109,7 @@ public class HfaToTitleBuilderTest extends AbstractTestClass {
 		expectException(EntityBuilderException.class, "A related Entity is required to build a title.");
 		BuildParams params = new BuildParams();
 		params.setRecord(hfaRecord);
-		params.setRelatedEntity(null);
+		params.setParentEntity(null);
 		
 		titleBuilder.build(params);
 	}

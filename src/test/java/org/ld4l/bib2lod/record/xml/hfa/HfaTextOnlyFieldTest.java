@@ -22,7 +22,7 @@ public class HfaTextOnlyFieldTest extends AbstractTestClass {
     
     @Test
     public void validTitleField() throws Exception {
-    	HfaTextOnlyField hfaField = buildHfaFieldFromString(HfaTestData.VALID_TITLE, HfaRecord.ColumnAttributeText.TITLE);
+    	HfaTextField hfaField = buildHfaFieldFromString(HfaTestData.VALID_TITLE, HfaRecord.ColumnAttributeText.TITLE);
     	String text = hfaField.getTextValue();
     	Assert.assertNotNull(text);
     	Assert.assertEquals(HfaTestData.TITLE_TEXT, text);
@@ -41,10 +41,10 @@ public class HfaTextOnlyFieldTest extends AbstractTestClass {
     // Helper methods
     // ----------------------------------------------------------------------
     
-    private HfaTextOnlyField buildHfaFieldFromString(String xmlString, HfaRecord.ColumnAttributeText attrVal) 
+    private HfaTextField buildHfaFieldFromString(String xmlString, HfaRecord.ColumnAttributeText attrVal) 
             throws RecordException {
     	
     	Element element = XmlTestUtils.buildElementFromString(xmlString);
-    	return new HfaTextOnlyField(element, attrVal.getColumnAttributeText());
+    	return new HfaTextField(element, attrVal.getColumnAttributeText());
     }
 }

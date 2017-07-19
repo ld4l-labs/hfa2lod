@@ -22,7 +22,7 @@ public class HfaTestData {
 	        "<HFA-data>" +
 	        		"<row>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.TITLE.getColumnAttributeText() + "'>" + TITLE_TEXT + "</col>" +
-		        		"<col column='" + HfaRecord.ColumnAttributeText.HFA_NUMBER.getColumnAttributeText() + "'>" + HFA_NUMBER + "</col>" +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + HFA_NUMBER + "</col>" +
 	        		"</row>" +
 	        "</HFA-data>";
 
@@ -34,7 +34,7 @@ public class HfaTestData {
 	        		"<row>" +
 		    			"<col column='" + HfaRecord.ColumnAttributeText.PREFIX.getColumnAttributeText() + "'>" + PREFIX_TEXT + "</col>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.TITLE.getColumnAttributeText() + "'>" + TITLE_TEXT + "</col>" +
-		        		"<col column='" + HfaRecord.ColumnAttributeText.HFA_NUMBER.getColumnAttributeText() + "'>" + HFA_NUMBER + "</col>" +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + HFA_NUMBER + "</col>" +
 	        		"</row>" +
 	        "</HFA-data>";
 
@@ -42,7 +42,7 @@ public class HfaTestData {
 	        "<HFA-data>" +
 	        		"<row>" +
 		    			"<col column='" + HfaRecord.ColumnAttributeText.PREFIX.getColumnAttributeText() + "'>" + PREFIX_TEXT + "</col>" +
-		        		"<col column='" + HfaRecord.ColumnAttributeText.HFA_NUMBER.getColumnAttributeText() + "'>" + HFA_NUMBER + "</col>" +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + HFA_NUMBER + "</col>" +
 	        		"</row>" +
 	        "</HFA-data>";
 }

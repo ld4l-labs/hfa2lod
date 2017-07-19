@@ -52,7 +52,7 @@ public class HfaRecordTest extends AbstractTestClass {
 	        "<HFA-data>" +
 	        		"<row>" +
 	        			"<col column='Original Titles'>Some title</col>" +
-	        			"<col column='HFA Number'>123</col>" +
+	        			"<col column='Item number'>123</col>" +
 	        		"</row>" +
 	        "</HFA-data>";
 
@@ -93,7 +93,7 @@ public class HfaRecordTest extends AbstractTestClass {
     
     @Test
     public void noExpectedHfaRecord_Invalid() throws Exception {
-    	expectException(RecordFieldException.class, "HfaRecord has no " + ColumnAttributeText.HFA_NUMBER.getColumnAttributeText());
+    	expectException(RecordFieldException.class, "HfaRecord has no " + ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText());
     	buildHfaRecordFromString(NO_HFA_NUMBER);
     }
     
@@ -102,11 +102,11 @@ public class HfaRecordTest extends AbstractTestClass {
         // No exception
     	HfaRecord record = buildHfaRecordFromString(VALID_record);
     	
-    	HfaTextOnlyField hfaNumber = record.getField(ColumnAttributeText.HFA_NUMBER);
+    	HfaTextField hfaNumber = record.getField(ColumnAttributeText.ITEM_NUMBER);
     	Assert.assertNotNull(hfaNumber);
     	Assert.assertEquals("123", hfaNumber.getTextValue());
 
-    	HfaTextOnlyField field = record.getField(ColumnAttributeText.TITLE);
+    	HfaTextField field = record.getField(ColumnAttributeText.TITLE);
     	Assert.assertNotNull(field);
     	Assert.assertEquals("Some title", field.getTextValue());
     	
