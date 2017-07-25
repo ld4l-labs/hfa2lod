@@ -12,7 +12,7 @@ import org.ld4l.bib2lod.ontology.Type;
 //TODO This should be moved to someplace common for both FGDC and HFA use.
 public enum HarvardType implements Type {
     
-    HGLID(HarvardNamespace.METAL, "HGLID");
+    HFA_NUMBER(HarvardNamespace.METAL, "HFANumber");
     
     private String uri;
     private Resource ontClass;

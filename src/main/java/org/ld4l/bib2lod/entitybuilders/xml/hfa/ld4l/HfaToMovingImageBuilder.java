@@ -61,7 +61,7 @@ public class HfaToMovingImageBuilder extends HfaToLd4lEntityBuilder {
     
     private void addIdentifiers() {
     	
-		Entity identifier = new Entity(HarvardType.HGLID);
+		Entity identifier = new Entity(HarvardType.HFA_NUMBER);
 		String hfaNumber = record.getField(ColumnAttributeText.ITEM_NUMBER).getTextValue(); // should have been validated as non-null
 		// pad this out with '0' to 10 characters
 		if (hfaNumber.length() < 10) {
