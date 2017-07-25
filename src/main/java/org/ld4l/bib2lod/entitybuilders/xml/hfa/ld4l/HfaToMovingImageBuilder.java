@@ -28,7 +28,7 @@ public class HfaToMovingImageBuilder extends HfaToLd4lEntityBuilder {
     	this.record = (HfaRecord) params.getRecord();
         if (record == null) {
             throw new EntityBuilderException(
-                    "A HfaRecord is required to build a Cartography.");
+                    "A HfaRecord is required to build a MovingImage.");
         }
         
         this.work = new Entity(Ld4lWorkType.MOVING_IMAGE);

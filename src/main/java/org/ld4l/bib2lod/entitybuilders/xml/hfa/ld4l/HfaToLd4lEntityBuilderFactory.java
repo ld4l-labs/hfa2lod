@@ -19,12 +19,6 @@ public class HfaToLd4lEntityBuilderFactory extends BaseEntityBuilderFactory {
         typeToBuilder.put(Ld4lInstanceType.class, HfaToInstanceBuilder.class);
         typeToBuilder.put(Ld4lWorkType.class, HfaToMovingImageBuilder.class);
         typeToBuilder.put(Ld4lTitleType.class, HfaToTitleBuilder.class);
-//        typeToBuilder.put(CartographyType.class, FgdcToGeometryBuilder.class);
-//        typeToBuilder.put(Ld4lActivityType.class, FgdcToActivityBuilder.class);
-//        typeToBuilder.put(Ld4lAnnotationType.class, FgdcToAnnotationBuilder.class);
-//        typeToBuilder.put(Ld4lItemType.class, FgdcToItemBuilder.class);
-//        typeToBuilder.put(Ld4lAgentType.class, FgdcToAgentBuilder.class);
-//        typeToBuilder.put(CartographySubType.class, FgdcToCartographySubtypeBuilder.class);
     }
     
     @Override

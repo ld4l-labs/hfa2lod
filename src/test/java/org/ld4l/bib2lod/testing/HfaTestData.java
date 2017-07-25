@@ -45,4 +45,13 @@ public class HfaTestData {
 		        		"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + HFA_NUMBER + "</col>" +
 	        		"</row>" +
 	        "</HFA-data>";
+	
+	public static final String VALID_FULL_RECORD = 
+	        "<HFA-data>" +
+	        		"<row>" +
+		    			"<col column='" + HfaRecord.ColumnAttributeText.PREFIX.getColumnAttributeText() + "'>" + PREFIX_TEXT + "</col>" +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.TITLE.getColumnAttributeText() + "'>" + TITLE_TEXT + "</col>" +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + HFA_NUMBER + "</col>" +
+	        		"</row>" +
+	        "</HFA-data>";
 }
