@@ -1,0 +1,38 @@
+Value,Field,Named individual
+Edge Damage,Condition Defects,mi:EdgeDamage
+Dirty,Condition Defects,mi:Dirty
+Brittle,Condition Defects,mi:Brittle
+Waxy/Flaky,Condition Defects,mi:WaxyFlaky
+Scratches,Condition Defects,mi:Scratches
+Sprocket Damage,Condition Defects,mi:SprocketDamage
+Extensive repairs/many splices,Condition Defects,mi:ExtensiveRepairs
+Shrunken over 0.5%,Condition Defects,mi:Shrunken
+Curl,Condition Defects,mi:Curl
+Blotchy (oil or vinegar),Condition Defects,mi:Blotchy
+Perforation damage,Condition Defects,mi:PerforationDamage
+Color fade/b&w contrast,Condition Defects,mi:ColorFade
+Spliced,Condition Defects,mi:Spliced
+Poor sound,Condition Defects,mi:PoorSound
+Burn marks,Condition Defects,mi:BurnMarks
+Discolored,Condition Defects,mi:Discolored
+Sticky tape splices,Condition Defects,mi:StickyTape
+mold,Condition Defects,mi:Mold
+Censored,Cautions,mi:Censored
+Incomplete Print,Cautions,mi:Incomplete
+No English,Cautions,mi:NoEnglish
+Pre-print material,Cautions,mi:PrePrint
+substandard print quality,Cautions,mi:SubstandardQuality
+Unique,Cautions,mi:Unique
+Vinegar,Cautions,mi:Vinegar
+16mm scope,Cautions,mi:SixteenMM
+cropped format,Cautions,mi:Cropped
+dual system,Cautions,mi:DualSystem
+pink,Cautions,mi:Pink
+B/W,B/W-Color,mi:BW
+Color,B/W-Color,mi:Color
+IB Technicolor,B/W-Color,mi:IBtechnicolor
+B/W and Color,B/W-Color,mi:BWcolor
+Reversal,B/W-Color,mi:Reversal
+B&W tinted,B/W-Color,mi:BWtinted
+B&W toned,B/W-Color,mi:BWtoned
+Kodacolor,B/W-Color,mi:Kodacolor

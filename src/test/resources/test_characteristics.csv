@@ -1,0 +1,4 @@
+Value,Field,Named individual
+Edge Damage,Condition Defects,mi:EdgeDamage
+Dirty,Condition Defects,mi:Dirty
+Brittle,Condition Defects,mi:Brittle
