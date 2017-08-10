@@ -7,9 +7,18 @@ import org.ld4l.bib2lod.record.xml.hfa.HfaRecord;
  */
 public class HfaTestData {
     
+	public static final String NEW_LINE = System.getProperty("line.separator");
 	public static final String TITLE_TEXT = "Title";
 	public static final String PREFIX_TEXT = "The";
 	public static final String HFA_NUMBER = "1234";
+	public static final String ALT_HFA_NUMBER = "V9876";
+	public static final String FICTION_GENRE = "Fiction";
+	public static final String SHORT_GENRE = "Short";
+	public static final String TELEVISION_PROGRAM_GENRE = "Television program";
+	public static final String TWO_LINE_GENRE = "Non fiction" + NEW_LINE + "Feature";
+	public static final String TELEVISION_GENRE = "Television programs";
+	public static final String TELEVISION_SERIAL_GENRE = "Serial";
+	public static final String ENTRY_NOT_IN_CONCORDANCE = "not in concordance file";
 
 	public static final String VALID_TITLE = 
 			"<col column='" + HfaRecord.ColumnAttributeText.TITLE.getColumnAttributeText() + "'>" + TITLE_TEXT + "</col>";
@@ -23,6 +32,14 @@ public class HfaTestData {
 	        		"<row>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.TITLE.getColumnAttributeText() + "'>" + TITLE_TEXT + "</col>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + HFA_NUMBER + "</col>" +
+	        		"</row>" +
+	        "</HFA-data>";
+	
+	public static final String VALID_HFA_RECORD_ALTERNATE_ITEM_NUMBER = 
+	        "<HFA-data>" +
+	        		"<row>" +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.TITLE.getColumnAttributeText() + "'>" + TITLE_TEXT + "</col>" +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + ALT_HFA_NUMBER + "</col>" +
 	        		"</row>" +
 	        "</HFA-data>";
 
@@ -52,6 +69,51 @@ public class HfaTestData {
 		    			"<col column='" + HfaRecord.ColumnAttributeText.PREFIX.getColumnAttributeText() + "'>" + PREFIX_TEXT + "</col>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.TITLE.getColumnAttributeText() + "'>" + TITLE_TEXT + "</col>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + HFA_NUMBER + "</col>" +
+	        		"</row>" +
+	        "</HFA-data>";
+	
+	public static final String VALID_FILM_GENRES = 
+	        "<HFA-data>" +
+	        		"<row>" +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + HFA_NUMBER + "</col>" +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.FICTION.getColumnAttributeText() + "'>" + FICTION_GENRE + "</col>" +
+		        		"<col column=\"" + HfaRecord.ColumnAttributeText.SHORT.getColumnAttributeText() + "\">" + SHORT_GENRE + "</col>" + // must use double quote since SHORT_GENRE value contains a single quote
+	        		"</row>" +
+	        "</HFA-data>";
+	
+	public static final String VALID_FILM_GENRE_WITH_KEYWORD = 
+	        "<HFA-data>" +
+	        		"<row>" +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + HFA_NUMBER + "</col>" +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.FICTION.getColumnAttributeText() + "'>" + ENTRY_NOT_IN_CONCORDANCE + "</col>" +
+		        		"<col column=\"" + HfaRecord.ColumnAttributeText.SHORT.getColumnAttributeText() + "\">" + FICTION_GENRE + "</col>" + // must use double quote since SHORT_GENRE value contains a single quote
+	        		"</row>" +
+	        "</HFA-data>";
+	
+	public static final String VALID_TWO_LINE_FILM_GENRE = 
+	        "<HFA-data>" +
+	        		"<row>" +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + HFA_NUMBER + "</col>" +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.FICTION.getColumnAttributeText() + "'>" + TWO_LINE_GENRE + "</col>" +
+	        		"</row>" +
+	        "</HFA-data>";
+	
+	public static final String VALID_TELEVISION_GENRES = 
+	        "<HFA-data>" +
+	        		"<row>" +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + HFA_NUMBER + "</col>" +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.GENRE.getColumnAttributeText() + "'>" + TELEVISION_GENRE + "</col>" +
+		        		"<col column=\"" + HfaRecord.ColumnAttributeText.CLASSIFICATION.getColumnAttributeText() + "\">" + TELEVISION_SERIAL_GENRE + "</col>" +
+	        		"</row>" +
+	        "</HFA-data>";
+	
+	public static final String VALID_TELEVISION_GENRES_WITH_KEYWORD = 
+	        "<HFA-data>" +
+	        		"<row>" +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + HFA_NUMBER + "</col>" +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.GENRE.getColumnAttributeText() + "'>" + TELEVISION_GENRE + "</col>" +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.FICTION.getColumnAttributeText() + "'>" + ENTRY_NOT_IN_CONCORDANCE + "</col>" +
+		        		"<col column=\"" + HfaRecord.ColumnAttributeText.CLASSIFICATION.getColumnAttributeText() + "\">" + TELEVISION_SERIAL_GENRE + "</col>" +
 	        		"</row>" +
 	        "</HFA-data>";
 }

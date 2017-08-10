@@ -77,12 +77,32 @@ public class HfaToMovingImageBuilderTest extends AbstractTestClass {
 		Assert.assertNotNull(identifierTypes);
 		Assert.assertEquals(1, identifierTypes.size());
 		Assert.assertTrue(identifierTypes.contains(HarvardType.HFA_NUMBER));
+		Attribute identifierAttr = identifierEntity.getAttribute(Ld4lDatatypeProp.VALUE);
+		Assert.assertNotNull(identifierAttr);
+		Assert.assertEquals(HfaToMovingImageBuilder.ITEM_NUMBER_LENGTH, identifierAttr.getValue().length());
+		String identifierValue = identifierAttr.getValue();
+		Assert.assertTrue(identifierValue.contains(HfaTestData.HFA_NUMBER));
+	}
+	
+	@Test
+	public void testValidAlternateItemNumber() throws Exception {
+		hfaRecord = buildHfaRecordFromString(HfaTestData.VALID_HFA_RECORD_ALTERNATE_ITEM_NUMBER);
+		BuildParams params = new BuildParams();
+		params.setRecord(hfaRecord);
 		
+		Entity movingImageEntity = movingImageBuilder.build(params);
+		Assert.assertNotNull(movingImageEntity);
+		
+		Entity identifierEntity = movingImageEntity.getChild(Ld4lObjectProp.IDENTIFIED_BY);
+		Assert.assertNotNull(identifierEntity);
+		List<Type> identifierTypes = identifierEntity.getTypes();
+		Assert.assertNotNull(identifierTypes);
+		Assert.assertEquals(1, identifierTypes.size());
+		Assert.assertTrue(identifierTypes.contains(HarvardType.HFA_NUMBER));
 		Attribute identifierAttr = identifierEntity.getAttribute(Ld4lDatatypeProp.VALUE);
 		Assert.assertNotNull(identifierAttr);
 		String identifierValue = identifierAttr.getValue();
-		Assert.assertNotNull(identifierValue);
-		Assert.assertTrue(identifierValue.contains(HfaTestData.HFA_NUMBER));
+		Assert.assertTrue(identifierValue.contains(HfaTestData.ALT_HFA_NUMBER));
 	}
 	
 	@Test

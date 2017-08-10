@@ -1,5 +1,6 @@
-HFA tag,LC genre/form,Combine with additional LC genre/form,FAST form,Combine with additional FAST form,Getty genre,MI class
-Non fiction,http://id.loc.gov/authorities/genreForms/gf2011026423,,http://id.worldcat.org/fast/1710269,,http://vocab.getty.edu/aat/300375156,
-Fiction,http://id.loc.gov/authorities/genreForms/gf2011026250,,http://id.worldcat.org/fast/1710264,,,
-Fiction feature,http://id.loc.gov/authorities/genreForms/gf2011026250,http://id.loc.gov/authorities/genreForms/gf2011026247,,,,
-Feature,http://id.loc.gov/authorities/genreForms/gf2011026247,,http://id.worldcat.org/fast/1710384,,,
+HFA tag,LC genre/form 1,LC genre/form 2,LC genre/form 3,FAST form 1,FAST form 2,FAST form 3,Getty genre,New class
+Non fiction,http://id.loc.gov/authorities/genreForms/gf2011026423,,,http://id.worldcat.org/fast/1710269,,,http://vocab.getty.edu/aat/300375156,,
+Fiction,http://id.loc.gov/authorities/genreForms/gf2011026250,,,http://id.worldcat.org/fast/1710264,,,,,
+Fiction feature,http://id.loc.gov/authorities/genreForms/gf2011026250,http://id.loc.gov/authorities/genreForms/gf2011026247,,,,,,,
+Feature,http://id.loc.gov/authorities/genreForms/gf2011026247,,,http://id.worldcat.org/fast/1710384,,,,,
+TEST_TAG,LC1,LC2,LC3,FAST1,FAST2,FAST3,GETTY,ONTCLASS

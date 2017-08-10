@@ -3,6 +3,7 @@ package org.ld4l.bib2lod.csv.hfa;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
@@ -32,24 +33,50 @@ public class FilmGenreConcordanceManagerTest {
 	}
 	
 	@Test
-	public void readData() {
+	public void readValidTestGenreData() {
 		try {
 			FilmGenreConcordanceManager mgr = new FilmGenreConcordanceManager(TEST_CSV_FILE);
 			Map<String, FilmGenreConcordanceBean> map = mgr.getMap();
 			Assert.assertNotNull(map);
 			Assert.assertFalse(map.isEmpty());
-			Assert.assertEquals(4, map.size());
+			Assert.assertEquals(5, map.size());
 			
-			FilmGenreConcordanceBean bean = mgr.getConcordanceEntry("Non fiction");
+			FilmGenreConcordanceBean bean = mgr.getConcordanceEntry("TEST_TAG");
 			Assert.assertNotNull(bean);
-			Assert.assertEquals("Non fiction", bean.getHfaTag());
-			Assert.assertEquals("http://id.loc.gov/authorities/genreForms/gf2011026423", bean.getLocGenre());
-			Assert.assertEquals("", bean.getCombinedAdditionalLocGenre());
-			Assert.assertEquals("http://id.worldcat.org/fast/1710269", bean.getFastForm());
-			Assert.assertEquals("", bean.getCombinedAdditionalFastForm());
-			Assert.assertEquals("http://vocab.getty.edu/aat/300375156", bean.getMovingImageOntClass());
+			List<String> testValues = bean.getExternalUris();
+			Assert.assertEquals("TEST_TAG", bean.getHfaTag());
+			Assert.assertEquals("LC1", bean.getLocGenreForm1());
+			Assert.assertTrue(testValues.contains("LC1"));
+			Assert.assertEquals("LC2", bean.getLocGenreForm2());
+			Assert.assertTrue(testValues.contains("LC2"));
+			Assert.assertEquals("LC3", bean.getLocGenreForm3());
+			Assert.assertTrue(testValues.contains("LC3"));
+			Assert.assertEquals("FAST1", bean.getFastForm1());
+			Assert.assertTrue(testValues.contains("FAST1"));
+			Assert.assertEquals("FAST2", bean.getFastForm2());
+			Assert.assertTrue(testValues.contains("FAST2"));
+			Assert.assertEquals("FAST3", bean.getFastForm3());
+			Assert.assertTrue(testValues.contains("FAST3"));
+			Assert.assertEquals("GETTY", bean.getGettyGenre());
+			Assert.assertTrue(testValues.contains("GETTY"));
+			Assert.assertEquals("ONTCLASS", bean.getMovingImageOntClass());
+
+		} catch (Exception e) {
+			LOGGER.error(e, e);
+			Assert.fail(e.getMessage());
+		}
+	}
+	
+	@Test
+	public void readMissinGenreData() {
+		try {
+			FilmGenreConcordanceManager mgr = new FilmGenreConcordanceManager(TEST_CSV_FILE);
+			Map<String, FilmGenreConcordanceBean> map = mgr.getMap();
+			Assert.assertNotNull(map);
+			Assert.assertFalse(map.isEmpty());
+			Assert.assertEquals(5, map.size());
 			
-			bean = mgr.getConcordanceEntry("no-entry");
+			FilmGenreConcordanceBean bean = mgr.getConcordanceEntry("not-in-concordance");
 			Assert.assertNull(bean);
 
 		} catch (Exception e) {

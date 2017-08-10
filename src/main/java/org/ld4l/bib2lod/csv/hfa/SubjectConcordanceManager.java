@@ -6,9 +6,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.ld4l.bib2lod.csv.AbstractConcordanceManager;
 
@@ -73,7 +73,7 @@ public class SubjectConcordanceManager extends AbstractConcordanceManager<Subjec
 	    CsvToBean<SubjectConcordanceBean> csv = new CsvToBean<>();
 	    List<SubjectConcordanceBean> list = csv.parse(strat, reader);
 	    // populate local map of keyword name to Bean
-	    Map<String, SubjectConcordanceBean> map = new HashMap<>(list.size());
+	    Map<String, SubjectConcordanceBean> map = new TreeMap<>(String.CASE_INSENSITIVE_ORDER); // could be looking up with keys in mixed case
 	    for (SubjectConcordanceBean item : list) {
 	    	map.put(item.getHfaTag(), item);
 	    }

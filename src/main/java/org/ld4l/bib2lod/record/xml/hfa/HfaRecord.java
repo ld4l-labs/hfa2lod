@@ -22,7 +22,12 @@ public class HfaRecord extends BaseXmlRecord {
     public enum ColumnAttributeText {
     	ITEM_NUMBER("Item number"),
     	PREFIX("prefix"),
-    	TITLE("Original Titles");
+    	TITLE("Original Titles"),
+    	FICTION("Fiction"),
+    	NON_FICTION("Non Fiction"),
+    	SHORT("short'"), // yes, this is the column name with the single quote
+    	GENRE("Genre"),
+    	CLASSIFICATION("Classification");
         
         private final String attrText;
         

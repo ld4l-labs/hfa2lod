@@ -1,3 +1,4 @@
-HFA tag,LC genre/form,Combine with additional LC genre/form,FAST form,Combine with additional FAST form,Getty genre
-Television programs,,,,,
-Serial,http://id.loc.gov/authorities/genreForms/gf2011026680,,http://id.worldcat.org/fast/1710566,,
+HFA tag,LC genre/form 1,LC genre/form 2,LC genre/form 3,FAST form 1,FAST form 2,FAST form 3,Getty genre,New class
+Serial,http://id.loc.gov/authorities/genreForms/gf2011026680,,,http://id.worldcat.org/fast/1710566,,,,
+Action,http://id.loc.gov/authorities/genreForms/gf2011026006,,,http://id.worldcat.org/fast/1726304,,,,mi:ActionMovingImage
+TEST_TAG,LC1,LC2,LC3,FAST1,FAST2,FAST3,GETTY,ONTCLASS
