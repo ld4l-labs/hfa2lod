@@ -58,7 +58,7 @@ public class SubjectConcordanceManager extends AbstractConcordanceManager<Subjec
 	 * @throws URISyntaxException 
 	 * @throws FileNotFoundException - If file not found on classpath.
 	 */
-	protected SubjectConcordanceManager(String fileName) throws URISyntaxException, IOException {
+	public SubjectConcordanceManager(String fileName) throws URISyntaxException, IOException {
 		super(fileName);
 	}
 	

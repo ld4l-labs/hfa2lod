@@ -8,6 +8,7 @@ import org.ld4l.bib2lod.entitybuilders.BuildParams;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilder;
 import org.ld4l.bib2lod.externalbuilders.ConcordanceReferenceBuilder;
 import org.ld4l.bib2lod.externalbuilders.HfaToGenreConcordanceBuilder;
+import org.ld4l.bib2lod.externalbuilders.HfaToTopicConcordanceBuilder;
 import org.ld4l.bib2lod.ontology.hfa.HarvardType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lDatatypeProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lInstanceType;
@@ -44,6 +45,7 @@ public class HfaToMovingImageBuilder extends HfaToLd4lEntityBuilder {
         addIdentifiers();
         try {
 			addGenres();
+			addTopics();
 		} catch (ConverterException e) {
             throw new EntityBuilderException(
             		e.getMessage(), e);
@@ -89,6 +91,16 @@ public class HfaToMovingImageBuilder extends HfaToLd4lEntityBuilder {
     private void addGenres() throws ConverterException {
         
     	ConcordanceReferenceBuilder builder = new HfaToGenreConcordanceBuilder();
+
+        BuildParams params = new BuildParams()
+                .setRecord(record)
+                .setParentEntity(work);        
+        builder.build(params);
+    }
+    
+    private void addTopics() throws ConverterException {
+        
+    	ConcordanceReferenceBuilder builder = new HfaToTopicConcordanceBuilder();
 
         BuildParams params = new BuildParams()
                 .setRecord(record)

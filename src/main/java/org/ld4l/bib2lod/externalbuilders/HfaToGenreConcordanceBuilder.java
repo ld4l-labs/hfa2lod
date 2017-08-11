@@ -17,6 +17,7 @@ import org.ld4l.bib2lod.conversion.Converter.RecordConversionException;
 import org.ld4l.bib2lod.csv.hfa.AbstractGenreConcordanceManager;
 import org.ld4l.bib2lod.csv.hfa.ExternalUriBean;
 import org.ld4l.bib2lod.csv.hfa.FilmGenreConcordanceManager;
+import org.ld4l.bib2lod.csv.hfa.SubjectConcordanceManager;
 import org.ld4l.bib2lod.csv.hfa.TelevisionGenreConcordanceManager;
 import org.ld4l.bib2lod.entity.Attribute;
 import org.ld4l.bib2lod.entity.Entity;
@@ -36,6 +37,7 @@ public class HfaToGenreConcordanceBuilder implements ConcordanceReferenceBuilder
 
     private FilmGenreConcordanceManager filmConcordanceManager;
     private TelevisionGenreConcordanceManager televisionConcordanceManager;
+    private SubjectConcordanceManager subjectConcordanceManager;
     
     private static final String TELEVISION_SENTINEL = "television program";
     private static final String NEW_LINE = System.getProperty("line.separator");
@@ -51,6 +53,11 @@ public class HfaToGenreConcordanceBuilder implements ConcordanceReferenceBuilder
 			this.televisionConcordanceManager = new TelevisionGenreConcordanceManager();
 		} catch ( URISyntaxException | IOException e) {
 			throw new ConverterException("Could not instantiate TelevisionGenreConcordanceManager", e);
+		}
+    	try {
+			this.subjectConcordanceManager = new SubjectConcordanceManager();
+		} catch ( URISyntaxException | IOException e) {
+			throw new ConverterException("Could not instantiate SubjectConcordanceManager", e);
 		}
 	}
 
@@ -72,19 +79,19 @@ public class HfaToGenreConcordanceBuilder implements ConcordanceReferenceBuilder
         // If there is text in the "Genre" field indicating television then use that
         // concordance file instead of the default film concordance file.
         List<HfaTextField> hfaTextFields = new ArrayList<>();
-        HfaTextField hfaField = record.getField(HfaRecord.ColumnAttributeText.GENRE);
-        if (hfaField != null) {
+        HfaTextField genreHfaField = record.getField(HfaRecord.ColumnAttributeText.GENRE);
+        if (genreHfaField != null) {
         	// Check to see if this is special television value (ignoring case).
         	// If so, we will use this value as a sentinel but not use to pull from the concordance file.
         	// NOTE: contains() is used for comparison since there is the possibility the plural,
         	// "television programs" is the value coming from the HFA data.
-        	if (hfaField.getTextValue().toLowerCase().trim().contains(TELEVISION_SENTINEL)){
+        	if (genreHfaField.getTextValue().toLowerCase().trim().contains(TELEVISION_SENTINEL)){
         		concordanceManager = televisionConcordanceManager;
         	} else {
-        		hfaTextFields.add(hfaField);
+        		hfaTextFields.add(genreHfaField);
         	}
         }
-        hfaField = record.getField(HfaRecord.ColumnAttributeText.FICTION);
+        HfaTextField hfaField = record.getField(HfaRecord.ColumnAttributeText.FICTION);
         if (hfaField != null) {
         	hfaTextFields.add(hfaField);
         }
@@ -114,8 +121,16 @@ public class HfaToGenreConcordanceBuilder implements ConcordanceReferenceBuilder
         				bibEntity.addExternalRelationship(Ld4lObjectProp.GENRE_FORM, externalUri);
         			}        			
         		} else {
-        			// if no match found in concordance file add datatype property triple
-        			bibEntity.addAttribute(HfaDatatypeProp.KEYWORDS, new Attribute(token, "en") );
+        			// if no match found in concordance file AND the value from the Genre field
+        			// is not in the subject concordance, only then then add datatype property triple
+    				if (genreHfaField == null || genreHfaField.getTextValue().toLowerCase().contains(token.toLowerCase())) { // (genreHfaField could have multiple tokens)
+        				ExternalUriBean subjectConcordanceBean = subjectConcordanceManager.getConcordanceEntry(token);
+        				if (subjectConcordanceBean == null) {
+        					bibEntity.addAttribute(HfaDatatypeProp.KEYWORDS, new Attribute(token, "en") );
+        				}
+        			} else {
+    					bibEntity.addAttribute(HfaDatatypeProp.KEYWORDS, new Attribute(token, "en") );
+        			}
         		}
         	}
         	

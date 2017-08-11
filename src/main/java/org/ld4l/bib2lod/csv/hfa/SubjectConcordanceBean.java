@@ -2,10 +2,13 @@
 
 package org.ld4l.bib2lod.csv.hfa;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * This bean represents one row in the subject.csv concordance file.
  */
-public class SubjectConcordanceBean {
+public class SubjectConcordanceBean implements ExternalUriBean {
 	
 	private String hfaTag;
 	private String lcsh;
@@ -42,6 +45,22 @@ public class SubjectConcordanceBean {
 
 	public void setGetty(String getty) {
 		this.getty = getty;
+	}
+
+	@Override
+	public List<String> getExternalUris() {
+		List<String> uris = new ArrayList<>();
+		if (lcsh != null && !lcsh.isEmpty()) {
+			uris.add(lcsh);
+		}
+		if (fast != null && !fast.isEmpty()) {
+			uris.add(fast);
+		}
+		if (getty != null && !getty.isEmpty()) {
+			uris.add(getty);
+		}
+		
+		return uris;
 	}
 
 	@Override

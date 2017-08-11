@@ -8,6 +8,8 @@ import org.ld4l.bib2lod.record.xml.hfa.HfaRecord;
 public class HfaTestData {
     
 	public static final String NEW_LINE = System.getProperty("line.separator");
+	public static final String ENTRY_NOT_IN_CONCORDANCE = "not in concordance file";
+
 	public static final String TITLE_TEXT = "Title";
 	public static final String PREFIX_TEXT = "The";
 	public static final String HFA_NUMBER = "1234";
@@ -18,7 +20,9 @@ public class HfaTestData {
 	public static final String TWO_LINE_GENRE = "Non fiction" + NEW_LINE + "Feature";
 	public static final String TELEVISION_GENRE = "Television programs";
 	public static final String TELEVISION_SERIAL_GENRE = "Serial";
-	public static final String ENTRY_NOT_IN_CONCORDANCE = "not in concordance file";
+	public static final String HOLIDAY_TOPIC = "Holiday";
+	public static final String TWO_LINE_TOPIC_GENRE = "Holiday" + NEW_LINE + "Religion";
+	public static final String TWO_LINE_TOPIC_GENRE_AND_KEYWORD = "Holiday" + NEW_LINE + ENTRY_NOT_IN_CONCORDANCE;
 
 	public static final String VALID_TITLE = 
 			"<col column='" + HfaRecord.ColumnAttributeText.TITLE.getColumnAttributeText() + "'>" + TITLE_TEXT + "</col>";
@@ -114,6 +118,30 @@ public class HfaTestData {
 		        		"<col column='" + HfaRecord.ColumnAttributeText.GENRE.getColumnAttributeText() + "'>" + TELEVISION_GENRE + "</col>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.FICTION.getColumnAttributeText() + "'>" + ENTRY_NOT_IN_CONCORDANCE + "</col>" +
 		        		"<col column=\"" + HfaRecord.ColumnAttributeText.CLASSIFICATION.getColumnAttributeText() + "\">" + TELEVISION_SERIAL_GENRE + "</col>" +
+	        		"</row>" +
+	        "</HFA-data>";
+	
+	public static final String VALID_TOPIC_GENRE = 
+	        "<HFA-data>" +
+	        		"<row>" +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + HFA_NUMBER + "</col>" +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.GENRE.getColumnAttributeText() + "'>" + HOLIDAY_TOPIC + "</col>" + // must use double quote since SHORT_GENRE value contains a single quote
+	        		"</row>" +
+	        "</HFA-data>";
+	
+	public static final String VALID_TWO_LINE_TOPIC_GENRE = 
+	        "<HFA-data>" +
+	        		"<row>" +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + HFA_NUMBER + "</col>" +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.GENRE.getColumnAttributeText() + "'>" + TWO_LINE_TOPIC_GENRE + "</col>" +
+	        		"</row>" +
+	        "</HFA-data>";
+	
+	public static final String VALID_TWO_LINE_TOPIC_GENRE_KEYWORD = 
+	        "<HFA-data>" +
+	        		"<row>" +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + HFA_NUMBER + "</col>" +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.GENRE.getColumnAttributeText() + "'>" + TWO_LINE_TOPIC_GENRE_AND_KEYWORD + "</col>" +
 	        		"</row>" +
 	        "</HFA-data>";
 }

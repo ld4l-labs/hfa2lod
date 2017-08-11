@@ -62,5 +62,20 @@ public class SubjectConcordanceManagerTest {
 			Assert.fail(e.getMessage());
 		}
 	}
+	
+	@Test
+	public void testMixedCaseKey() {
+		try {
+			SubjectConcordanceManager mgr = new SubjectConcordanceManager(TEST_CSV_FILE);
+			Map<String, SubjectConcordanceBean> map = mgr.getMap();
+			Assert.assertNotNull(map);
+			SubjectConcordanceBean bean = mgr.getConcordanceEntry("hoLiDay");
+			Assert.assertNotNull(bean);
+			
+		} catch (Exception e) {
+			LOGGER.error(e, e);
+			Assert.fail(e.getMessage());
+		}
+	}
 
 }
