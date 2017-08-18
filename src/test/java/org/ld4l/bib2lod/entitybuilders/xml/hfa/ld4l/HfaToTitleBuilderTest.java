@@ -17,15 +17,13 @@ import org.ld4l.bib2lod.ontology.ld4l.Ld4lTitleType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lWorkType;
 import org.ld4l.bib2lod.record.xml.hfa.HfaRecord;
 import org.ld4l.bib2lod.records.Record.RecordException;
-import org.ld4l.bib2lod.testing.AbstractTestClass;
+import org.ld4l.bib2lod.testing.AbstractHfaTest;
 import org.ld4l.bib2lod.testing.HfaTestData;
-import org.ld4l.bib2lod.testing.xml.XmlTestUtils;
-import org.w3c.dom.Element;
 
 /**
  * Tests the HfaToTitleBuilder class.
  */
-public class HfaToTitleBuilderTest extends AbstractTestClass {
+public class HfaToTitleBuilderTest extends AbstractHfaTest {
     
 	private EntityBuilder titleBuilder;
 	private HfaRecord hfaRecord;
@@ -106,21 +104,11 @@ public class HfaToTitleBuilderTest extends AbstractTestClass {
 	
 	@Test
 	public void nullRelatedEntity_ThrowsException() throws Exception {
-		expectException(EntityBuilderException.class, "A related Entity is required to build a title.");
+		expectException(EntityBuilderException.class, "A parent Entity is required to build a title.");
 		BuildParams params = new BuildParams();
 		params.setRecord(hfaRecord);
 		params.setParentEntity(null);
 		
 		titleBuilder.build(params);
 	}
-
-    // ----------------------------------------------------------------------
-    // Helper methods
-    // ----------------------------------------------------------------------
-	
-    private HfaRecord buildHfaRecordFromString(String s) 
-            throws RecordException {
-    	Element element = XmlTestUtils.buildElementFromString(s);
-    	return new HfaRecord(element);
-    }
 }

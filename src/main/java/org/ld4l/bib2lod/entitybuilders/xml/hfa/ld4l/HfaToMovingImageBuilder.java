@@ -10,6 +10,7 @@ import org.ld4l.bib2lod.externalbuilders.ConcordanceReferenceBuilder;
 import org.ld4l.bib2lod.externalbuilders.HfaToGenreConcordanceBuilder;
 import org.ld4l.bib2lod.externalbuilders.HfaToTopicConcordanceBuilder;
 import org.ld4l.bib2lod.ontology.hfa.HarvardType;
+import org.ld4l.bib2lod.ontology.hfa.HfaActivityType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lDatatypeProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lInstanceType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lObjectProp;
@@ -42,6 +43,7 @@ public class HfaToMovingImageBuilder extends HfaToLd4lEntityBuilder {
         
         buildTitle();
         buildInstances();
+        buildDirectorActivities();
         addIdentifiers();
         try {
 			addGenres();
@@ -73,10 +75,20 @@ public class HfaToMovingImageBuilder extends HfaToLd4lEntityBuilder {
         builder.build(params);
     }
     
+    private void buildDirectorActivities() throws EntityBuilderException {
+        
+        EntityBuilder builder = getBuilder(HfaActivityType.class);
+
+        BuildParams params = new BuildParams()
+                .setRecord(record)
+                .setParentEntity(work);        
+        builder.build(params);
+    }
+    
     /*
      * Pad the item number with zero to eight places unless this value begins with a 'V'.
      */
-    private void addIdentifiers() {
+    private void addIdentifiers() throws EntityBuilderException {
     	
 		Entity identifier = new Entity(HarvardType.HFA_NUMBER);
 		String itemNumber = record.getField(ColumnAttributeText.ITEM_NUMBER).getTextValue(); // should have been validated as non-null

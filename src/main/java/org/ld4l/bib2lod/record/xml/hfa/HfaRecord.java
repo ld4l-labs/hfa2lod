@@ -27,7 +27,8 @@ public class HfaRecord extends BaseXmlRecord {
     	NON_FICTION("Non Fiction"),
     	SHORT("short'"), // yes, this is the column name with the single quote
     	GENRE("Genre"),
-    	CLASSIFICATION("Classification");
+    	CLASSIFICATION("Classification"),
+    	DIRECTOR("Director");
         
         private final String attrText;
         

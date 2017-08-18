@@ -1,20 +1,15 @@
 package org.ld4l.bib2lod.record.xml.hfa;
 
-import org.junit.Test;
-import org.ld4l.bib2lod.record.xml.hfa.HfaRecord;
-import org.ld4l.bib2lod.record.xml.hfa.HfaRecord.ColumnAttributeText;
-import org.ld4l.bib2lod.records.Record.RecordException;
-import org.ld4l.bib2lod.records.RecordField.RecordFieldException;
-import org.ld4l.bib2lod.testing.AbstractTestClass;
-import org.ld4l.bib2lod.testing.xml.XmlTestUtils;
-import org.w3c.dom.Element;
-
 import org.junit.Assert;
+import org.junit.Test;
+import org.ld4l.bib2lod.record.xml.hfa.HfaRecord.ColumnAttributeText;
+import org.ld4l.bib2lod.records.RecordField.RecordFieldException;
+import org.ld4l.bib2lod.testing.AbstractHfaTest;
 
 /**
  * Tests class HfaRecord.
  */
-public class HfaRecordTest extends AbstractTestClass {
+public class HfaRecordTest extends AbstractHfaTest {
 
 
     private static final String NO_VALUE = "<HFA-data/>";
@@ -112,16 +107,5 @@ public class HfaRecordTest extends AbstractTestClass {
     	
     	field = record.getField(ColumnAttributeText.PREFIX);
     	Assert.assertNull(field);
-    }
-
-    // ----------------------------------------------------------------------
-    // Helper methods
-    // ----------------------------------------------------------------------
-    
-    private HfaRecord buildHfaRecordFromString(String s) 
-            throws RecordException {
-    	Element element = XmlTestUtils.buildElementFromString(s);
-    	return new HfaRecord(element);
-    	
     }
 }

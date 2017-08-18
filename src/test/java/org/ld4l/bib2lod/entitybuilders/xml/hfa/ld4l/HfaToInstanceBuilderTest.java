@@ -19,16 +19,14 @@ import org.ld4l.bib2lod.ontology.ld4l.Ld4lObjectProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lWorkType;
 import org.ld4l.bib2lod.record.xml.hfa.HfaRecord;
 import org.ld4l.bib2lod.records.Record.RecordException;
-import org.ld4l.bib2lod.testing.AbstractTestClass;
+import org.ld4l.bib2lod.testing.AbstractHfaTest;
 import org.ld4l.bib2lod.testing.BaseMockBib2LodObjectFactory;
 import org.ld4l.bib2lod.testing.HfaTestData;
-import org.ld4l.bib2lod.testing.xml.XmlTestUtils;
-import org.w3c.dom.Element;
 
 /**
  * Tests the HfaToInstanceBuilder class.
  */
-public class HfaToInstanceBuilderTest extends AbstractTestClass {
+public class HfaToInstanceBuilderTest extends AbstractHfaTest {
     
 	private EntityBuilder instanceBuilder;
 	private HfaRecord hfaRecord;
@@ -77,14 +75,4 @@ public class HfaToInstanceBuilderTest extends AbstractTestClass {
 		
 		instanceBuilder.build(params);
 	}
-
-    // ----------------------------------------------------------------------
-    // Helper methods
-    // ----------------------------------------------------------------------
-	
-    private HfaRecord buildHfaRecordFromString(String s) 
-            throws RecordException {
-    	Element element = XmlTestUtils.buildElementFromString(s);
-    	return new HfaRecord(element);
-    }
 }

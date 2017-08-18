@@ -16,21 +16,20 @@ import org.ld4l.bib2lod.entitybuilders.EntityBuilder.EntityBuilderException;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilderFactory;
 import org.ld4l.bib2lod.ontology.Type;
 import org.ld4l.bib2lod.ontology.hfa.HarvardType;
+import org.ld4l.bib2lod.ontology.hfa.HfaActivityType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lDatatypeProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lObjectProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lWorkType;
 import org.ld4l.bib2lod.record.xml.hfa.HfaRecord;
 import org.ld4l.bib2lod.records.Record.RecordException;
-import org.ld4l.bib2lod.testing.AbstractTestClass;
+import org.ld4l.bib2lod.testing.AbstractHfaTest;
 import org.ld4l.bib2lod.testing.BaseMockBib2LodObjectFactory;
 import org.ld4l.bib2lod.testing.HfaTestData;
-import org.ld4l.bib2lod.testing.xml.XmlTestUtils;
-import org.w3c.dom.Element;
 
 /**
  * Tests the HfaToMovingImageBuilder class.
  */
-public class HfaToMovingImageBuilderTest extends AbstractTestClass {
+public class HfaToMovingImageBuilderTest extends AbstractHfaTest {
     
 	private EntityBuilder movingImageBuilder;
 	private HfaRecord hfaRecord;
@@ -70,6 +69,14 @@ public class HfaToMovingImageBuilderTest extends AbstractTestClass {
 		List<Entity> instanceEntities = movingImageEntity.getChildren(Ld4lObjectProp.HAS_INSTANCE);
 		Assert.assertNotNull(instanceEntities);
 		Assert.assertEquals(1, instanceEntities.size());
+		
+		List<Entity> activityEntities = movingImageEntity.getChildren(Ld4lObjectProp.HAS_ACTIVITY);
+		Assert.assertNotNull(instanceEntities);
+		Assert.assertEquals(1, activityEntities.size());
+		Entity activityEntity = activityEntities.get(0);
+		Type activityType = activityEntity.getType();
+		Assert.assertNotNull(activityType);
+		Assert.assertEquals(HfaActivityType.FILM_DIRECTOR_ACTIVITY.ontClass(), activityType.ontClass());
 		
 		Entity identifierEntity = movingImageEntity.getChild(Ld4lObjectProp.IDENTIFIED_BY);
 		Assert.assertNotNull(identifierEntity);
@@ -114,13 +121,4 @@ public class HfaToMovingImageBuilderTest extends AbstractTestClass {
 		movingImageBuilder.build(params);
 	}
 
-    // ----------------------------------------------------------------------
-    // Helper methods
-    // ----------------------------------------------------------------------
-	
-    private HfaRecord buildHfaRecordFromString(String s) 
-            throws RecordException {
-    	Element element = XmlTestUtils.buildElementFromString(s);
-    	return new HfaRecord(element);
-    }
 }

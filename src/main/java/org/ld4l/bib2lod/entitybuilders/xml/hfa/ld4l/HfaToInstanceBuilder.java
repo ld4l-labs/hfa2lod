@@ -31,7 +31,7 @@ public class HfaToInstanceBuilder extends HfaToLd4lEntityBuilder {
 		this.work = params.getParentEntity();
         if (work == null) {
             throw new EntityBuilderException(
-                    "A related Entity is required to build an Instance.");
+                    "A parent Entity is required to build an Instance.");
         }
 
         // need to pass title along

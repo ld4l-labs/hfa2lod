@@ -25,14 +25,12 @@ import org.ld4l.bib2lod.ontology.ld4l.Ld4lObjectProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lWorkType;
 import org.ld4l.bib2lod.record.xml.hfa.HfaRecord;
 import org.ld4l.bib2lod.records.Record.RecordException;
-import org.ld4l.bib2lod.testing.AbstractTestClass;
+import org.ld4l.bib2lod.testing.AbstractHfaTest;
 import org.ld4l.bib2lod.testing.HfaTestData;
-import org.ld4l.bib2lod.testing.xml.XmlTestUtils;
-import org.w3c.dom.Element;
 /**
  * Tests the HfaToGenreConcordance class.
  */
-public class HfaToGenreConcordanceTest extends AbstractTestClass {
+public class HfaToGenreConcordanceTest extends AbstractHfaTest {
     
 	private ConcordanceReferenceBuilder genreBuilder;
 	private HfaRecord hfaRecord;
@@ -155,14 +153,4 @@ public class HfaToGenreConcordanceTest extends AbstractTestClass {
 		
 		genreBuilder.build(params);
 	}
-
-    // ----------------------------------------------------------------------
-    // Helper methods
-    // ----------------------------------------------------------------------
-	
-    private HfaRecord buildHfaRecordFromString(String s) 
-            throws RecordException {
-    	Element element = XmlTestUtils.buildElementFromString(s);
-    	return new HfaRecord(element);
-    }
 }

@@ -31,7 +31,7 @@ public class HfaToTitleBuilder extends HfaToLd4lEntityBuilder {
         Entity bibEntity = params.getParentEntity();
         if (bibEntity == null) {
             throw new EntityBuilderException(
-                    "A related Entity is required to build a title.");
+                    "A parent Entity is required to build a title.");
         }
         
         HfaTextField hfaTitle = record.getField(HfaRecord.ColumnAttributeText.TITLE);

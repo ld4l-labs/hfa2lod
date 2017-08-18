@@ -12,7 +12,8 @@ public enum HfaNamespace implements Namespace {
 
     /* Datasets/controlled vocabularies */
     /* List in alpha order */
-	GENRE_FORMS("http://id.loc.gov/authorities/genreForms");
+	GENRE_FORMS("http://id.loc.gov/authorities/genreForms"),
+	ISNI("http://isni.org/isni/");
     
     private final String uri;
     private final String prefix;

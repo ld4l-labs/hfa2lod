@@ -7,6 +7,8 @@ import java.util.HashMap;
 import org.ld4l.bib2lod.entitybuilders.BaseEntityBuilderFactory;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilder;
 import org.ld4l.bib2lod.ontology.Type;
+import org.ld4l.bib2lod.ontology.hfa.HfaActivityType;
+import org.ld4l.bib2lod.ontology.ld4l.Ld4lAgentType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lInstanceType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lTitleType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lWorkType;
@@ -19,6 +21,8 @@ public class HfaToLd4lEntityBuilderFactory extends BaseEntityBuilderFactory {
         typeToBuilder.put(Ld4lInstanceType.class, HfaToInstanceBuilder.class);
         typeToBuilder.put(Ld4lWorkType.class, HfaToMovingImageBuilder.class);
         typeToBuilder.put(Ld4lTitleType.class, HfaToTitleBuilder.class);
+        typeToBuilder.put(HfaActivityType.class, HfaToFilmDirectorActivityBuilder.class);
+        typeToBuilder.put(Ld4lAgentType.class, HfaToAgentBuilder.class);
     }
     
     @Override
