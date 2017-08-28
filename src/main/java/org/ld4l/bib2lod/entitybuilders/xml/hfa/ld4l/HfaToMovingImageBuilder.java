@@ -58,30 +58,30 @@ public class HfaToMovingImageBuilder extends HfaToLd4lEntityBuilder {
     
     private void buildTitle() throws EntityBuilderException { 
         
-        EntityBuilder builder = getBuilder(Ld4lTitleType.class);
+        EntityBuilder builder = getBuilder(Ld4lTitleType.TITLE);
         BuildParams params = new BuildParams()
                 .setRecord(record)
-                .setParentEntity(work);
+                .setParent(work);
         builder.build(params);
     }
     
     private void buildInstances() throws EntityBuilderException {
         
-        EntityBuilder builder = getBuilder(Ld4lInstanceType.class);
+        EntityBuilder builder = getBuilder(Ld4lInstanceType.INSTANCE);
 
         BuildParams params = new BuildParams()
                 .setRecord(record)
-                .setParentEntity(work);        
+                .setParent(work);        
         builder.build(params);
     }
     
     private void buildDirectorActivities() throws EntityBuilderException {
         
-        EntityBuilder builder = getBuilder(HfaActivityType.class);
+        EntityBuilder builder = getBuilder(HfaActivityType.FILM_DIRECTOR_ACTIVITY);
 
         BuildParams params = new BuildParams()
                 .setRecord(record)
-                .setParentEntity(work);        
+                .setParent(work);        
         builder.build(params);
     }
     
@@ -106,7 +106,7 @@ public class HfaToMovingImageBuilder extends HfaToLd4lEntityBuilder {
 
         BuildParams params = new BuildParams()
                 .setRecord(record)
-                .setParentEntity(work);        
+                .setParent(work);        
         builder.build(params);
     }
     
@@ -116,7 +116,7 @@ public class HfaToMovingImageBuilder extends HfaToLd4lEntityBuilder {
 
         BuildParams params = new BuildParams()
                 .setRecord(record)
-                .setParentEntity(work);        
+                .setParent(work);        
         builder.build(params);
     }
 }

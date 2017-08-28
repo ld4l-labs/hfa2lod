@@ -53,7 +53,7 @@ public class HfaToAgentBuilderTest extends AbstractHfaTest {
 		
 		BuildParams params = new BuildParams()
 				.setRecord(hfaRecord)
-				.setParentEntity(parentEntity)
+				.setParent(parentEntity)
 				.setField(directorField);
 		
 		Entity agentEntity = agentBuilder.build(params);
@@ -79,7 +79,7 @@ public class HfaToAgentBuilderTest extends AbstractHfaTest {
 		
 		BuildParams params = new BuildParams()
 				.setRecord(hfaRecord)
-				.setParentEntity(parentEntity)
+				.setParent(parentEntity)
 				.setField(directorField);
 		
 		Entity agentEntity = agentBuilder.build(params);
@@ -99,7 +99,7 @@ public class HfaToAgentBuilderTest extends AbstractHfaTest {
 		expectException(EntityBuilderException.class, "A HfaRecord is required to build a title.");
 		BuildParams params = new BuildParams()
 				.setRecord(null)
-				.setParentEntity(parentEntity)
+				.setParent(parentEntity)
 				.setField(directorField);
 		
 		agentBuilder.build(params);
@@ -110,7 +110,7 @@ public class HfaToAgentBuilderTest extends AbstractHfaTest {
 		expectException(EntityBuilderException.class, "A parent Entity is required to build a title.");
 		BuildParams params = new BuildParams()
 				.setRecord(hfaRecord)
-				.setParentEntity(null)
+				.setParent(null)
 				.setField(directorField);
 		
 		agentBuilder.build(params);
@@ -123,7 +123,7 @@ public class HfaToAgentBuilderTest extends AbstractHfaTest {
 		
 		BuildParams params = new BuildParams()
 				.setRecord(hfaRecord)
-				.setParentEntity(parentEntity)
+				.setParent(parentEntity)
 				.setField(null);
 		
 		Entity entity = agentBuilder.build(params);

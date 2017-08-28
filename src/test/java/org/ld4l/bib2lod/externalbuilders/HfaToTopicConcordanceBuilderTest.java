@@ -51,7 +51,7 @@ public class HfaToTopicConcordanceBuilderTest extends AbstractHfaTest {
         hfaRecord = buildHfaRecordFromString(HfaTestData.VALID_TOPIC_GENRE);
 		BuildParams params = new BuildParams();
 		params.setRecord(hfaRecord);
-		params.setParentEntity(parentEntity);
+		params.setParent(parentEntity);
 		
 		genreBuilder.build(params);
 		
@@ -66,7 +66,7 @@ public class HfaToTopicConcordanceBuilderTest extends AbstractHfaTest {
         hfaRecord = buildHfaRecordFromString(HfaTestData.VALID_TWO_LINE_TOPIC_GENRE);
 		BuildParams params = new BuildParams();
 		params.setRecord(hfaRecord);
-		params.setParentEntity(parentEntity);
+		params.setParent(parentEntity);
 		
 		genreBuilder.build(params);
 		
@@ -81,7 +81,7 @@ public class HfaToTopicConcordanceBuilderTest extends AbstractHfaTest {
         hfaRecord = buildHfaRecordFromString(HfaTestData.VALID_TWO_LINE_TOPIC_GENRE_KEYWORD);
 		BuildParams params = new BuildParams();
 		params.setRecord(hfaRecord);
-		params.setParentEntity(parentEntity);
+		params.setParent(parentEntity);
 		
 		genreBuilder.build(params);
 		
@@ -101,7 +101,7 @@ public class HfaToTopicConcordanceBuilderTest extends AbstractHfaTest {
 		expectException(RecordConversionException.class, "A HfaRecord is required to build a title.");
 		BuildParams params = new BuildParams();
 		params.setRecord(null);
-		params.setParentEntity(parentEntity);
+		params.setParent(parentEntity);
 		
 		genreBuilder.build(params);
 	}
@@ -111,7 +111,7 @@ public class HfaToTopicConcordanceBuilderTest extends AbstractHfaTest {
 		expectException(RecordConversionException.class, "A parent Entity is required to build a title.");
 		BuildParams params = new BuildParams();
 		params.setRecord(hfaRecord);
-		params.setParentEntity(null);
+		params.setParent(null);
 		
 		genreBuilder.build(params);
 	}

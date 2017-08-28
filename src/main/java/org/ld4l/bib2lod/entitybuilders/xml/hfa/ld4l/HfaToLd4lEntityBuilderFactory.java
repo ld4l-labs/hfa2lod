@@ -15,18 +15,18 @@ import org.ld4l.bib2lod.ontology.ld4l.Ld4lWorkType;
 
 public class HfaToLd4lEntityBuilderFactory extends BaseEntityBuilderFactory {
 
-    private static HashMap<Class<? extends Type>, Class<? extends EntityBuilder>> typeToBuilder = 
+    private static HashMap<Type, Class<? extends EntityBuilder>> typeToBuilder = 
             new HashMap<>();
     static {
-        typeToBuilder.put(Ld4lInstanceType.class, HfaToInstanceBuilder.class);
-        typeToBuilder.put(Ld4lWorkType.class, HfaToMovingImageBuilder.class);
-        typeToBuilder.put(Ld4lTitleType.class, HfaToTitleBuilder.class);
-        typeToBuilder.put(HfaActivityType.class, HfaToFilmDirectorActivityBuilder.class);
-        typeToBuilder.put(Ld4lAgentType.class, HfaToAgentBuilder.class);
+        typeToBuilder.put(Ld4lInstanceType.INSTANCE, HfaToInstanceBuilder.class);
+        typeToBuilder.put(Ld4lWorkType.MOVING_IMAGE, HfaToMovingImageBuilder.class);
+        typeToBuilder.put(Ld4lTitleType.TITLE, HfaToTitleBuilder.class);
+        typeToBuilder.put(HfaActivityType.FILM_DIRECTOR_ACTIVITY, HfaToFilmDirectorActivityBuilder.class);
+        typeToBuilder.put(Ld4lAgentType.AGENT, HfaToAgentBuilder.class);
     }
     
     @Override
-    public HashMap<Class<? extends Type>, Class<? extends EntityBuilder>> 
+    public HashMap<Type, Class<? extends EntityBuilder>> 
             getTypeToBuilderClassMap() {
         return typeToBuilder;
     }

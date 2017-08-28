@@ -52,7 +52,7 @@ public class HfaToInstanceBuilderTest extends AbstractHfaTest {
 		
 		BuildParams params = new BuildParams();
 		params.setRecord(hfaRecord);
-		params.setParentEntity(parentEntity);
+		params.setParent(parentEntity);
 		
 		Entity instanceEntity = instanceBuilder.build(params);
 

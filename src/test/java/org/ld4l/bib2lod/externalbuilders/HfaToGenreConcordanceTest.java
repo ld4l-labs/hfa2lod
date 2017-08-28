@@ -53,7 +53,7 @@ public class HfaToGenreConcordanceTest extends AbstractHfaTest {
         hfaRecord = buildHfaRecordFromString(HfaTestData.VALID_FILM_GENRES);
 		BuildParams params = new BuildParams();
 		params.setRecord(hfaRecord);
-		params.setParentEntity(parentEntity);
+		params.setParent(parentEntity);
 		
 		genreBuilder.build(params);
 		
@@ -68,7 +68,7 @@ public class HfaToGenreConcordanceTest extends AbstractHfaTest {
         hfaRecord = buildHfaRecordFromString(HfaTestData.VALID_TWO_LINE_FILM_GENRE);
 		BuildParams params = new BuildParams();
 		params.setRecord(hfaRecord);
-		params.setParentEntity(parentEntity);
+		params.setParent(parentEntity);
 		
 		genreBuilder.build(params);
 		
@@ -83,7 +83,7 @@ public class HfaToGenreConcordanceTest extends AbstractHfaTest {
         hfaRecord = buildHfaRecordFromString(HfaTestData.VALID_FILM_GENRE_WITH_KEYWORD);
 		BuildParams params = new BuildParams();
 		params.setRecord(hfaRecord);
-		params.setParentEntity(parentEntity);
+		params.setParent(parentEntity);
 		
 		genreBuilder.build(params);
 		
@@ -104,7 +104,7 @@ public class HfaToGenreConcordanceTest extends AbstractHfaTest {
         hfaRecord = buildHfaRecordFromString(HfaTestData.VALID_TELEVISION_GENRES);
 		BuildParams params = new BuildParams();
 		params.setRecord(hfaRecord);
-		params.setParentEntity(parentEntity);
+		params.setParent(parentEntity);
 		
 		genreBuilder.build(params);
 		
@@ -119,7 +119,7 @@ public class HfaToGenreConcordanceTest extends AbstractHfaTest {
         hfaRecord = buildHfaRecordFromString(HfaTestData.VALID_TELEVISION_GENRES_WITH_KEYWORD);
 		BuildParams params = new BuildParams();
 		params.setRecord(hfaRecord);
-		params.setParentEntity(parentEntity);
+		params.setParent(parentEntity);
 		
 		genreBuilder.build(params);
 		
@@ -139,7 +139,7 @@ public class HfaToGenreConcordanceTest extends AbstractHfaTest {
 		expectException(RecordConversionException.class, "A HfaRecord is required to build a title.");
 		BuildParams params = new BuildParams();
 		params.setRecord(null);
-		params.setParentEntity(parentEntity);
+		params.setParent(parentEntity);
 		
 		genreBuilder.build(params);
 	}
@@ -149,7 +149,7 @@ public class HfaToGenreConcordanceTest extends AbstractHfaTest {
 		expectException(RecordConversionException.class, "A parent Entity is required to build a title.");
 		BuildParams params = new BuildParams();
 		params.setRecord(hfaRecord);
-		params.setParentEntity(null);
+		params.setParent(null);
 		
 		genreBuilder.build(params);
 	}

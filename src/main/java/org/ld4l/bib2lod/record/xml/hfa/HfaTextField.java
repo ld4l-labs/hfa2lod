@@ -26,7 +26,7 @@ public class HfaTextField extends BaseHfaField implements XmlTextElement {
 	 */
 	public HfaTextField(Element element, String fieldName) throws RecordException {
 		super(element);
-		textValue = setTextValue(element);
+		textValue = retrieveTextValue(element);
 		if (fieldName != null && !fieldName.isEmpty()) {
 			this.fieldName = fieldName;
 		}

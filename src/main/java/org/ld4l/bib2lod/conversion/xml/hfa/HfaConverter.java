@@ -33,7 +33,7 @@ public class HfaConverter extends BaseConverter {
 	@Override
 	protected Entity buildEntity(Record record)
 			throws EntityBuilderException {
-        EntityBuilder cartographyBuilder = getBuilder(Ld4lWorkType.class);
+        EntityBuilder cartographyBuilder = getBuilder(Ld4lWorkType.MOVING_IMAGE);
         BuildParams params = new BuildParams()
                 .setRecord(record);
         return cartographyBuilder.build(params);

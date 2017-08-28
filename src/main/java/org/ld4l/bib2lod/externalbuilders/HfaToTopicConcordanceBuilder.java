@@ -60,7 +60,7 @@ public class HfaToTopicConcordanceBuilder implements ConcordanceReferenceBuilder
     @Override
     public void build(BuildParams params) throws RecordConversionException {
         
-        Entity bibEntity = params.getParentEntity();
+        Entity bibEntity = params.getParent();
         if (bibEntity == null) {
         	throw new RecordConversionException("A parent Entity is required to build a title.");
         }

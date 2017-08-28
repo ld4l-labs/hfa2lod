@@ -28,7 +28,7 @@ public class HfaToTitleBuilder extends HfaToLd4lEntityBuilder {
                     "A HfaRecord is required to build a title.");
         }
 
-        Entity bibEntity = params.getParentEntity();
+        Entity bibEntity = params.getParent();
         if (bibEntity == null) {
             throw new EntityBuilderException(
                     "A parent Entity is required to build a title.");
