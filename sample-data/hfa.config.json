@@ -16,12 +16,12 @@
     } 
   ],
   "Converter": {
-    "class": "org.ld4l.bib2lod.conversion.xml.hfa.HfaConverter"
+    "class": "org.ld4l.bib2lod.conversion.hfa.HfaConverter"
   },
   "Parser": {
     "class": "org.ld4l.bib2lod.parsing.xml.hfa.HfaParser"
   },
   "EntityBuilderFactory": {
-    "class": "org.ld4l.bib2lod.entitybuilders.xml.hfa.ld4l.HfaToLd4lEntityBuilderFactory"
+    "class": "org.ld4l.bib2lod.entitybuilders.hfa.HfaToLd4lEntityBuilderFactory"
   }
 }

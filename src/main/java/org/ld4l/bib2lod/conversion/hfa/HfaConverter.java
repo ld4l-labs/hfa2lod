@@ -1,6 +1,6 @@
 /* $This file is distributed under the terms of the license in /doc/license.txt$ */
 
-package org.ld4l.bib2lod.conversion.xml.hfa;
+package org.ld4l.bib2lod.conversion.hfa;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

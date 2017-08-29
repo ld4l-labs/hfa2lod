@@ -1,6 +1,6 @@
 /* $This file is distributed under the terms of the license in /doc/license.txt$ */
 
-package org.ld4l.bib2lod.entitybuilders.xml.hfa.ld4l;
+package org.ld4l.bib2lod.entitybuilders.hfa;
 
 import java.util.List;
 
@@ -13,6 +13,8 @@ import org.ld4l.bib2lod.entity.Entity;
 import org.ld4l.bib2lod.entitybuilders.BuildParams;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilder;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilder.EntityBuilderException;
+import org.ld4l.bib2lod.entitybuilders.hfa.HfaToLd4lEntityBuilderFactory;
+import org.ld4l.bib2lod.entitybuilders.hfa.HfaToMovingImageBuilder;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilderFactory;
 import org.ld4l.bib2lod.ontology.Type;
 import org.ld4l.bib2lod.ontology.hfa.HarvardType;

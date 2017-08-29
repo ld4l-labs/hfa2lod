@@ -1,4 +1,4 @@
-package org.ld4l.bib2lod.entitybuilders.xml.hfa.ld4l;
+package org.ld4l.bib2lod.entitybuilders.hfa;
 
 import org.ld4l.bib2lod.entitybuilders.BaseEntityBuilder;
 
