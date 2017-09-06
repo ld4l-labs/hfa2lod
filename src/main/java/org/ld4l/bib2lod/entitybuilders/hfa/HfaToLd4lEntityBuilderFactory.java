@@ -8,6 +8,7 @@ import org.ld4l.bib2lod.entitybuilders.BaseEntityBuilderFactory;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilder;
 import org.ld4l.bib2lod.ontology.Type;
 import org.ld4l.bib2lod.ontology.hfa.HfaActivityType;
+import org.ld4l.bib2lod.ontology.hfa.HfaCollectionType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lAgentType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lInstanceType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lTitleType;
@@ -23,6 +24,7 @@ public class HfaToLd4lEntityBuilderFactory extends BaseEntityBuilderFactory {
         typeToBuilder.put(Ld4lTitleType.TITLE, HfaToTitleBuilder.class);
         typeToBuilder.put(HfaActivityType.FILM_DIRECTOR_ACTIVITY, HfaToFilmDirectorActivityBuilder.class);
         typeToBuilder.put(Ld4lAgentType.AGENT, HfaToAgentBuilder.class);
+        typeToBuilder.put(HfaCollectionType.COLLECTION, HfaToCollectionBuilder.class);
     }
     
     @Override

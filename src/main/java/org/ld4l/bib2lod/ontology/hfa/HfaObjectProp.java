@@ -13,8 +13,10 @@ import org.ld4l.bib2lod.ontology.ld4l.Ld4lNamespace;
 public enum HfaObjectProp implements ObjectProp {
     
     /* List in alpha order */
+	HAS_PART(Ld4lNamespace.BIBFRAME, "hasPart"),
     HAS_PUBLIC_IDENTITY(HfaNamespace.ISNI, "hasPublicIdentity"),
-    HAS_WEB_PAGE(Ld4lNamespace.FOAF, "page");
+    HAS_WEB_PAGE(Ld4lNamespace.FOAF, "page"),
+	IS_PART_OF(Ld4lNamespace.BIBFRAME, "isPartOf");
     
     private String uri;
     private Property property;

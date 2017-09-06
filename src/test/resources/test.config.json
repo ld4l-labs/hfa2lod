@@ -8,7 +8,7 @@
   "OutputService": {
     "class": "org.ld4l.bib2lod.io.FileOutputService",
     "destination": "target/",
-    "format": "RDF/XML"
+    "format": "T"
   },
   "UriService": [
     { 
@@ -23,5 +23,8 @@
   },
   "EntityBuilderFactory": {
     "class": "org.ld4l.bib2lod.entitybuilders.fgdc.HfaToLd4lEntityBuilderFactory"
+  },
+  "CachingService": {
+    "class": "org.ld4l.bib2lod.caching.MapCachingService"
   }
 }                         

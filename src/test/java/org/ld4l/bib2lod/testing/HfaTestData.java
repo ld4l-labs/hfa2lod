@@ -24,6 +24,7 @@ public class HfaTestData {
 	public static final String TWO_LINE_TOPIC_GENRE = "Holiday" + NEW_LINE + "Religion";
 	public static final String TWO_LINE_TOPIC_GENRE_AND_KEYWORD = "Holiday" + NEW_LINE + ENTRY_NOT_IN_CONCORDANCE;
 	public static final String FILM_DIRECTOR = "Tony Conrad";
+	public static final String COLLECTION = "Test Collection";
 
 	public static final String VALID_TITLE = 
 			"<col column='" + HfaRecord.ColumnAttributeText.TITLE.getColumnAttributeText() + "'>" + TITLE_TEXT + "</col>";
@@ -75,6 +76,7 @@ public class HfaTestData {
 		        		"<col column='" + HfaRecord.ColumnAttributeText.TITLE.getColumnAttributeText() + "'>" + TITLE_TEXT + "</col>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + HFA_NUMBER + "</col>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.DIRECTOR.getColumnAttributeText() + "'>" + FILM_DIRECTOR + "</col>" +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.COLLECTION.getColumnAttributeText() + "'>" + COLLECTION + "</col>" +
 	        		"</row>" +
 	        "</HFA-data>";
 	

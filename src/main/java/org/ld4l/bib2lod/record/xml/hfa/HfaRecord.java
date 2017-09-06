@@ -18,17 +18,19 @@ public class HfaRecord extends BaseXmlRecord {
     
 	/*
 	 * These are the text values of the 'column' attribute of the column elements.
+	 * (listed alphabetically)
 	 */
     public enum ColumnAttributeText {
-    	ITEM_NUMBER("Item number"),
-    	PREFIX("prefix"),
-    	TITLE("Original Titles"),
-    	FICTION("Fiction"),
-    	NON_FICTION("Non Fiction"),
-    	SHORT("short'"), // yes, this is the column name with the single quote
-    	GENRE("Genre"),
     	CLASSIFICATION("Classification"),
-    	DIRECTOR("Director");
+    	COLLECTION("Collection Title"),
+    	DIRECTOR("Director"),
+    	FICTION("Fiction"),
+    	GENRE("Genre"),
+    	ITEM_NUMBER("Item number"),
+    	NON_FICTION("Non Fiction"),
+    	PREFIX("prefix"),
+    	SHORT("short'"), // yes, this is the column name with the single quote
+    	TITLE("Original Titles");
         
         private final String attrText;
         

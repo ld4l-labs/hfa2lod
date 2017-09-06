@@ -10,15 +10,15 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.ld4l.bib2lod.caching.CachingService;
 import org.ld4l.bib2lod.caching.MapCachingService;
+import org.ld4l.bib2lod.entity.Attribute;
 import org.ld4l.bib2lod.entity.Entity;
 import org.ld4l.bib2lod.entitybuilders.BuildParams;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilder;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilder.EntityBuilderException;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilderFactory;
 import org.ld4l.bib2lod.ontology.Type;
-import org.ld4l.bib2lod.ontology.hfa.HfaObjectProp;
-import org.ld4l.bib2lod.ontology.ld4l.Ld4lInstanceType;
-import org.ld4l.bib2lod.ontology.ld4l.Ld4lObjectProp;
+import org.ld4l.bib2lod.ontology.hfa.HfaCollectionType;
+import org.ld4l.bib2lod.ontology.ld4l.Ld4lDatatypeProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lWorkType;
 import org.ld4l.bib2lod.record.xml.hfa.HfaRecord;
 import org.ld4l.bib2lod.records.Record.RecordException;
@@ -29,11 +29,11 @@ import org.ld4l.bib2lod.uris.RandomUriMinter;
 import org.ld4l.bib2lod.uris.UriService;
 
 /**
- * Tests the HfaToInstanceBuilder class.
+ * Tests the HfaToCollectionBuilder class.
  */
-public class HfaToInstanceBuilderTest extends AbstractHfaTest {
+public class HfaToCollectionBuilderTest extends AbstractHfaTest {
     
-	private EntityBuilder instanceBuilder;
+	private EntityBuilder collectionBuilder;
 	private HfaRecord hfaRecord;
 	private Entity parentEntity;
 	
@@ -49,7 +49,7 @@ public class HfaToInstanceBuilderTest extends AbstractHfaTest {
 
     @Before
     public void setUp() throws RecordException {
-        instanceBuilder = new HfaToInstanceBuilder();
+        collectionBuilder = new HfaToCollectionBuilder();
         hfaRecord = buildHfaRecordFromString(HfaTestData.VALID_FULL_RECORD);
         parentEntity = new Entity(Ld4lWorkType.MOVING_IMAGE);
     }
@@ -57,32 +57,40 @@ public class HfaToInstanceBuilderTest extends AbstractHfaTest {
 	@Test
 	public void validFullRecord() throws Exception {
 		
-		BuildParams params = new BuildParams();
-		params.setRecord(hfaRecord);
-		params.setParent(parentEntity);
+		BuildParams params = new BuildParams()
+				.setRecord(hfaRecord)
+				.setParent(parentEntity);
 		
-		Entity instanceEntity = instanceBuilder.build(params);
+		Entity collectionEntity = collectionBuilder.build(params);
 
-		Assert.assertNotNull(instanceEntity);
-		List<Type> types = instanceEntity.getTypes();
+		Assert.assertNotNull(collectionEntity);
+		Attribute labelAttr = collectionEntity.getAttribute(Ld4lDatatypeProp.LABEL);
+		Assert.assertNotNull(labelAttr);
+		Assert.assertEquals(HfaTestData.COLLECTION, labelAttr.getValue());
+		
+		List<Type> types = collectionEntity.getTypes();
 		Assert.assertNotNull(types);
 		Assert.assertEquals(1, types.size());
-		Assert.assertTrue(types.contains(Ld4lInstanceType.INSTANCE));
+		Assert.assertTrue(types.contains(HfaCollectionType.COLLECTION));
+	}
+	
+	@Test
+	public void nullParent_ThrowsException() throws Exception {
+		expectException(EntityBuilderException.class, "A parent Entity is required to build a collection.");
+		BuildParams params = new BuildParams()
+				.setRecord(hfaRecord)
+				.setParent(null);
 		
-		List<Entity> titleEntities = instanceEntity.getChildren(Ld4lObjectProp.HAS_TITLE);
-		Assert.assertNotNull(titleEntities);
-		Assert.assertEquals(1, titleEntities.size());
-		
-		Entity collectionEntity = instanceEntity.getChild(HfaObjectProp.IS_PART_OF);
-		Assert.assertNotNull(collectionEntity);
+		collectionBuilder.build(params);
 	}
 	
 	@Test
 	public void nullRecord_ThrowsException() throws Exception {
-		expectException(EntityBuilderException.class, "A HfaRecord is required to build an Instance.");
-		BuildParams params = new BuildParams();
-		params.setRecord(null);
+		expectException(EntityBuilderException.class, "A HfaRecord is required to build a collection.");
+		BuildParams params = new BuildParams()
+				.setRecord(null)
+				.setParent(parentEntity);
 		
-		instanceBuilder.build(params);
+		collectionBuilder.build(params);
 	}
 }

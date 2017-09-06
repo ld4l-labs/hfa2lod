@@ -8,6 +8,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.ld4l.bib2lod.caching.CachingService;
+import org.ld4l.bib2lod.caching.MapCachingService;
 import org.ld4l.bib2lod.entity.Attribute;
 import org.ld4l.bib2lod.entity.Entity;
 import org.ld4l.bib2lod.entitybuilders.BuildParams;
@@ -27,6 +29,8 @@ import org.ld4l.bib2lod.records.Record.RecordException;
 import org.ld4l.bib2lod.testing.AbstractHfaTest;
 import org.ld4l.bib2lod.testing.BaseMockBib2LodObjectFactory;
 import org.ld4l.bib2lod.testing.HfaTestData;
+import org.ld4l.bib2lod.uris.RandomUriMinter;
+import org.ld4l.bib2lod.uris.UriService;
 
 /**
  * Tests the HfaToMovingImageBuilder class.
@@ -41,6 +45,8 @@ public class HfaToMovingImageBuilderTest extends AbstractHfaTest {
     @BeforeClass
     public static void setUpClass() throws Exception {
         factory = new BaseMockBib2LodObjectFactory();
+        factory.addInstance(UriService.class, new RandomUriMinter());
+        factory.addInstance(CachingService.class, new MapCachingService());
         factory.addInstance(EntityBuilderFactory.class, new HfaToLd4lEntityBuilderFactory());
     }
 
