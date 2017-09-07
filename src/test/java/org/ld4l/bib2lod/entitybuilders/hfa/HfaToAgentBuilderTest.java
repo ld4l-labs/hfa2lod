@@ -54,7 +54,7 @@ public class HfaToAgentBuilderTest extends AbstractHfaTest {
 		BuildParams params = new BuildParams()
 				.setRecord(hfaRecord)
 				.setParent(parentEntity)
-				.setField(directorField);
+				.setValue(directorField.getTextValue());
 		
 		Entity agentEntity = agentBuilder.build(params);
 
@@ -80,7 +80,7 @@ public class HfaToAgentBuilderTest extends AbstractHfaTest {
 		BuildParams params = new BuildParams()
 				.setRecord(hfaRecord)
 				.setParent(parentEntity)
-				.setField(directorField);
+				.setValue(directorField.getTextValue());
 		
 		Entity agentEntity = agentBuilder.build(params);
 
@@ -96,35 +96,35 @@ public class HfaToAgentBuilderTest extends AbstractHfaTest {
 	
 	@Test
 	public void nullRecord_ThrowsException() throws Exception {
-		expectException(EntityBuilderException.class, "A HfaRecord is required to build a title.");
+		expectException(EntityBuilderException.class, "A HfaRecord is required to build an agent.");
 		BuildParams params = new BuildParams()
 				.setRecord(null)
 				.setParent(parentEntity)
-				.setField(directorField);
+				.setValue(directorField.getTextValue());
 		
 		agentBuilder.build(params);
 	}
 	
 	@Test
 	public void nullParentEntity_ThrowsException() throws Exception {
-		expectException(EntityBuilderException.class, "A parent Entity is required to build a title.");
+		expectException(EntityBuilderException.class, "A parent Entity is required to build an agent.");
 		BuildParams params = new BuildParams()
 				.setRecord(hfaRecord)
 				.setParent(null)
-				.setField(directorField);
+				.setValue(directorField.getTextValue());
 		
 		agentBuilder.build(params);
 	}
 	
 	@Test
-	public void nullField_noDirector() throws Exception {
-		expectException(EntityBuilderException.class, "A field Entity is required to build a title.");
+	public void nullValue_noDirector() throws Exception {
+		expectException(EntityBuilderException.class, "A value is required containing the agent name.");
 		hfaRecord = buildHfaRecordFromString(HfaTestData.VALID_TITLE_HFA_RECORD);
 		
 		BuildParams params = new BuildParams()
 				.setRecord(hfaRecord)
 				.setParent(parentEntity)
-				.setField(null);
+				.setValue(null);
 		
 		Entity entity = agentBuilder.build(params);
 	}

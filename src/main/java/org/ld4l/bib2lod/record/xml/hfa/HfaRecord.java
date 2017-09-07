@@ -24,11 +24,15 @@ public class HfaRecord extends BaseXmlRecord {
     	CLASSIFICATION("Classification"),
     	COLLECTION("Collection Title"),
     	DIRECTOR("Director"),
+    	DP_CINEMATOGRAPHER("DP/Cinematographer"),
+    	EDITOR("Editor"),
     	FICTION("Fiction"),
     	GENRE("Genre"),
     	ITEM_NUMBER("Item number"),
     	NON_FICTION("Non Fiction"),
     	PREFIX("prefix"),
+    	PRODUCER("Producer"),
+    	SCRIPT("Script"),
     	SHORT("short'"), // yes, this is the column name with the single quote
     	TITLE("Original Titles");
         

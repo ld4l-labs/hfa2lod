@@ -15,8 +15,6 @@ import org.ld4l.bib2lod.entity.Entity;
 import org.ld4l.bib2lod.entitybuilders.BuildParams;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilder;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilder.EntityBuilderException;
-import org.ld4l.bib2lod.entitybuilders.hfa.HfaToLd4lEntityBuilderFactory;
-import org.ld4l.bib2lod.entitybuilders.hfa.HfaToMovingImageBuilder;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilderFactory;
 import org.ld4l.bib2lod.ontology.Type;
 import org.ld4l.bib2lod.ontology.hfa.HarvardType;
@@ -25,6 +23,7 @@ import org.ld4l.bib2lod.ontology.ld4l.Ld4lDatatypeProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lObjectProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lWorkType;
 import org.ld4l.bib2lod.record.xml.hfa.HfaRecord;
+import org.ld4l.bib2lod.record.xml.hfa.HfaRecord.ColumnAttributeText;
 import org.ld4l.bib2lod.records.Record.RecordException;
 import org.ld4l.bib2lod.testing.AbstractHfaTest;
 import org.ld4l.bib2lod.testing.BaseMockBib2LodObjectFactory;
@@ -79,12 +78,26 @@ public class HfaToMovingImageBuilderTest extends AbstractHfaTest {
 		Assert.assertEquals(1, instanceEntities.size());
 		
 		List<Entity> activityEntities = movingImageEntity.getChildren(Ld4lObjectProp.HAS_ACTIVITY);
-		Assert.assertNotNull(instanceEntities);
-		Assert.assertEquals(1, activityEntities.size());
-		Entity activityEntity = activityEntities.get(0);
-		Type activityType = activityEntity.getType();
-		Assert.assertNotNull(activityType);
-		Assert.assertEquals(HfaActivityType.FILM_DIRECTOR_ACTIVITY.ontClass(), activityType.ontClass());
+		Assert.assertNotNull(activityEntities);
+		Assert.assertEquals(3, activityEntities.size());
+		
+		Entity activityEntity = movingImageEntity.getChild(Ld4lObjectProp.HAS_ACTIVITY, HfaActivityType.DIRECTOR_ACTIVITY);
+		List<Entity> agentEntities = activityEntity.getChildren(Ld4lObjectProp.HAS_AGENT);
+		Assert.assertNotNull(agentEntities);
+		Assert.assertEquals(1, agentEntities.size());
+		Assert.assertNotNull(activityEntity);
+		
+		activityEntity = movingImageEntity.getChild(Ld4lObjectProp.HAS_ACTIVITY, HfaActivityType.EDITOR_ACTIVITY);
+		Assert.assertNotNull(activityEntity);
+		agentEntities = activityEntity.getChildren(Ld4lObjectProp.HAS_AGENT);
+		Assert.assertNotNull(agentEntities);
+		Assert.assertEquals(1, agentEntities.size());
+		
+		activityEntity = movingImageEntity.getChild(Ld4lObjectProp.HAS_ACTIVITY, HfaActivityType.PRODUCER_ACTIVITY);
+		Assert.assertNotNull(activityEntity);
+		agentEntities = activityEntity.getChildren(Ld4lObjectProp.HAS_AGENT);
+		Assert.assertNotNull(agentEntities);
+		Assert.assertEquals(2, agentEntities.size());
 		
 		Entity identifierEntity = movingImageEntity.getChild(Ld4lObjectProp.IDENTIFIED_BY);
 		Assert.assertNotNull(identifierEntity);
@@ -127,6 +140,20 @@ public class HfaToMovingImageBuilderTest extends AbstractHfaTest {
 		params.setRecord(null);
 		
 		movingImageBuilder.build(params);
+	}
+	
+	@Test
+	public void valid_TypeFromColumn() throws EntityBuilderException {
+		HfaToMovingImageBuilder builder = new HfaToMovingImageBuilder();
+		Type activityType = builder.getTypeFromColumn(ColumnAttributeText.EDITOR);
+		Assert.assertNotNull(activityType);
+	}
+	
+	@Test
+	public void invalid_TypeFromColumn_ThrowsException() throws EntityBuilderException {
+		expectException(EntityBuilderException.class, "Column name must match an expected value.");
+		HfaToMovingImageBuilder builder = new HfaToMovingImageBuilder();
+		builder.getTypeFromColumn(ColumnAttributeText.NON_FICTION);
 	}
 
 }

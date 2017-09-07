@@ -29,7 +29,7 @@ import org.ld4l.bib2lod.testing.HfaTestData;
 /**
  * Tests the HfaToFilmDirectorActivityBuilder class.
  */
-public class HfaToFilmDirectorBuilderTest extends AbstractHfaTest {
+public class HfaToFilmDirectorActivityBuilderTest extends AbstractHfaTest {
     
 	private EntityBuilder filmDirecotryActivityBuilder;
 	private HfaRecord hfaRecord;
@@ -62,15 +62,15 @@ public class HfaToFilmDirectorBuilderTest extends AbstractHfaTest {
 		Assert.assertNotNull(filmDirectorActivity);
 		List<Type> types = filmDirectorActivity.getTypes();
 		Assert.assertNotNull(types);
-		Assert.assertTrue(types.contains(HfaActivityType.FILM_DIRECTOR_ACTIVITY));
+		Assert.assertTrue(types.contains(HfaActivityType.DIRECTOR_ACTIVITY));
 		Attribute labelAttr = filmDirectorActivity.getAttribute(Ld4lDatatypeProp.LABEL);
 		Assert.assertNotNull(labelAttr);
-		Assert.assertEquals(HfaActivityType.FILM_DIRECTOR_ACTIVITY.label(), labelAttr.getValue());
+		Assert.assertEquals(HfaActivityType.DIRECTOR_ACTIVITY.label(), labelAttr.getValue());
 	}
 	
 	@Test
 	public void nullRecord_ThrowsException() throws Exception {
-		expectException(EntityBuilderException.class, "A HfaRecord is required to build a title.");
+		expectException(EntityBuilderException.class, "A HfaRecord is required to build an activity.");
 		BuildParams params = new BuildParams()
 				.setRecord(null)
 				.setParent(parentEntity);
@@ -80,7 +80,7 @@ public class HfaToFilmDirectorBuilderTest extends AbstractHfaTest {
 	
 	@Test
 	public void nullRelatedEntity_ThrowsException() throws Exception {
-		expectException(EntityBuilderException.class, "A parent Entity is required to build a title.");
+		expectException(EntityBuilderException.class, "A parent Entity is required to build an activity.");
 		BuildParams params = new BuildParams()
 				.setRecord(hfaRecord)
 				.setParent(null);

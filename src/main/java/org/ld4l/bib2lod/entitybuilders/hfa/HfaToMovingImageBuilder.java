@@ -2,6 +2,8 @@
 
 package org.ld4l.bib2lod.entitybuilders.hfa;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.ld4l.bib2lod.conversion.Converter.ConverterException;
 import org.ld4l.bib2lod.entity.Entity;
 import org.ld4l.bib2lod.entitybuilders.BuildParams;
@@ -9,8 +11,10 @@ import org.ld4l.bib2lod.entitybuilders.EntityBuilder;
 import org.ld4l.bib2lod.externalbuilders.ConcordanceReferenceBuilder;
 import org.ld4l.bib2lod.externalbuilders.HfaToGenreConcordanceBuilder;
 import org.ld4l.bib2lod.externalbuilders.HfaToTopicConcordanceBuilder;
+import org.ld4l.bib2lod.ontology.Type;
 import org.ld4l.bib2lod.ontology.hfa.HarvardType;
 import org.ld4l.bib2lod.ontology.hfa.HfaActivityType;
+import org.ld4l.bib2lod.ontology.ld4l.Ld4lActivityType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lDatatypeProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lInstanceType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lObjectProp;
@@ -18,6 +22,7 @@ import org.ld4l.bib2lod.ontology.ld4l.Ld4lTitleType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lWorkType;
 import org.ld4l.bib2lod.record.xml.hfa.HfaRecord;
 import org.ld4l.bib2lod.record.xml.hfa.HfaRecord.ColumnAttributeText;
+import org.ld4l.bib2lod.record.xml.hfa.HfaTextField;
 
 /**
  * Builds a MovingImage individual from a Record.
@@ -29,7 +34,15 @@ public class HfaToMovingImageBuilder extends HfaToLd4lEntityBuilder {
     
     static final int ITEM_NUMBER_LENGTH = 10;
     private static final String ITEM_NUMBER_STRING_FORMAT = "%" + ITEM_NUMBER_LENGTH + "s"; // "%10s"
-  
+ 
+    private static final ColumnAttributeText[] activityColumns =
+    	   {ColumnAttributeText.DP_CINEMATOGRAPHER,
+			ColumnAttributeText.EDITOR,
+			ColumnAttributeText.PRODUCER,
+			ColumnAttributeText.SCRIPT};
+
+    private static final Logger LOGGER = LogManager.getLogger();
+
     @Override
     public Entity build(BuildParams params) throws EntityBuilderException {
 
@@ -45,6 +58,7 @@ public class HfaToMovingImageBuilder extends HfaToLd4lEntityBuilder {
         buildInstances();
         buildDirectorActivities();
         addIdentifiers();
+        buildActivies();
         try {
 			addGenres();
 			addTopics();
@@ -77,7 +91,7 @@ public class HfaToMovingImageBuilder extends HfaToLd4lEntityBuilder {
     
     private void buildDirectorActivities() throws EntityBuilderException {
         
-        EntityBuilder builder = getBuilder(HfaActivityType.FILM_DIRECTOR_ACTIVITY);
+        EntityBuilder builder = getBuilder(HfaActivityType.DIRECTOR_ACTIVITY);
 
         BuildParams params = new BuildParams()
                 .setRecord(record)
@@ -118,5 +132,53 @@ public class HfaToMovingImageBuilder extends HfaToLd4lEntityBuilder {
                 .setRecord(record)
                 .setParent(work);        
         builder.build(params);
+    }
+
+    private void buildActivies() throws EntityBuilderException {
+
+        EntityBuilder builder = getBuilder(Ld4lActivityType.ACTIVITY);
+
+        for (ColumnAttributeText column : activityColumns) {
+        	HfaTextField field = record.getField(column);
+            if (field == null) {
+            	LOGGER.debug("No field for [{}]", column.getColumnAttributeText());
+            	continue;
+            }
+            
+            Type activityType = getTypeFromColumn(column);
+            
+            BuildParams params = new BuildParams()
+                    .setRecord(record)
+                    .setParent(work)
+                    .setType(activityType)
+                    .setField(field);
+            builder.build(params);
+        }    	
+    }
+    
+    /*
+     * Get entity type for expected field name.
+     * protected for allow for unit tests.
+     */
+    protected Type getTypeFromColumn(ColumnAttributeText column) throws EntityBuilderException {
+    	
+        Type activityType = null;
+        switch (column) {
+            case DP_CINEMATOGRAPHER:
+            	activityType = HfaActivityType.CINEMATOGRAPHER_ACTIVITY;
+            	break;
+            case EDITOR:
+            	activityType = HfaActivityType.EDITOR_ACTIVITY;
+            	break;
+            case PRODUCER:
+            	activityType = HfaActivityType.PRODUCER_ACTIVITY;
+            	break;
+            case SCRIPT:
+            	activityType = HfaActivityType.SCREENWRITER_ACTIVITY;
+            	break;
+            default:
+            	throw new EntityBuilderException("Column name must match an expected value.");
+        }
+        return activityType;
     }
 }

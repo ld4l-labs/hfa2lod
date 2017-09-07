@@ -2,7 +2,7 @@
   "localNamespace": "http://localhost:8080/bibframe/individual/",
   "InputService": {
     "class": "org.ld4l.bib2lod.io.FileInputService",
-    "source": "sample-data/hfa-data-28855-and-29463.xml",
+    "source": "sample-data/hfa-data-9386.xml",
     "extension": "xml"
   }, 
   "OutputService": {

@@ -9,7 +9,11 @@ import org.ld4l.bib2lod.ontology.ld4l.Ld4lNamespace;
 public enum HfaActivityType implements Type {
     
     /* List in alpha order */
-    FILM_DIRECTOR_ACTIVITY(Ld4lNamespace.BIBLIOTEKO, "FilmDirectorActivity", "Film Director");
+	CINEMATOGRAPHER_ACTIVITY(Ld4lNamespace.BIBLIOTEKO, "CinematographerActivity", "Cinematographer"),
+    DIRECTOR_ACTIVITY(Ld4lNamespace.BIBLIOTEKO, "FilmDirectorActivity", "Film Director"),
+    EDITOR_ACTIVITY(Ld4lNamespace.BIBLIOTEKO, "FilmEditorActivity", "Film Editor"),
+    PRODUCER_ACTIVITY(Ld4lNamespace.BIBLIOTEKO, "ProducerActivity", "Producer"),
+    SCREENWRITER_ACTIVITY(Ld4lNamespace.BIBLIOTEKO, "ScreenwriterActivity", "Screenwriter");
     
     private final String uri;
     private final Resource ontClass;

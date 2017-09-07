@@ -25,13 +25,23 @@ public class HfaTestData {
 	public static final String TWO_LINE_TOPIC_GENRE_AND_KEYWORD = "Holiday" + NEW_LINE + ENTRY_NOT_IN_CONCORDANCE;
 	public static final String FILM_DIRECTOR = "Tony Conrad";
 	public static final String COLLECTION = "Test Collection";
+	public static final String EDITOR = "Test Editor";
+	public static final String PRODUCER1 = "Producer 1 ";
+	public static final String PRODUCER2 = "Producer2";
+	public static final String PRODUCERS = PRODUCER1 + ", " + PRODUCER2;
+	
 
 	public static final String VALID_TITLE = 
 			"<col column='" + HfaRecord.ColumnAttributeText.TITLE.getColumnAttributeText() + "'>" + TITLE_TEXT + "</col>";
 	
 	public static final String INVALID_TITLE_NO_TEXT = 
 			"<col column='" + HfaRecord.ColumnAttributeText.TITLE.getColumnAttributeText() + "'>" + "</col>";
-
+	
+	public static final String FILM_DIRECTOR_HFA_RECORD = 
+    		"<col column='" + HfaRecord.ColumnAttributeText.DIRECTOR.getColumnAttributeText() + "'>" + FILM_DIRECTOR + "</col>";
+	
+	public static final String PRODUCERS_HFA_RECORD =
+    		"<col column='" + HfaRecord.ColumnAttributeText.PRODUCER.getColumnAttributeText() + "'>" + PRODUCERS + "</col>";
 	
 	public static final String VALID_TITLE_HFA_RECORD = 
 	        "<HFA-data>" +
@@ -77,6 +87,8 @@ public class HfaTestData {
 		        		"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + HFA_NUMBER + "</col>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.DIRECTOR.getColumnAttributeText() + "'>" + FILM_DIRECTOR + "</col>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.COLLECTION.getColumnAttributeText() + "'>" + COLLECTION + "</col>" +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.EDITOR.getColumnAttributeText() + "'>" + EDITOR + "</col>" +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.PRODUCER.getColumnAttributeText() + "'>" + PRODUCERS + "</col>" +
 	        		"</row>" +
 	        "</HFA-data>";
 	
@@ -156,7 +168,4 @@ public class HfaTestData {
 		        		"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + HFA_NUMBER + "</col>" +
 	        		"</row>" +
 	        "</HFA-data>";
-	
-	public static final String FILM_DIRECTOR_HFA_RECORD = 
-    		"<col column='" + HfaRecord.ColumnAttributeText.DIRECTOR.getColumnAttributeText() + "'>" + FILM_DIRECTOR + "</col>";
 }

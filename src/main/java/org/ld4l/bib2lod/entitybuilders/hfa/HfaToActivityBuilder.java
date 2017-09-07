@@ -2,6 +2,8 @@
 
 package org.ld4l.bib2lod.entitybuilders.hfa;
 
+import java.util.regex.Pattern;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.ld4l.bib2lod.entity.Attribute;
@@ -16,15 +18,21 @@ import org.ld4l.bib2lod.record.xml.hfa.HfaRecord;
 import org.ld4l.bib2lod.record.xml.hfa.HfaTextField;
 
 /**
- * Builds a FilmDirectorActivity Entity.
+ * Builds an Activity Entity.
  */
-public class HfaToFilmDirectorActivityBuilder extends HfaToLd4lEntityBuilder {
+public class HfaToActivityBuilder extends HfaToLd4lEntityBuilder {
 
     private HfaRecord record;
-    private Entity filmDirectoryActivityEntity;
-    private HfaTextField hfaDirector;
+    private Entity activityEntity;
+    private HfaTextField agentField;
+    
+    private static Pattern commaRegex;
 
     private static final Logger LOGGER = LogManager.getLogger();
+    
+    static {
+    	commaRegex = Pattern.compile(",");
+    }
 
     @Override
     public Entity build(BuildParams params) throws EntityBuilderException {
@@ -41,30 +49,44 @@ public class HfaToFilmDirectorActivityBuilder extends HfaToLd4lEntityBuilder {
                     "A parent Entity is required to build an activity.");
         }
         
-        this.hfaDirector = record.getField(HfaRecord.ColumnAttributeText.DIRECTOR);
-        if (this.hfaDirector == null) {
-        	LOGGER.debug("No field for [{}]", HfaRecord.ColumnAttributeText.DIRECTOR.getColumnAttributeText());
-        	return null;
+        HfaActivityType activityType = (HfaActivityType) params.getType();
+        if (activityType == null) {
+            throw new EntityBuilderException(
+                    "A Type is required to build an Activity.");
+        }
+        
+        this.agentField = (HfaTextField) params.getField();
+        if (agentField == null) {
+            throw new EntityBuilderException(
+                    "A field is required to build an Activity.");
         }
 
-        this.filmDirectoryActivityEntity = new Entity(HfaActivityType.DIRECTOR_ACTIVITY);
-        this.filmDirectoryActivityEntity.addAttribute(Ld4lDatatypeProp.LABEL,
-        		new Attribute(HfaActivityType.DIRECTOR_ACTIVITY.label()));
-    	parentEntity.addRelationship(Ld4lObjectProp.HAS_ACTIVITY, this.filmDirectoryActivityEntity);
+        this.activityEntity = new Entity(activityType);
+        this.activityEntity.addAttribute(Ld4lDatatypeProp.LABEL,
+        		new Attribute(activityType.label()));
+    	parentEntity.addRelationship(Ld4lObjectProp.HAS_ACTIVITY, this.activityEntity);
         
         addAgents();
        
-        return this.filmDirectoryActivityEntity;
+        return this.activityEntity;
     }
     
     private void addAgents() throws EntityBuilderException {
         
         EntityBuilder builder = getBuilder(Ld4lAgentType.AGENT);
-        BuildParams params = new BuildParams()
-                .setRecord(record)
-                .setValue(hfaDirector.getTextValue())
-                .setParent(filmDirectoryActivityEntity);        
-        builder.build(params);
+        
+        // tokenize possible comma-separated names
+        String[] names = commaRegex.split(agentField.getTextValue());
+        for (String n : names) {
+        	String name = n.trim();
+
+        	BuildParams params = new BuildParams()
+        			.setRecord(record)
+        			.setParent(activityEntity)
+        			.setValue(name);        
+        	builder.build(params);
+        }
+
     }
 
     
