@@ -31,6 +31,7 @@ public class HfaRecord extends BaseXmlRecord {
     	ITEM_NUMBER("Item number"),
     	NON_FICTION("Non Fiction"),
     	PREFIX("prefix"),
+    	PRINCIPAL_CAST("Principal Cast"),
     	PRODUCER("Producer"),
     	SCRIPT("Script"),
     	SHORT("short'"), // yes, this is the column name with the single quote

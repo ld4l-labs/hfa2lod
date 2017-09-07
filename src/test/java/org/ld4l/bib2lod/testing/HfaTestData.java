@@ -29,6 +29,10 @@ public class HfaTestData {
 	public static final String PRODUCER1 = "Producer 1 ";
 	public static final String PRODUCER2 = "Producer2";
 	public static final String PRODUCERS = PRODUCER1 + ", " + PRODUCER2;
+	public static final String CAST1 = " Person 1 ";
+	public static final String CAST2 = "Person 2";
+	public static final String CAST3 = "Person 3";
+	public static final String CAST_MEMBERS = CAST1 + "," + CAST2 + " , " + CAST3;
 	
 
 	public static final String VALID_TITLE = 
@@ -89,6 +93,7 @@ public class HfaTestData {
 		        		"<col column='" + HfaRecord.ColumnAttributeText.COLLECTION.getColumnAttributeText() + "'>" + COLLECTION + "</col>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.EDITOR.getColumnAttributeText() + "'>" + EDITOR + "</col>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.PRODUCER.getColumnAttributeText() + "'>" + PRODUCERS + "</col>" +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.PRINCIPAL_CAST.getColumnAttributeText() + "'>" + CAST_MEMBERS + "</col>" +
 	        		"</row>" +
 	        "</HFA-data>";
 	
@@ -166,6 +171,14 @@ public class HfaTestData {
 	        		"<row>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.DIRECTOR.getColumnAttributeText() + "'>" + FILM_DIRECTOR + "</col>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + HFA_NUMBER + "</col>" +
+	        		"</row>" +
+	        "</HFA-data>";
+	
+	public static final String VALID_PRICIPAL_CAST_RECORD =
+	        "<HFA-data>" +
+	        		"<row>" +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + HFA_NUMBER + "</col>" +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.PRINCIPAL_CAST.getColumnAttributeText() + "'>" + CAST1 + "</col>" +
 	        		"</row>" +
 	        "</HFA-data>";
 }

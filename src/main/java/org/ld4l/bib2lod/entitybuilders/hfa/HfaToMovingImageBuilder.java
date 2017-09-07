@@ -2,6 +2,8 @@
 
 package org.ld4l.bib2lod.entitybuilders.hfa;
 
+import java.util.regex.Pattern;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.ld4l.bib2lod.conversion.Converter.ConverterException;
@@ -15,6 +17,7 @@ import org.ld4l.bib2lod.ontology.Type;
 import org.ld4l.bib2lod.ontology.hfa.HarvardType;
 import org.ld4l.bib2lod.ontology.hfa.HfaActivityType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lActivityType;
+import org.ld4l.bib2lod.ontology.ld4l.Ld4lAnnotationType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lDatatypeProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lInstanceType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lObjectProp;
@@ -31,7 +34,10 @@ public class HfaToMovingImageBuilder extends HfaToLd4lEntityBuilder {
     
     private HfaRecord record;
     private Entity work;
+    private HfaTextField principalCastField;
     
+    private static Pattern commaRegex;
+
     static final int ITEM_NUMBER_LENGTH = 10;
     private static final String ITEM_NUMBER_STRING_FORMAT = "%" + ITEM_NUMBER_LENGTH + "s"; // "%10s"
  
@@ -42,6 +48,10 @@ public class HfaToMovingImageBuilder extends HfaToLd4lEntityBuilder {
 			ColumnAttributeText.SCRIPT};
 
     private static final Logger LOGGER = LogManager.getLogger();
+    
+    static {
+    	commaRegex = Pattern.compile(",");
+    }
 
     @Override
     public Entity build(BuildParams params) throws EntityBuilderException {
@@ -59,6 +69,7 @@ public class HfaToMovingImageBuilder extends HfaToLd4lEntityBuilder {
         buildDirectorActivities();
         addIdentifiers();
         buildActivies();
+        buildPricipalCast();
         try {
 			addGenres();
 			addTopics();
@@ -132,6 +143,28 @@ public class HfaToMovingImageBuilder extends HfaToLd4lEntityBuilder {
                 .setRecord(record)
                 .setParent(work);        
         builder.build(params);
+    }
+    
+    private void buildPricipalCast() throws EntityBuilderException {
+    	
+    	HfaTextField principalCastField = record.getField(ColumnAttributeText.PRINCIPAL_CAST);
+    	if (principalCastField == null) {
+    		return;
+    	}
+    	
+    	EntityBuilder builder = getBuilder(Ld4lAnnotationType.ANNOTATION);
+    	
+        // tokenize possible comma-separated names
+        String[] names = commaRegex.split(principalCastField.getTextValue());
+        for (String n : names) {
+        	String name = n.trim();
+
+        	BuildParams params = new BuildParams()
+//        			.setRecord(record)
+        			.setParent(work)
+        			.setValue(name);        
+        	builder.build(params);
+        }
     }
 
     private void buildActivies() throws EntityBuilderException {

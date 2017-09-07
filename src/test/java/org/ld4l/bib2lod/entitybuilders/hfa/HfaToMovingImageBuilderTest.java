@@ -19,6 +19,7 @@ import org.ld4l.bib2lod.entitybuilders.EntityBuilderFactory;
 import org.ld4l.bib2lod.ontology.Type;
 import org.ld4l.bib2lod.ontology.hfa.HarvardType;
 import org.ld4l.bib2lod.ontology.hfa.HfaActivityType;
+import org.ld4l.bib2lod.ontology.ld4l.Ld4lAgentType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lDatatypeProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lObjectProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lWorkType;
@@ -110,6 +111,10 @@ public class HfaToMovingImageBuilderTest extends AbstractHfaTest {
 		Assert.assertEquals(HfaToMovingImageBuilder.ITEM_NUMBER_LENGTH, identifierAttr.getValue().length());
 		String identifierValue = identifierAttr.getValue();
 		Assert.assertTrue(identifierValue.contains(HfaTestData.HFA_NUMBER));
+		
+		List<Entity> castEntities = movingImageEntity.getChildren(Ld4lObjectProp.HAS_ANNOTATION, Ld4lAgentType.PERSON);
+		Assert.assertNotNull(castEntities);
+		Assert.assertEquals(3, castEntities.size());
 	}
 	
 	@Test
