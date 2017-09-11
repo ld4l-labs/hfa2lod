@@ -23,6 +23,7 @@ public class HfaRecord extends BaseXmlRecord {
     public enum ColumnAttributeText {
     	CLASSIFICATION("Classification"),
     	COLLECTION("Collection Title"),
+    	COUNTRY("Country"),
     	DIRECTOR("Director"),
     	DP_CINEMATOGRAPHER("DP/Cinematographer"),
     	EDITOR("Editor"),
@@ -32,9 +33,11 @@ public class HfaRecord extends BaseXmlRecord {
     	NON_FICTION("Non Fiction"),
     	PREFIX("prefix"),
     	PRODUCER("Producer"),
+    	PRODUCTION_COMPANY("Production Company"),
     	SCRIPT("Script"),
     	SHORT("short'"), // yes, this is the column name with the single quote
-    	TITLE("Original Titles");
+    	TITLE("Original Titles"),
+    	YEAR_OF_RELEASE("Year of Release");
         
         private final String attrText;
         

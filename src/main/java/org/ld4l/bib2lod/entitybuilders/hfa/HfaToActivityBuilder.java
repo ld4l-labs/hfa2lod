@@ -15,6 +15,7 @@ import org.ld4l.bib2lod.ontology.ld4l.Ld4lAgentType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lDatatypeProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lObjectProp;
 import org.ld4l.bib2lod.record.xml.hfa.HfaRecord;
+import org.ld4l.bib2lod.record.xml.hfa.HfaRecord.ColumnAttributeText;
 import org.ld4l.bib2lod.record.xml.hfa.HfaTextField;
 
 /**
@@ -24,16 +25,23 @@ public class HfaToActivityBuilder extends HfaToLd4lEntityBuilder {
 
     private HfaRecord record;
     private Entity activityEntity;
-    private HfaTextField agentField;
+    private String agentFieldText;
     
     private static Pattern commaRegex;
 
     private static final Logger LOGGER = LogManager.getLogger();
     
     static {
-    	commaRegex = Pattern.compile(",");
+    	commaRegex = Pattern.compile(",|/");
     }
 
+    /**
+     * Rather than passing in a HfaTextField via the BuildParams, pass in the text of this
+     * field since the calling class may need to first parse (comma- or slash-separated)
+     * multiple values out of the text of the HfaTextField.
+     * 
+     * @see org.ld4l.bib2lod.entitybuilders.EntityBuilder#build(org.ld4l.bib2lod.entitybuilders.BuildParams)
+     */
     @Override
     public Entity build(BuildParams params) throws EntityBuilderException {
         
@@ -55,16 +63,35 @@ public class HfaToActivityBuilder extends HfaToLd4lEntityBuilder {
                     "A Type is required to build an Activity.");
         }
         
-        this.agentField = (HfaTextField) params.getField();
-        if (agentField == null) {
+        this.agentFieldText = params.getValue();
+        if (agentFieldText == null) {
             throw new EntityBuilderException(
-                    "A field is required to build an Activity.");
+                    "A field text value is required to build an Activity.");
         }
 
         this.activityEntity = new Entity(activityType);
         this.activityEntity.addAttribute(Ld4lDatatypeProp.LABEL,
         		new Attribute(activityType.label()));
     	parentEntity.addRelationship(Ld4lObjectProp.HAS_ACTIVITY, this.activityEntity);
+    	
+    	// date and location are only specific to a certain Activity
+    	if (HfaActivityType.PRODUCTION_COMPANY_ACTIVITY.equals(activityType)) {
+    		HfaTextField dateField = this.record.getField(ColumnAttributeText.YEAR_OF_RELEASE);
+    		if (dateField != null) {
+    			this.activityEntity.addAttribute(Ld4lDatatypeProp.DATE, dateField.getTextValue());
+    		}
+    		
+    		HfaTextField countryField = this.record.getField(ColumnAttributeText.COUNTRY);
+    		// parse possible multiple country names
+    		if (countryField != null) {
+    			// FIXME: need to look up country URI, not the country String value.
+    			String[] countries = commaRegex.split(countryField.getTextValue());
+    			for (String country : countries) {
+    				// TODO: lookup location URI in either concordance file or external service
+    				this.activityEntity.addExternalRelationship(Ld4lObjectProp.HAS_LOCATION, "http://some.country.authority/" + country.trim());
+    			}
+    		}
+    	}
         
         addAgents();
        
@@ -76,7 +103,7 @@ public class HfaToActivityBuilder extends HfaToLd4lEntityBuilder {
         EntityBuilder builder = getBuilder(Ld4lAgentType.AGENT);
         
         // tokenize possible comma-separated names
-        String[] names = commaRegex.split(agentField.getTextValue());
+        String[] names = commaRegex.split(agentFieldText);
         for (String n : names) {
         	String name = n.trim();
 
@@ -86,8 +113,6 @@ public class HfaToActivityBuilder extends HfaToLd4lEntityBuilder {
         			.setValue(name);        
         	builder.build(params);
         }
-
     }
-
     
 }

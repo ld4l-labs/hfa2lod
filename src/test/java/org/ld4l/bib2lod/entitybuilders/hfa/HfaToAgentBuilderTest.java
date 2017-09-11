@@ -126,6 +126,6 @@ public class HfaToAgentBuilderTest extends AbstractHfaTest {
 				.setParent(parentEntity)
 				.setValue(null);
 		
-		Entity entity = agentBuilder.build(params);
+		agentBuilder.build(params);
 	}
 }

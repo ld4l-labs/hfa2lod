@@ -5,12 +5,13 @@ package org.ld4l.bib2lod.ontology.hfa;
 import org.ld4l.bib2lod.ontology.Namespace;
 
 /**
- * Define Harvard-related ontology namespace.
+ * Define Harvard-related ontology namespaces.
  */
 // TODO This should be moved to someplace common for both FGDC and HFA use.
 public enum HarvardNamespace implements Namespace {
 
-	METAL("http://harvcore.org/ontology/", "metal");
+	METAL("http://harvcore.org/ontology/", "metal"),
+	MOVING_IMAGE("http://localhost/movingimage/", "mi");
     
     private final String uri;
     private final String prefix;

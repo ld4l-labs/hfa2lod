@@ -13,6 +13,8 @@ public enum HfaActivityType implements Type {
     DIRECTOR_ACTIVITY(Ld4lNamespace.BIBLIOTEKO, "FilmDirectorActivity", "Film Director"),
     EDITOR_ACTIVITY(Ld4lNamespace.BIBLIOTEKO, "FilmEditorActivity", "Film Editor"),
     PRODUCER_ACTIVITY(Ld4lNamespace.BIBLIOTEKO, "ProducerActivity", "Producer"),
+    // FIXME: The following namespace might not be correct.
+    PRODUCTION_COMPANY_ACTIVITY(HarvardNamespace.MOVING_IMAGE, "ProductionCompanyActivity", "Production"),
     SCREENWRITER_ACTIVITY(Ld4lNamespace.BIBLIOTEKO, "ScreenwriterActivity", "Screenwriter");
     
     private final String uri;

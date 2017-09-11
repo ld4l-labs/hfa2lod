@@ -27,6 +27,7 @@ import org.ld4l.bib2lod.testing.BaseMockBib2LodObjectFactory;
 import org.ld4l.bib2lod.testing.HfaTestData;
 import org.ld4l.bib2lod.testing.xml.XmlTestUtils;
 import org.w3c.dom.Element;
+import org.xml.sax.Attributes;
 
 /**
  * Tests the HfaToActivityBuilder class.
@@ -62,7 +63,7 @@ public class HfaToActivityBuilderTest extends AbstractHfaTest {
 				.setRecord(hfaRecord)
 				.setParent(parentEntity)
 				.setType(HfaActivityType.PRODUCER_ACTIVITY)
-				.setField(field);
+				.setValue(field.getTextValue());
 		
 		Entity activityEntity = activityBuilder.build(params);
 
@@ -77,6 +78,32 @@ public class HfaToActivityBuilderTest extends AbstractHfaTest {
 		List<Entity> agents = activityEntity.getChildren(Ld4lObjectProp.HAS_AGENT);
 		Assert.assertNotNull(agents);
 		Assert.assertEquals(2, agents.size());
+	}
+	
+	@Test
+	public void validProductionCompanyRecordMultipleCountries() throws Exception {
+
+        hfaRecord = buildHfaRecordFromString(HfaTestData.VALID_PRODUCTION_COMPANY_HFA_RECORD);
+
+		BuildParams params = new BuildParams()
+				.setRecord(hfaRecord)
+				.setParent(parentEntity)
+				.setType(HfaActivityType.PRODUCTION_COMPANY_ACTIVITY)
+				.setValue(HfaTestData.COUNTRIES);
+		
+		Entity activityEntity = activityBuilder.build(params);
+
+		Assert.assertNotNull(activityEntity);
+		List<Type> types = activityEntity.getTypes();
+		Assert.assertNotNull(types);
+		Assert.assertTrue(types.contains(HfaActivityType.PRODUCTION_COMPANY_ACTIVITY));
+
+		List<String> countries = activityEntity.getExternals(Ld4lObjectProp.HAS_LOCATION);
+		Assert.assertNotNull(countries);
+		Assert.assertEquals(3, countries.size());
+		Assert.assertTrue(countries.contains(HfaTestData.COUNTRY1));
+		Assert.assertTrue(countries.contains(HfaTestData.COUNTRY2));
+		Assert.assertTrue(countries.contains(HfaTestData.COUNTRY3));
 	}
 	
 	@Test
@@ -117,12 +144,12 @@ public class HfaToActivityBuilderTest extends AbstractHfaTest {
 	
 	@Test
 	public void nullHfaField_ThrowsException() throws Exception {
-		expectException(EntityBuilderException.class, "A field is required to build an Activity.");
+		expectException(EntityBuilderException.class, "A field text value is required to build an Activity.");
 		BuildParams params = new BuildParams()
 				.setRecord(hfaRecord)
 				.setParent(parentEntity)
 				.setType(HfaActivityType.EDITOR_ACTIVITY)
-				.setField(null);
+				.setValue(null);
 		
 		activityBuilder.build(params);
 	}

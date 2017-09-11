@@ -29,6 +29,16 @@ public class HfaTestData {
 	public static final String PRODUCER1 = "Producer 1 ";
 	public static final String PRODUCER2 = "Producer2";
 	public static final String PRODUCERS = PRODUCER1 + ", " + PRODUCER2;
+	public static final String PRODUCTION_COMPANY1 = "Production Company 1";
+	public static final String PRODUCTION_COMPANY2 = "Production Company 2";
+	public static final String PRODUCTION_COMPANY3 = "Production Company 3";
+	public static final String PRODUCTION_COMPANIES = PRODUCTION_COMPANY1 + " /" +
+							   PRODUCTION_COMPANY2 + " , " +
+							   PRODUCTION_COMPANY3;
+	public static final String COUNTRY1 = "Upper Volta";
+	public static final String COUNTRY2 = "Moldova";
+	public static final String COUNTRY3 = "Boreo";
+	public static final String COUNTRIES = COUNTRY1 + " /" + COUNTRY2 + " , " + COUNTRY3;
 	
 
 	public static final String VALID_TITLE = 
@@ -166,6 +176,16 @@ public class HfaTestData {
 	        		"<row>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.DIRECTOR.getColumnAttributeText() + "'>" + FILM_DIRECTOR + "</col>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + HFA_NUMBER + "</col>" +
+	        		"</row>" +
+	        "</HFA-data>";
+	
+	public static final String VALID_PRODUCTION_COMPANY_HFA_RECORD = 
+	        "<HFA-data>" +
+	        		"<row>" +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.PRODUCTION_COMPANY.getColumnAttributeText() + "'>" + PRODUCTION_COMPANIES + "</col>" +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.COUNTRY.getColumnAttributeText() + "'>" + COUNTRIES + "</col>" +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + HFA_NUMBER + "</col>" +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.TITLE.getColumnAttributeText() + "'>" + TITLE_TEXT + "</col>" +
 	        		"</row>" +
 	        "</HFA-data>";
 }

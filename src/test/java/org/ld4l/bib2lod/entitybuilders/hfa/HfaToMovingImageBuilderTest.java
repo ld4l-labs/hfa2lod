@@ -134,6 +134,24 @@ public class HfaToMovingImageBuilderTest extends AbstractHfaTest {
 	}
 	
 	@Test
+	public void validMultipleProductionCompanyRecord() throws Exception {
+        hfaRecord = buildHfaRecordFromString(HfaTestData.VALID_PRODUCTION_COMPANY_HFA_RECORD);
+		BuildParams params = new BuildParams()
+				.setRecord(hfaRecord);
+
+		Entity movingImageEntity = movingImageBuilder.build(params);
+		Assert.assertNotNull(movingImageEntity);
+		
+        List<Entity> activityEntities = movingImageEntity.getChildren(Ld4lObjectProp.HAS_ACTIVITY, HfaActivityType.PRODUCTION_COMPANY_ACTIVITY);
+		Assert.assertNotNull(activityEntities);
+		Assert.assertEquals(3, activityEntities.size());
+		Entity productionCompany = activityEntities.get(0);
+		Assert.assertTrue(HfaTestData.PRODUCTION_COMPANIES.contains(productionCompany.getAttribute(Ld4lDatatypeProp.LABEL).getValue()));
+		Assert.assertTrue(HfaTestData.PRODUCTION_COMPANIES.contains(activityEntities.get(1).getAttribute(Ld4lDatatypeProp.LABEL).getValue()));
+		Assert.assertTrue(HfaTestData.PRODUCTION_COMPANIES.contains(activityEntities.get(2).getAttribute(Ld4lDatatypeProp.LABEL).getValue()));
+	}
+	
+	@Test
 	public void nullRecord_ThrowsException() throws Exception {
 		expectException(EntityBuilderException.class, "A HfaRecord is required to build a MovingImage.");
 		BuildParams params = new BuildParams();
