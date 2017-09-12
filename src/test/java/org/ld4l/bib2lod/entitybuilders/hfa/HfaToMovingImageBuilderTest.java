@@ -111,7 +111,7 @@ public class HfaToMovingImageBuilderTest extends AbstractHfaTest {
 		Assert.assertNotNull(identifierAttr);
 		Assert.assertEquals(HfaToMovingImageBuilder.ITEM_NUMBER_LENGTH, identifierAttr.getValue().length());
 		String identifierValue = identifierAttr.getValue();
-		Assert.assertTrue(identifierValue.contains(HfaTestData.HFA_NUMBER));
+		Assert.assertTrue(identifierValue.contains(HfaTestData.ITEM_NUMBER));
 		
 		List<Entity> annotationEntities = movingImageEntity.getChildren(Ld4lObjectProp.HAS_ANNOTATION, Ld4lAnnotationType.ANNOTATION);
 		Assert.assertNotNull(annotationEntities);
@@ -136,7 +136,7 @@ public class HfaToMovingImageBuilderTest extends AbstractHfaTest {
 		Attribute identifierAttr = identifierEntity.getAttribute(Ld4lDatatypeProp.VALUE);
 		Assert.assertNotNull(identifierAttr);
 		String identifierValue = identifierAttr.getValue();
-		Assert.assertTrue(identifierValue.contains(HfaTestData.ALT_HFA_NUMBER));
+		Assert.assertTrue(identifierValue.contains(HfaTestData.ALT_ITEM_NUMBER));
 	}
 	
 	@Test

@@ -12,8 +12,8 @@ public class HfaTestData {
 
 	public static final String TITLE_TEXT = "Title";
 	public static final String PREFIX_TEXT = "The";
-	public static final String HFA_NUMBER = "1234";
-	public static final String ALT_HFA_NUMBER = "V9876";
+	public static final String ITEM_NUMBER = "1234";
+	public static final String ALT_ITEM_NUMBER = "V9876";
 	public static final String FICTION_GENRE = "Fiction";
 	public static final String SHORT_GENRE = "Short";
 	public static final String TELEVISION_PROGRAM_GENRE = "Television program";
@@ -44,17 +44,22 @@ public class HfaTestData {
 	public static final String CAST3 = "Person 3";
 	public static final String CAST_MEMBERS = CAST1 + "," + CAST2 + " , " + CAST3;
 	
+	public static final String VALID_ITEM_NUMBER_FIELD =
+			"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + ITEM_NUMBER + "</col>";
 
-	public static final String VALID_TITLE = 
+	public static final String VALID_TITLE_FIELD = 
 			"<col column='" + HfaRecord.ColumnAttributeText.TITLE.getColumnAttributeText() + "'>" + TITLE_TEXT + "</col>";
 	
-	public static final String INVALID_TITLE_NO_TEXT = 
+	public static final String VALID_PREFIX_FIELD =
+			"<col column='" + HfaRecord.ColumnAttributeText.PREFIX.getColumnAttributeText() + "'>" + PREFIX_TEXT + "</col>";
+	
+	public static final String INVALID_TITLE_NO_TEXT_FIELD = 
 			"<col column='" + HfaRecord.ColumnAttributeText.TITLE.getColumnAttributeText() + "'>" + "</col>";
 	
-	public static final String FILM_DIRECTOR_HFA_RECORD = 
+	public static final String FILM_DIRECTOR_HFA_FIELD = 
     		"<col column='" + HfaRecord.ColumnAttributeText.DIRECTOR.getColumnAttributeText() + "'>" + FILM_DIRECTOR + "</col>";
 	
-	public static final String PRODUCERS_HFA_RECORD =
+	public static final String PRODUCERS_HFA_FIELD =
     		"<col column='" + HfaRecord.ColumnAttributeText.PRODUCER.getColumnAttributeText() + "'>" + PRODUCERS + "</col>";
 
 	public static final String CAST_MEMBERS_HFA_FIELD =
@@ -63,45 +68,42 @@ public class HfaTestData {
 	public static final String VALID_TITLE_HFA_RECORD = 
 	        "<HFA-data>" +
 	        		"<row>" +
-		        		"<col column='" + HfaRecord.ColumnAttributeText.TITLE.getColumnAttributeText() + "'>" + TITLE_TEXT + "</col>" +
-		        		"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + HFA_NUMBER + "</col>" +
+		        		VALID_ITEM_NUMBER_FIELD +
+	        			VALID_TITLE_FIELD +
 	        		"</row>" +
 	        "</HFA-data>";
 	
 	public static final String VALID_HFA_RECORD_ALTERNATE_ITEM_NUMBER = 
 	        "<HFA-data>" +
 	        		"<row>" +
-		        		"<col column='" + HfaRecord.ColumnAttributeText.TITLE.getColumnAttributeText() + "'>" + TITLE_TEXT + "</col>" +
-		        		"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + ALT_HFA_NUMBER + "</col>" +
+	        			VALID_TITLE_FIELD +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + ALT_ITEM_NUMBER + "</col>" +
 	        		"</row>" +
 	        "</HFA-data>";
-
-	public static final String VALID_PREFIX = 
-			"<col column='" + HfaRecord.ColumnAttributeText.PREFIX.getColumnAttributeText() + "'>" + PREFIX_TEXT + "</col>";
 
 	public static final String VALID_TITLE_AND_PREFIX_HFA_RECORD = 
 	        "<HFA-data>" +
 	        		"<row>" +
-		    			"<col column='" + HfaRecord.ColumnAttributeText.PREFIX.getColumnAttributeText() + "'>" + PREFIX_TEXT + "</col>" +
-		        		"<col column='" + HfaRecord.ColumnAttributeText.TITLE.getColumnAttributeText() + "'>" + TITLE_TEXT + "</col>" +
-		        		"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + HFA_NUMBER + "</col>" +
+	        			VALID_PREFIX_FIELD +
+		    			VALID_TITLE_FIELD +
+		        		VALID_ITEM_NUMBER_FIELD +
 	        		"</row>" +
 	        "</HFA-data>";
 
 	public static final String INVALID_PREFIX_ONLY_HFA_RECORD = 
 	        "<HFA-data>" +
 	        		"<row>" +
-		    			"<col column='" + HfaRecord.ColumnAttributeText.PREFIX.getColumnAttributeText() + "'>" + PREFIX_TEXT + "</col>" +
-		        		"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + HFA_NUMBER + "</col>" +
+	        			VALID_PREFIX_FIELD +
+		        		VALID_ITEM_NUMBER_FIELD +
 	        		"</row>" +
 	        "</HFA-data>";
 	
 	public static final String VALID_FULL_RECORD = 
 	        "<HFA-data>" +
 	        		"<row>" +
-		    			"<col column='" + HfaRecord.ColumnAttributeText.PREFIX.getColumnAttributeText() + "'>" + PREFIX_TEXT + "</col>" +
-		        		"<col column='" + HfaRecord.ColumnAttributeText.TITLE.getColumnAttributeText() + "'>" + TITLE_TEXT + "</col>" +
-		        		"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + HFA_NUMBER + "</col>" +
+	        			VALID_PREFIX_FIELD +
+	        			VALID_TITLE_FIELD +
+		        		VALID_ITEM_NUMBER_FIELD +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.DIRECTOR.getColumnAttributeText() + "'>" + FILM_DIRECTOR + "</col>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.COLLECTION.getColumnAttributeText() + "'>" + COLLECTION + "</col>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.EDITOR.getColumnAttributeText() + "'>" + EDITOR + "</col>" +
@@ -113,7 +115,7 @@ public class HfaTestData {
 	public static final String VALID_FILM_GENRES = 
 	        "<HFA-data>" +
 	        		"<row>" +
-		        		"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + HFA_NUMBER + "</col>" +
+	        			VALID_ITEM_NUMBER_FIELD +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.FICTION.getColumnAttributeText() + "'>" + FICTION_GENRE + "</col>" +
 		        		"<col column=\"" + HfaRecord.ColumnAttributeText.SHORT.getColumnAttributeText() + "\">" + SHORT_GENRE + "</col>" + // must use double quote since SHORT_GENRE value contains a single quote
 	        		"</row>" +
@@ -122,7 +124,7 @@ public class HfaTestData {
 	public static final String VALID_FILM_GENRE_WITH_KEYWORD = 
 	        "<HFA-data>" +
 	        		"<row>" +
-		        		"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + HFA_NUMBER + "</col>" +
+	        			VALID_ITEM_NUMBER_FIELD +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.FICTION.getColumnAttributeText() + "'>" + ENTRY_NOT_IN_CONCORDANCE + "</col>" +
 		        		"<col column=\"" + HfaRecord.ColumnAttributeText.SHORT.getColumnAttributeText() + "\">" + FICTION_GENRE + "</col>" + // must use double quote since SHORT_GENRE value contains a single quote
 	        		"</row>" +
@@ -131,7 +133,7 @@ public class HfaTestData {
 	public static final String VALID_TWO_LINE_FILM_GENRE = 
 	        "<HFA-data>" +
 	        		"<row>" +
-		        		"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + HFA_NUMBER + "</col>" +
+	        			VALID_ITEM_NUMBER_FIELD +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.FICTION.getColumnAttributeText() + "'>" + TWO_LINE_GENRE + "</col>" +
 	        		"</row>" +
 	        "</HFA-data>";
@@ -139,7 +141,7 @@ public class HfaTestData {
 	public static final String VALID_TELEVISION_GENRES = 
 	        "<HFA-data>" +
 	        		"<row>" +
-		        		"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + HFA_NUMBER + "</col>" +
+	        			VALID_ITEM_NUMBER_FIELD +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.GENRE.getColumnAttributeText() + "'>" + TELEVISION_GENRE + "</col>" +
 		        		"<col column=\"" + HfaRecord.ColumnAttributeText.CLASSIFICATION.getColumnAttributeText() + "\">" + TELEVISION_SERIAL_GENRE + "</col>" +
 	        		"</row>" +
@@ -148,7 +150,7 @@ public class HfaTestData {
 	public static final String VALID_TELEVISION_GENRES_WITH_KEYWORD = 
 	        "<HFA-data>" +
 	        		"<row>" +
-		        		"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + HFA_NUMBER + "</col>" +
+	        			VALID_ITEM_NUMBER_FIELD +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.GENRE.getColumnAttributeText() + "'>" + TELEVISION_GENRE + "</col>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.FICTION.getColumnAttributeText() + "'>" + ENTRY_NOT_IN_CONCORDANCE + "</col>" +
 		        		"<col column=\"" + HfaRecord.ColumnAttributeText.CLASSIFICATION.getColumnAttributeText() + "\">" + TELEVISION_SERIAL_GENRE + "</col>" +
@@ -158,7 +160,7 @@ public class HfaTestData {
 	public static final String VALID_TOPIC_GENRE = 
 	        "<HFA-data>" +
 	        		"<row>" +
-		        		"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + HFA_NUMBER + "</col>" +
+	        			VALID_ITEM_NUMBER_FIELD +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.GENRE.getColumnAttributeText() + "'>" + HOLIDAY_TOPIC + "</col>" + // must use double quote since SHORT_GENRE value contains a single quote
 	        		"</row>" +
 	        "</HFA-data>";
@@ -166,7 +168,7 @@ public class HfaTestData {
 	public static final String VALID_TWO_LINE_TOPIC_GENRE = 
 	        "<HFA-data>" +
 	        		"<row>" +
-		        		"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + HFA_NUMBER + "</col>" +
+	        			VALID_ITEM_NUMBER_FIELD +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.GENRE.getColumnAttributeText() + "'>" + TWO_LINE_TOPIC_GENRE + "</col>" +
 	        		"</row>" +
 	        "</HFA-data>";
@@ -174,7 +176,7 @@ public class HfaTestData {
 	public static final String VALID_TWO_LINE_TOPIC_GENRE_KEYWORD = 
 	        "<HFA-data>" +
 	        		"<row>" +
-		        		"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + HFA_NUMBER + "</col>" +
+	        			VALID_ITEM_NUMBER_FIELD +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.GENRE.getColumnAttributeText() + "'>" + TWO_LINE_TOPIC_GENRE_AND_KEYWORD + "</col>" +
 	        		"</row>" +
 	        "</HFA-data>";
@@ -183,7 +185,7 @@ public class HfaTestData {
 	        "<HFA-data>" +
 	        		"<row>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.DIRECTOR.getColumnAttributeText() + "'>" + FILM_DIRECTOR + "</col>" +
-		        		"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + HFA_NUMBER + "</col>" +
+		        		VALID_ITEM_NUMBER_FIELD +
 	        		"</row>" +
 	        "</HFA-data>";
 	
@@ -192,16 +194,16 @@ public class HfaTestData {
 	        		"<row>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.PRODUCTION_COMPANY.getColumnAttributeText() + "'>" + PRODUCTION_COMPANIES + "</col>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.COUNTRY.getColumnAttributeText() + "'>" + COUNTRIES + "</col>" +
-		        		"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + HFA_NUMBER + "</col>" +
-		        		"<col column='" + HfaRecord.ColumnAttributeText.TITLE.getColumnAttributeText() + "'>" + TITLE_TEXT + "</col>" +
+		        		VALID_ITEM_NUMBER_FIELD +
+	        			VALID_TITLE_FIELD +
 	        		"</row>" +
 	        "</HFA-data>";
 	
 	public static final String VALID_PRICIPAL_CAST_RECORD =
 	        "<HFA-data>" +
 	        		"<row>" +
-		        		"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + HFA_NUMBER + "</col>" +
-		        		"<col column='" + HfaRecord.ColumnAttributeText.TITLE.getColumnAttributeText() + "'>" + TITLE_TEXT + "</col>" +
+	        			VALID_ITEM_NUMBER_FIELD +
+	        			VALID_TITLE_FIELD +
 		        		CAST_MEMBERS_HFA_FIELD +
 	        		"</row>" +
 	        "</HFA-data>";

@@ -22,7 +22,7 @@ public class HfaTextOnlyFieldTest extends AbstractTestClass {
     
     @Test
     public void validTitleField() throws Exception {
-    	HfaTextField hfaField = buildHfaFieldFromString(HfaTestData.VALID_TITLE, HfaRecord.ColumnAttributeText.TITLE);
+    	HfaTextField hfaField = buildHfaFieldFromString(HfaTestData.VALID_TITLE_FIELD, HfaRecord.ColumnAttributeText.TITLE);
     	String text = hfaField.getTextValue();
     	Assert.assertNotNull(text);
     	Assert.assertEquals(HfaTestData.TITLE_TEXT, text);
@@ -34,7 +34,7 @@ public class HfaTextOnlyFieldTest extends AbstractTestClass {
     @Test
     public void missingText_invalid() throws Exception {
        	expectException(RecordFieldException.class, "text value is null");
-       	buildHfaFieldFromString(HfaTestData.INVALID_TITLE_NO_TEXT, HfaRecord.ColumnAttributeText.TITLE);
+       	buildHfaFieldFromString(HfaTestData.INVALID_TITLE_NO_TEXT_FIELD, HfaRecord.ColumnAttributeText.TITLE);
     }
 
     // ----------------------------------------------------------------------

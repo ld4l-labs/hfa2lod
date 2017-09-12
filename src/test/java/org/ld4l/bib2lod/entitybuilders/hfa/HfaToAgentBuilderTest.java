@@ -44,7 +44,7 @@ public class HfaToAgentBuilderTest extends AbstractHfaTest {
         agentBuilder = builder;
         hfaRecord = buildHfaRecordFromString(HfaTestData.VALID_FILM_DIRECTOR_HFA_RECORD);
         parentEntity = new Entity(Ld4lAgentType.AGENT);
-		Element element = XmlTestUtils.buildElementFromString(HfaTestData.FILM_DIRECTOR_HFA_RECORD);
+		Element element = XmlTestUtils.buildElementFromString(HfaTestData.FILM_DIRECTOR_HFA_FIELD);
 		directorField = new HfaTextField(element);
     }
 	

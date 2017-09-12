@@ -52,7 +52,7 @@ public class HfaToActivityBuilderTest extends AbstractHfaTest {
         activityBuilder = new HfaToActivityBuilder();
         hfaRecord = buildHfaRecordFromString(HfaTestData.VALID_FULL_RECORD);
         parentEntity = new Entity(Ld4lWorkType.MOVING_IMAGE);
-        Element element = XmlTestUtils.buildElementFromString(HfaTestData.PRODUCERS_HFA_RECORD);
+        Element element = XmlTestUtils.buildElementFromString(HfaTestData.PRODUCERS_HFA_FIELD);
         field = new HfaTextField(element);
     }
 	
