@@ -88,7 +88,7 @@ public class HfaToActivityBuilder extends HfaToLd4lEntityBuilder {
     			String[] countries = commaRegex.split(countryField.getTextValue());
     			for (String country : countries) {
     				// TODO: lookup location URI in either concordance file or external service
-    				this.activityEntity.addExternalRelationship(Ld4lObjectProp.HAS_LOCATION, "http://some.country.authority/" + country.trim());
+    				this.activityEntity.addExternalRelationship(Ld4lObjectProp.HAS_LOCATION, country.trim());
     			}
     		}
     	}

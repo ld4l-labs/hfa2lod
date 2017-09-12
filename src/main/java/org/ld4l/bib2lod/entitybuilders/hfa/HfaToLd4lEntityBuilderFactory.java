@@ -11,6 +11,7 @@ import org.ld4l.bib2lod.ontology.hfa.HfaActivityType;
 import org.ld4l.bib2lod.ontology.hfa.HfaCollectionType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lActivityType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lAgentType;
+import org.ld4l.bib2lod.ontology.ld4l.Ld4lAnnotationType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lInstanceType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lTitleType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lWorkType;
@@ -26,6 +27,7 @@ public class HfaToLd4lEntityBuilderFactory extends BaseEntityBuilderFactory {
         typeToBuilder.put(Ld4lActivityType.ACTIVITY, HfaToActivityBuilder.class);
         typeToBuilder.put(Ld4lAgentType.AGENT, HfaToAgentBuilder.class);
         typeToBuilder.put(HfaCollectionType.COLLECTION, HfaToCollectionBuilder.class);
+        typeToBuilder.put(Ld4lAnnotationType.ANNOTATION, HfaToAnnotationBuilder.class);
     }
     
     @Override

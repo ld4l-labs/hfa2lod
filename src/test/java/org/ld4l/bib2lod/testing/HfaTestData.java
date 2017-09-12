@@ -39,6 +39,10 @@ public class HfaTestData {
 	public static final String COUNTRY2 = "Moldova";
 	public static final String COUNTRY3 = "Boreo";
 	public static final String COUNTRIES = COUNTRY1 + " /" + COUNTRY2 + " , " + COUNTRY3;
+	public static final String CAST1 = " Person 1 ";
+	public static final String CAST2 = "Person 2";
+	public static final String CAST3 = "Person 3";
+	public static final String CAST_MEMBERS = CAST1 + "," + CAST2 + " , " + CAST3;
 	
 
 	public static final String VALID_TITLE = 
@@ -52,7 +56,10 @@ public class HfaTestData {
 	
 	public static final String PRODUCERS_HFA_RECORD =
     		"<col column='" + HfaRecord.ColumnAttributeText.PRODUCER.getColumnAttributeText() + "'>" + PRODUCERS + "</col>";
-	
+
+	public static final String CAST_MEMBERS_HFA_FIELD =
+    		"<col column='" + HfaRecord.ColumnAttributeText.PRINCIPAL_CAST.getColumnAttributeText() + "'>" + CAST_MEMBERS + "</col>";
+
 	public static final String VALID_TITLE_HFA_RECORD = 
 	        "<HFA-data>" +
 	        		"<row>" +
@@ -99,6 +106,7 @@ public class HfaTestData {
 		        		"<col column='" + HfaRecord.ColumnAttributeText.COLLECTION.getColumnAttributeText() + "'>" + COLLECTION + "</col>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.EDITOR.getColumnAttributeText() + "'>" + EDITOR + "</col>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.PRODUCER.getColumnAttributeText() + "'>" + PRODUCERS + "</col>" +
+		        		CAST_MEMBERS_HFA_FIELD +
 	        		"</row>" +
 	        "</HFA-data>";
 	
@@ -186,6 +194,15 @@ public class HfaTestData {
 		        		"<col column='" + HfaRecord.ColumnAttributeText.COUNTRY.getColumnAttributeText() + "'>" + COUNTRIES + "</col>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + HFA_NUMBER + "</col>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.TITLE.getColumnAttributeText() + "'>" + TITLE_TEXT + "</col>" +
+	        		"</row>" +
+	        "</HFA-data>";
+	
+	public static final String VALID_PRICIPAL_CAST_RECORD =
+	        "<HFA-data>" +
+	        		"<row>" +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + HFA_NUMBER + "</col>" +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.TITLE.getColumnAttributeText() + "'>" + TITLE_TEXT + "</col>" +
+		        		CAST_MEMBERS_HFA_FIELD +
 	        		"</row>" +
 	        "</HFA-data>";
 }

@@ -32,6 +32,7 @@ public class HfaRecord extends BaseXmlRecord {
     	ITEM_NUMBER("Item number"),
     	NON_FICTION("Non Fiction"),
     	PREFIX("prefix"),
+    	PRINCIPAL_CAST("Principal Cast"),
     	PRODUCER("Producer"),
     	PRODUCTION_COMPANY("Production Company"),
     	SCRIPT("Script"),

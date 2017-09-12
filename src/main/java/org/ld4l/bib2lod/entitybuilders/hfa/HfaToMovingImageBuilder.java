@@ -16,7 +16,9 @@ import org.ld4l.bib2lod.externalbuilders.HfaToTopicConcordanceBuilder;
 import org.ld4l.bib2lod.ontology.Type;
 import org.ld4l.bib2lod.ontology.hfa.HarvardType;
 import org.ld4l.bib2lod.ontology.hfa.HfaActivityType;
+import org.ld4l.bib2lod.ontology.hfa.HfaNamedIndividual;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lActivityType;
+import org.ld4l.bib2lod.ontology.ld4l.Ld4lAnnotationType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lDatatypeProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lInstanceType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lObjectProp;
@@ -33,6 +35,7 @@ public class HfaToMovingImageBuilder extends HfaToLd4lEntityBuilder {
     
     private HfaRecord record;
     private Entity work;
+    private HfaTextField principalCastField;
     
     private static Pattern commaRegex;
     
@@ -68,6 +71,7 @@ public class HfaToMovingImageBuilder extends HfaToLd4lEntityBuilder {
         buildInstances();
         addIdentifiers();
         buildActivies();
+        buildPricipalCastAnnotation();
         try {
 			addGenres();
 			addTopics();
@@ -131,6 +135,21 @@ public class HfaToMovingImageBuilder extends HfaToLd4lEntityBuilder {
                 .setRecord(record)
                 .setParent(work);        
         builder.build(params);
+    }
+    
+    private void buildPricipalCastAnnotation() throws EntityBuilderException {
+    	
+    	HfaTextField principalCastField = record.getField(ColumnAttributeText.PRINCIPAL_CAST);
+    	if (principalCastField == null) {
+    		return;
+    	}
+    	
+    	EntityBuilder builder = getBuilder(Ld4lAnnotationType.ANNOTATION);
+    	BuildParams params = new BuildParams()
+    			.setParent(work)
+    			.setField(principalCastField)
+    			.setNamedIndividual(HfaNamedIndividual.LISTING_CREDITS);        
+    	builder.build(params);
     }
 
     private void buildActivies() throws EntityBuilderException {
