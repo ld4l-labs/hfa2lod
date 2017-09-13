@@ -114,6 +114,7 @@ public class HfaToGenreConcordanceBuilder implements ConcordanceReferenceBuilder
         	String[] tokenizedFieldText = fieldText.split(NEW_LINE);
         	Set<String> tokenizedTextSet = new HashSet<String>(Arrays.asList(tokenizedFieldText));
         	for (String token : tokenizedTextSet) {
+        		token = token.trim();
         		ExternalUriBean concordanceBean = concordanceManager.getConcordanceEntry(token);
         		if (concordanceBean != null) {
         			// for concordance matches add external relationship to corresponding URI
