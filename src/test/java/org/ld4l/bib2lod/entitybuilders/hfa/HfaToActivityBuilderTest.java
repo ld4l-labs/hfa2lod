@@ -8,6 +8,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.ld4l.bib2lod.datatypes.Ld4lCustomDatatypes.BibDatatype;
 import org.ld4l.bib2lod.entity.Attribute;
 import org.ld4l.bib2lod.entity.Entity;
 import org.ld4l.bib2lod.entitybuilders.BuildParams;
@@ -27,7 +28,6 @@ import org.ld4l.bib2lod.testing.BaseMockBib2LodObjectFactory;
 import org.ld4l.bib2lod.testing.HfaTestData;
 import org.ld4l.bib2lod.testing.xml.XmlTestUtils;
 import org.w3c.dom.Element;
-import org.xml.sax.Attributes;
 
 /**
  * Tests the HfaToActivityBuilder class.
@@ -81,7 +81,7 @@ public class HfaToActivityBuilderTest extends AbstractHfaTest {
 	}
 	
 	@Test
-	public void validProductionCompanyRecordMultipleCountries() throws Exception {
+	public void validProductionCompanyRecord() throws Exception {
 
         hfaRecord = buildHfaRecordFromString(HfaTestData.VALID_PRODUCTION_COMPANY_HFA_RECORD);
 
@@ -89,21 +89,107 @@ public class HfaToActivityBuilderTest extends AbstractHfaTest {
 				.setRecord(hfaRecord)
 				.setParent(parentEntity)
 				.setType(HfaActivityType.PRODUCTION_COMPANY_ACTIVITY)
-				.setValue(HfaTestData.COUNTRIES);
+				.setValue(HfaTestData.PRODUCTION_COMPANY1);
 		
 		Entity activityEntity = activityBuilder.build(params);
 
 		Assert.assertNotNull(activityEntity);
-		List<Type> types = activityEntity.getTypes();
-		Assert.assertNotNull(types);
-		Assert.assertTrue(types.contains(HfaActivityType.PRODUCTION_COMPANY_ACTIVITY));
+		Type type = activityEntity.getType();
+		Assert.assertNotNull(type);
+		Assert.assertEquals(HfaActivityType.PRODUCTION_COMPANY_ACTIVITY, type);
+		List<Entity> agentEntities = activityEntity.getChildren(Ld4lObjectProp.HAS_AGENT);
+		Assert.assertEquals(1, agentEntities.size());
+		Entity agentEntity = agentEntities.get(0);
+		Assert.assertEquals(HfaTestData.PRODUCTION_COMPANY1, agentEntity.getAttribute(Ld4lDatatypeProp.LABEL).getValue());
+	}
+	
+	@Test
+	public void validProviderRecord() throws Exception {
 
-		List<String> countries = activityEntity.getExternals(Ld4lObjectProp.HAS_LOCATION);
-		Assert.assertNotNull(countries);
-		Assert.assertEquals(3, countries.size());
-		Assert.assertTrue(countries.contains(HfaTestData.COUNTRY1));
-		Assert.assertTrue(countries.contains(HfaTestData.COUNTRY2));
-		Assert.assertTrue(countries.contains(HfaTestData.COUNTRY3));
+        hfaRecord = buildHfaRecordFromString(HfaTestData.VALID_COUNTRIES_AND_YEAR_RECORD);
+
+		BuildParams params = new BuildParams()
+				.setRecord(hfaRecord)
+				.setParent(parentEntity)
+				.setType(HfaActivityType.PROVIDER_ACTIVITY)
+				.setValue(null);
+		
+		Entity activityEntity = activityBuilder.build(params);
+
+		Assert.assertNotNull(activityEntity);
+		Type type = activityEntity.getType();
+		Assert.assertNotNull(type);
+		Assert.assertEquals(HfaActivityType.PROVIDER_ACTIVITY, type);
+		List<Entity> agentEntities = activityEntity.getChildren(Ld4lObjectProp.HAS_AGENT);
+		Assert.assertEquals(0, agentEntities.size());
+		
+		Attribute dateAttr = activityEntity.getAttribute(Ld4lDatatypeProp.DATE);
+		Assert.assertNotNull(dateAttr);
+		Assert.assertEquals(HfaTestData.YEAR_OF_RELEASE, dateAttr.getValue());
+		Assert.assertEquals(BibDatatype.EDTF, dateAttr.getDatatype());
+		
+		List<String> locations = activityEntity.getExternals(Ld4lObjectProp.HAS_LOCATION);
+		Assert.assertEquals(3, locations.size());
+	}
+	
+	@Test
+	public void missingYearAndLocationProviderRecord() throws Exception {
+
+        hfaRecord = buildHfaRecordFromString(HfaTestData.VALID_TITLE_HFA_RECORD);
+
+		BuildParams params = new BuildParams()
+				.setRecord(hfaRecord)
+				.setParent(parentEntity)
+				.setType(HfaActivityType.PROVIDER_ACTIVITY)
+				.setValue(null);
+		
+		Entity activityEntity = activityBuilder.build(params);
+		Assert.assertNull(activityEntity);
+	}
+	
+	@Test
+	public void yearOnlyProviderRecord() throws Exception {
+
+        hfaRecord = buildHfaRecordFromString(HfaTestData.VALID_YEAR_ONLY_RECORD);
+
+		BuildParams params = new BuildParams()
+				.setRecord(hfaRecord)
+				.setParent(parentEntity)
+				.setType(HfaActivityType.PROVIDER_ACTIVITY)
+				.setValue(null);
+		
+		Entity activityEntity = activityBuilder.build(params);
+		Assert.assertNotNull(activityEntity);
+		Attribute dateAttr = activityEntity.getAttribute(Ld4lDatatypeProp.DATE);
+		Assert.assertNotNull(dateAttr);
+		Assert.assertEquals(HfaTestData.YEAR_OF_RELEASE, dateAttr.getValue());
+		Assert.assertEquals(BibDatatype.EDTF, dateAttr.getDatatype());
+		
+		List<String> locations = activityEntity.getExternals(Ld4lObjectProp.HAS_LOCATION);
+		Assert.assertEquals(0, locations.size());
+	}
+	
+	@Test
+	public void locationOnlyProviderRecord() throws Exception {
+
+        hfaRecord = buildHfaRecordFromString(HfaTestData.VALID_COUNTRY_ONLY_RECORD);
+
+		BuildParams params = new BuildParams()
+				.setRecord(hfaRecord)
+				.setParent(parentEntity)
+				.setType(HfaActivityType.PROVIDER_ACTIVITY)
+				.setValue(null);
+		
+		Entity activityEntity = activityBuilder.build(params);
+		Assert.assertNotNull(activityEntity);
+		
+		List<String> locations = activityEntity.getExternals(Ld4lObjectProp.HAS_LOCATION);
+		Assert.assertEquals(1, locations.size());
+		String location = locations.get(0);
+		Assert.assertEquals(HfaTestData.COUNTRY1, location);
+
+		Attribute dateAttr = activityEntity.getAttribute(Ld4lDatatypeProp.DATE);
+		Assert.assertNull(dateAttr);
 	}
 	
 	@Test
@@ -143,7 +229,7 @@ public class HfaToActivityBuilderTest extends AbstractHfaTest {
 	}
 	
 	@Test
-	public void nullHfaField_ThrowsException() throws Exception {
+	public void nullValue_ThrowsException() throws Exception {
 		expectException(EntityBuilderException.class, "A field text value is required to build an Activity.");
 		BuildParams params = new BuildParams()
 				.setRecord(hfaRecord)

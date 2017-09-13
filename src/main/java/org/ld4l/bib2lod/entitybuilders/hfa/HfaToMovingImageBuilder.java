@@ -160,7 +160,6 @@ public class HfaToMovingImageBuilder extends HfaToLd4lEntityBuilder {
         for (ColumnAttributeText column : activityColumns) {
         	HfaTextField field = record.getField(column);
             if (field == null) {
-            	LOGGER.debug("No field for [{}]", column.getColumnAttributeText());
             	continue;
             }
             
@@ -186,6 +185,21 @@ public class HfaToMovingImageBuilder extends HfaToLd4lEntityBuilder {
             	builder.build(params);
             }
         }
+        
+        // Add ProviderActivity separately since it depends on 2 data, not one,
+        // only if both fields are non-null.
+		HfaTextField yearOfReleaseField = record.getField(ColumnAttributeText.YEAR_OF_RELEASE);
+		HfaTextField countryField = record.getField(ColumnAttributeText.COUNTRY);
+		if ( !(yearOfReleaseField == null && countryField == null) ) {
+			Type activityType = HfaActivityType.PROVIDER_ACTIVITY;
+        	BuildParams params = new BuildParams()
+        			.setRecord(record)
+        			.setParent(work)
+        			.setType(activityType);
+        	builder.build(params);
+		} else {
+			LOGGER.debug("Both Country and Year of Release fields are null -- not building Activity.");
+		}
     }
     
     /*

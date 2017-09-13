@@ -19,7 +19,6 @@ import org.ld4l.bib2lod.entitybuilders.EntityBuilderFactory;
 import org.ld4l.bib2lod.ontology.Type;
 import org.ld4l.bib2lod.ontology.hfa.HarvardType;
 import org.ld4l.bib2lod.ontology.hfa.HfaActivityType;
-import org.ld4l.bib2lod.ontology.ld4l.Ld4lAgentType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lAnnotationType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lDatatypeProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lObjectProp;
@@ -81,7 +80,7 @@ public class HfaToMovingImageBuilderTest extends AbstractHfaTest {
 		
 		List<Entity> activityEntities = movingImageEntity.getChildren(Ld4lObjectProp.HAS_ACTIVITY);
 		Assert.assertNotNull(activityEntities);
-		Assert.assertEquals(3, activityEntities.size());
+		Assert.assertEquals(4, activityEntities.size());
 		
 		Entity activityEntity = movingImageEntity.getChild(Ld4lObjectProp.HAS_ACTIVITY, HfaActivityType.DIRECTOR_ACTIVITY);
 		List<Entity> agentEntities = activityEntity.getChildren(Ld4lObjectProp.HAS_AGENT);
@@ -152,9 +151,31 @@ public class HfaToMovingImageBuilderTest extends AbstractHfaTest {
 		Assert.assertNotNull(activityEntities);
 		Assert.assertEquals(3, activityEntities.size());
 		Entity productionCompany = activityEntities.get(0);
-		Assert.assertTrue(HfaTestData.PRODUCTION_COMPANIES.contains(productionCompany.getAttribute(Ld4lDatatypeProp.LABEL).getValue()));
-		Assert.assertTrue(HfaTestData.PRODUCTION_COMPANIES.contains(activityEntities.get(1).getAttribute(Ld4lDatatypeProp.LABEL).getValue()));
-		Assert.assertTrue(HfaTestData.PRODUCTION_COMPANIES.contains(activityEntities.get(2).getAttribute(Ld4lDatatypeProp.LABEL).getValue()));
+		Type type = productionCompany.getType();
+		Assert.assertNotNull(type);
+		Assert.assertEquals(HfaActivityType.PRODUCTION_COMPANY_ACTIVITY, type);
+		List<Entity> agentEntities = productionCompany.getChildren(Ld4lObjectProp.HAS_AGENT);
+		Assert.assertEquals(1, agentEntities.size());
+		Entity agentEntity = agentEntities.get(0);
+		Assert.assertEquals(HfaTestData.PRODUCTION_COMPANY1, agentEntity.getAttribute(Ld4lDatatypeProp.LABEL).getValue());
+
+		productionCompany = activityEntities.get(1);
+		type = productionCompany.getType();
+		Assert.assertNotNull(type);
+		Assert.assertEquals(HfaActivityType.PRODUCTION_COMPANY_ACTIVITY, type);
+		agentEntities = productionCompany.getChildren(Ld4lObjectProp.HAS_AGENT);
+		Assert.assertEquals(1, agentEntities.size());
+		agentEntity = agentEntities.get(0);
+		Assert.assertEquals(HfaTestData.PRODUCTION_COMPANY2, agentEntity.getAttribute(Ld4lDatatypeProp.LABEL).getValue());
+		
+		productionCompany = activityEntities.get(2);
+		type = productionCompany.getType();
+		Assert.assertNotNull(type);
+		Assert.assertEquals(HfaActivityType.PRODUCTION_COMPANY_ACTIVITY, type);
+		agentEntities = productionCompany.getChildren(Ld4lObjectProp.HAS_AGENT);
+		Assert.assertEquals(1, agentEntities.size());
+		agentEntity = agentEntities.get(0);
+		Assert.assertEquals(HfaTestData.PRODUCTION_COMPANY3, agentEntity.getAttribute(Ld4lDatatypeProp.LABEL).getValue());
 	}
 	
 	@Test

@@ -117,7 +117,7 @@ public class HfaToAgentBuilderTest extends AbstractHfaTest {
 	}
 	
 	@Test
-	public void nullValue_noDirector() throws Exception {
+	public void nullValue_noDirector_throwsException() throws Exception {
 		expectException(EntityBuilderException.class, "A value is required containing the agent name.");
 		hfaRecord = buildHfaRecordFromString(HfaTestData.VALID_TITLE_HFA_RECORD);
 		

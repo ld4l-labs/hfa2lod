@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.ld4l.bib2lod.datatypes.Ld4lCustomDatatypes.BibDatatype;
 import org.ld4l.bib2lod.entity.Attribute;
 import org.ld4l.bib2lod.entity.Entity;
 import org.ld4l.bib2lod.entitybuilders.BuildParams;
@@ -17,6 +18,7 @@ import org.ld4l.bib2lod.ontology.ld4l.Ld4lObjectProp;
 import org.ld4l.bib2lod.record.xml.hfa.HfaRecord;
 import org.ld4l.bib2lod.record.xml.hfa.HfaRecord.ColumnAttributeText;
 import org.ld4l.bib2lod.record.xml.hfa.HfaTextField;
+import org.ld4l.bib2lod.util.Hfa2LodDateUtils;
 
 /**
  * Builds an Activity Entity.
@@ -25,7 +27,7 @@ public class HfaToActivityBuilder extends HfaToLd4lEntityBuilder {
 
     private HfaRecord record;
     private Entity activityEntity;
-    private String agentFieldText;
+    private String agentText;
     
     private static Pattern commaRegex;
 
@@ -62,48 +64,67 @@ public class HfaToActivityBuilder extends HfaToLd4lEntityBuilder {
             throw new EntityBuilderException(
                     "A Type is required to build an Activity.");
         }
-        
-        this.agentFieldText = params.getValue();
-        if (agentFieldText == null) {
-            throw new EntityBuilderException(
-                    "A field text value is required to build an Activity.");
-        }
+
+        this.agentText = params.getValue();
 
         this.activityEntity = new Entity(activityType);
         this.activityEntity.addAttribute(Ld4lDatatypeProp.LABEL,
         		new Attribute(activityType.label()));
     	parentEntity.addRelationship(Ld4lObjectProp.HAS_ACTIVITY, this.activityEntity);
     	
-    	// date and location are only specific to a certain Activity
-    	if (HfaActivityType.PRODUCTION_COMPANY_ACTIVITY.equals(activityType)) {
+    	// Date and location are only specific to a Provider Activity while, at the same time,
+    	// there are no Agents to add.
+    	if (HfaActivityType.PROVIDER_ACTIVITY.equals(activityType)) {
     		HfaTextField dateField = this.record.getField(ColumnAttributeText.YEAR_OF_RELEASE);
-    		if (dateField != null) {
-    			this.activityEntity.addAttribute(Ld4lDatatypeProp.DATE, dateField.getTextValue());
+    		HfaTextField countryField = this.record.getField(ColumnAttributeText.COUNTRY);
+    		if (dateField == null && countryField == null) {
+    			return null;
     		}
     		
-    		HfaTextField countryField = this.record.getField(ColumnAttributeText.COUNTRY);
+    		if (dateField != null) {
+    			String dateText = dateField.getTextValue();
+    			if (Hfa2LodDateUtils.isCircaDate(dateText)) {
+    				dateText = Hfa2LodDateUtils.convertCircaDateToISOStandard(dateText);
+    			} else {
+    				dateText = dateText.trim();
+    			}
+    			this.activityEntity.addAttribute(Ld4lDatatypeProp.DATE, dateText, BibDatatype.EDTF);
+    		}
+    		
     		// parse possible multiple country names
     		if (countryField != null) {
     			// FIXME: need to look up country URI, not the country String value.
-    			String[] countries = commaRegex.split(countryField.getTextValue());
-    			for (String country : countries) {
+    			String[] locations = commaRegex.split(countryField.getTextValue());
+    			for (String location : locations) {
     				// TODO: lookup location URI in either concordance file or external service
-    				this.activityEntity.addExternalRelationship(Ld4lObjectProp.HAS_LOCATION, country.trim());
+    				this.activityEntity.addExternalRelationship(Ld4lObjectProp.HAS_LOCATION, location.trim());
     			}
     		}
+    	} else {
+            
+            // An agent text value is needed for all Activity types except PROVIDER_ACTIVITY so
+    		// that Agent(s) can be added.
+            if (agentText == null) {
+                throw new EntityBuilderException(
+                        "A field text value is required to build an Activity.");
+            }
+            
+            addAgents();
     	}
-        
-        addAgents();
        
         return this.activityEntity;
     }
     
     private void addAgents() throws EntityBuilderException {
         
+    	if (agentText == null) {
+    		return;
+    	}
+    	
         EntityBuilder builder = getBuilder(Ld4lAgentType.AGENT);
         
         // tokenize possible comma-separated names
-        String[] names = commaRegex.split(agentFieldText);
+        String[] names = commaRegex.split(agentText);
         for (String n : names) {
         	String name = n.trim();
 

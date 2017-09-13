@@ -38,6 +38,7 @@ public class HfaTestData {
 	public static final String COUNTRY1 = "Upper Volta";
 	public static final String COUNTRY2 = "Moldova";
 	public static final String COUNTRY3 = "Boreo";
+	public static final String YEAR_OF_RELEASE = "1999";
 	public static final String COUNTRIES = COUNTRY1 + " /" + COUNTRY2 + " , " + COUNTRY3;
 	public static final String CAST1 = " Person 1 ";
 	public static final String CAST2 = "Person 2";
@@ -64,6 +65,12 @@ public class HfaTestData {
 
 	public static final String CAST_MEMBERS_HFA_FIELD =
     		"<col column='" + HfaRecord.ColumnAttributeText.PRINCIPAL_CAST.getColumnAttributeText() + "'>" + CAST_MEMBERS + "</col>";
+
+	public static final String YEAR_OF_RELEASE_FIELD =
+    		"<col column='" + HfaRecord.ColumnAttributeText.YEAR_OF_RELEASE.getColumnAttributeText() + "'>" + YEAR_OF_RELEASE + "</col>";
+
+	public static final String COUNTRY1_FIELD =
+    		"<col column='" + HfaRecord.ColumnAttributeText.COUNTRY.getColumnAttributeText() + "'>" + COUNTRY1 + "</col>";
 
 	public static final String VALID_TITLE_HFA_RECORD = 
 	        "<HFA-data>" +
@@ -109,6 +116,8 @@ public class HfaTestData {
 		        		"<col column='" + HfaRecord.ColumnAttributeText.EDITOR.getColumnAttributeText() + "'>" + EDITOR + "</col>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.PRODUCER.getColumnAttributeText() + "'>" + PRODUCERS + "</col>" +
 		        		CAST_MEMBERS_HFA_FIELD +
+		        		YEAR_OF_RELEASE_FIELD +
+		        		COUNTRY1_FIELD +
 	        		"</row>" +
 	        "</HFA-data>";
 	
@@ -192,10 +201,37 @@ public class HfaTestData {
 	public static final String VALID_PRODUCTION_COMPANY_HFA_RECORD = 
 	        "<HFA-data>" +
 	        		"<row>" +
-		        		"<col column='" + HfaRecord.ColumnAttributeText.PRODUCTION_COMPANY.getColumnAttributeText() + "'>" + PRODUCTION_COMPANIES + "</col>" +
-		        		"<col column='" + HfaRecord.ColumnAttributeText.COUNTRY.getColumnAttributeText() + "'>" + COUNTRIES + "</col>" +
 		        		VALID_ITEM_NUMBER_FIELD +
-	        			VALID_TITLE_FIELD +
+		        		VALID_TITLE_FIELD +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.PRODUCTION_COMPANY.getColumnAttributeText() + "'>" + PRODUCTION_COMPANIES + "</col>" +
+	        		"</row>" +
+	        "</HFA-data>";
+	
+	public static final String VALID_COUNTRIES_AND_YEAR_RECORD = 
+	        "<HFA-data>" +
+	        		"<row>" +
+		        		VALID_ITEM_NUMBER_FIELD +
+		        		VALID_TITLE_FIELD +
+		        		YEAR_OF_RELEASE_FIELD +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.COUNTRY.getColumnAttributeText() + "'>" + COUNTRIES + "</col>" +
+	        		"</row>" +
+	        "</HFA-data>";
+	
+	public static final String VALID_YEAR_ONLY_RECORD = 
+	        "<HFA-data>" +
+	        		"<row>" +
+		        		VALID_ITEM_NUMBER_FIELD +
+		        		VALID_TITLE_FIELD +
+		        		YEAR_OF_RELEASE_FIELD +
+	        		"</row>" +
+	        "</HFA-data>";
+	
+	public static final String VALID_COUNTRY_ONLY_RECORD = 
+	        "<HFA-data>" +
+	        		"<row>" +
+		        		VALID_ITEM_NUMBER_FIELD +
+		        		VALID_TITLE_FIELD +
+		        		COUNTRY1_FIELD +
 	        		"</row>" +
 	        "</HFA-data>";
 	
