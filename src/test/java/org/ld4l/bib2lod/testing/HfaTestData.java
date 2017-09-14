@@ -60,8 +60,8 @@ public class HfaTestData {
 	public static final String FILM_DIRECTOR_HFA_FIELD = 
     		"<col column='" + HfaRecord.ColumnAttributeText.DIRECTOR.getColumnAttributeText() + "'>" + FILM_DIRECTOR + "</col>";
 	
-	public static final String PRODUCERS_HFA_FIELD =
-    		"<col column='" + HfaRecord.ColumnAttributeText.PRODUCER.getColumnAttributeText() + "'>" + PRODUCERS + "</col>";
+	public static final String PRODUCER1_HFA_FIELD =
+    		"<col column='" + HfaRecord.ColumnAttributeText.PRODUCER.getColumnAttributeText() + "'>" + PRODUCER1 + "</col>";
 
 	public static final String CAST_MEMBERS_HFA_FIELD =
     		"<col column='" + HfaRecord.ColumnAttributeText.PRINCIPAL_CAST.getColumnAttributeText() + "'>" + CAST_MEMBERS + "</col>";

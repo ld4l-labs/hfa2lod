@@ -109,31 +109,24 @@ public class HfaToActivityBuilder extends HfaToLd4lEntityBuilder {
                         "A field text value is required to build an Activity.");
             }
             
-            addAgents();
+            addAgent();
     	}
        
         return this.activityEntity;
     }
     
-    private void addAgents() throws EntityBuilderException {
+    private void addAgent() throws EntityBuilderException {
         
     	if (agentText == null) {
     		return;
     	}
     	
         EntityBuilder builder = getBuilder(Ld4lAgentType.AGENT);
-        
-        // tokenize possible comma-separated names
-        String[] names = commaRegex.split(agentText);
-        for (String n : names) {
-        	String name = n.trim();
-
-        	BuildParams params = new BuildParams()
-        			.setRecord(record)
-        			.setParent(activityEntity)
-        			.setValue(name);        
-        	builder.build(params);
-        }
+    	BuildParams params = new BuildParams()
+    			.setRecord(record)
+    			.setParent(activityEntity)
+    			.setValue(agentText.trim());
+    	builder.build(params);
     }
     
 }

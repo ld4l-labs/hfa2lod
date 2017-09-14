@@ -165,25 +165,16 @@ public class HfaToMovingImageBuilder extends HfaToLd4lEntityBuilder {
             
             Type activityType = getTypeFromColumn(column);
             
-            // create an Activity for each production company
-            if (HfaActivityType.PRODUCTION_COMPANY_ACTIVITY.equals(activityType)) {
-            	String[] productionCompanies = commaRegex.split(field.getTextValue());
-            	for (String prodCompany : productionCompanies) {
-                    BuildParams params = new BuildParams()
-                            .setRecord(record)
-                            .setParent(work)
-                            .setType(activityType)
-                            .setValue(prodCompany);
-                    builder.build(params);
-            	}
-            } else {
-            	BuildParams params = new BuildParams()
-            			.setRecord(record)
-            			.setParent(work)
-            			.setType(activityType)
-            			.setValue(field.getTextValue());
-            	builder.build(params);
-            }
+            // create an Activity for each comma- or slash-separated value
+        	String[] fieldTextValues = commaRegex.split(field.getTextValue());
+        	for (String value : fieldTextValues) {
+                BuildParams params = new BuildParams()
+                        .setRecord(record)
+                        .setParent(work)
+                        .setType(activityType)
+                        .setValue(value); // this value will become an Agent
+                builder.build(params);
+        	}
         }
         
         // Add ProviderActivity separately since it depends on 2 data, not one,

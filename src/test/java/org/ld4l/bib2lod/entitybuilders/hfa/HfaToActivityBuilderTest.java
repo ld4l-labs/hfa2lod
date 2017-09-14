@@ -52,7 +52,7 @@ public class HfaToActivityBuilderTest extends AbstractHfaTest {
         activityBuilder = new HfaToActivityBuilder();
         hfaRecord = buildHfaRecordFromString(HfaTestData.VALID_FULL_RECORD);
         parentEntity = new Entity(Ld4lWorkType.MOVING_IMAGE);
-        Element element = XmlTestUtils.buildElementFromString(HfaTestData.PRODUCERS_HFA_FIELD);
+        Element element = XmlTestUtils.buildElementFromString(HfaTestData.PRODUCER1_HFA_FIELD);
         field = new HfaTextField(element);
     }
 	
@@ -77,7 +77,8 @@ public class HfaToActivityBuilderTest extends AbstractHfaTest {
 		
 		List<Entity> agents = activityEntity.getChildren(Ld4lObjectProp.HAS_AGENT);
 		Assert.assertNotNull(agents);
-		Assert.assertEquals(2, agents.size());
+		Assert.assertEquals(1, agents.size());
+		Entity agent = agents.get(0);
 	}
 	
 	@Test

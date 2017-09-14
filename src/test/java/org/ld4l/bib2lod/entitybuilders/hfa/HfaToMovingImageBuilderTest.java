@@ -80,7 +80,7 @@ public class HfaToMovingImageBuilderTest extends AbstractHfaTest {
 		
 		List<Entity> activityEntities = movingImageEntity.getChildren(Ld4lObjectProp.HAS_ACTIVITY);
 		Assert.assertNotNull(activityEntities);
-		Assert.assertEquals(4, activityEntities.size());
+		Assert.assertEquals(5, activityEntities.size());
 		
 		Entity activityEntity = movingImageEntity.getChild(Ld4lObjectProp.HAS_ACTIVITY, HfaActivityType.DIRECTOR_ACTIVITY);
 		List<Entity> agentEntities = activityEntity.getChildren(Ld4lObjectProp.HAS_AGENT);
@@ -98,7 +98,7 @@ public class HfaToMovingImageBuilderTest extends AbstractHfaTest {
 		Assert.assertNotNull(activityEntity);
 		agentEntities = activityEntity.getChildren(Ld4lObjectProp.HAS_AGENT);
 		Assert.assertNotNull(agentEntities);
-		Assert.assertEquals(2, agentEntities.size());
+		Assert.assertEquals(1, agentEntities.size());
 		
 		Entity identifierEntity = movingImageEntity.getChild(Ld4lObjectProp.IDENTIFIED_BY);
 		Assert.assertNotNull(identifierEntity);
