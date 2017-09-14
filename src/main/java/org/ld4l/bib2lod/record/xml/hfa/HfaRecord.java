@@ -29,7 +29,9 @@ public class HfaRecord extends BaseXmlRecord {
     	EDITOR("Editor"),
     	FICTION("Fiction"),
     	GENRE("Genre"),
+    	INTERTITLES_LANGUAGE("Intertitle Language"),
     	ITEM_NUMBER("Item number"),
+    	LANGUAGE("Language"),
     	NON_FICTION("Non Fiction"),
     	PREFIX("prefix"),
     	PRINCIPAL_CAST("Principal Cast"),
@@ -37,6 +39,7 @@ public class HfaRecord extends BaseXmlRecord {
     	PRODUCTION_COMPANY("Production Company"),
     	SCRIPT("Script"),
     	SHORT("short'"), // yes, this is the column name with the single quote
+    	SUBTITLES_LANGUAGE("Subtitle Language"),
     	TITLE("Original Titles"),
     	YEAR_OF_RELEASE("Year of Release");
         

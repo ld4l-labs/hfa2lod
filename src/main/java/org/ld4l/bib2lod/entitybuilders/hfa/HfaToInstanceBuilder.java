@@ -6,10 +6,13 @@ import org.ld4l.bib2lod.entity.Entity;
 import org.ld4l.bib2lod.entitybuilders.BuildParams;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilder;
 import org.ld4l.bib2lod.ontology.hfa.HfaCollectionType;
+import org.ld4l.bib2lod.ontology.hfa.HfaObjectProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lInstanceType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lObjectProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lTitleType;
 import org.ld4l.bib2lod.record.xml.hfa.HfaRecord;
+import org.ld4l.bib2lod.record.xml.hfa.HfaTextField;
+import org.ld4l.bib2lod.record.xml.hfa.HfaRecord.ColumnAttributeText;
 
 /**
  * Builds an Instance individual from a Record.
@@ -40,6 +43,7 @@ public class HfaToInstanceBuilder extends HfaToLd4lEntityBuilder {
         
         buildTitle();
         buildCollection();
+        addLanguages();
         
         work.addRelationship(Ld4lObjectProp.HAS_INSTANCE, instance);
         
@@ -62,6 +66,31 @@ public class HfaToInstanceBuilder extends HfaToLd4lEntityBuilder {
                 .setRecord(record)
                 .setParent(instance);
         builder.build(params);
+    }
+    
+    private void addLanguages() {
+    	
+    	// FIXME: values should pull from a concordance file
+    	HfaTextField field = record.getField(ColumnAttributeText.LANGUAGE);
+    	if (field != null) {
+    		// String uri = concordance.getLanguage(field.field.getTextValue().trim()
+    		// if (uri != null) { add external relationship, otherwise do nothing }
+    		instance.addExternalRelationship(Ld4lObjectProp.HAS_LANGUAGE, field.getTextValue());
+    	}
+    	
+    	field = record.getField(ColumnAttributeText.SUBTITLES_LANGUAGE);
+    	if (field != null) {
+    		// String uri = concordance.getLanguage(field.field.getTextValue().trim()
+    		// if (uri != null) { add external relationship, otherwise do nothing }
+    		instance.addExternalRelationship(HfaObjectProp.HAS_SUBTITLE_LANGUAGE, field.getTextValue());
+    	}
+    	
+    	field = record.getField(ColumnAttributeText.INTERTITLES_LANGUAGE);
+    	if (field != null) {
+    		// String uri = concordance.getLanguage(field.field.getTextValue().trim()
+    		// if (uri != null) { add external relationship, otherwise do nothing }
+    		instance.addExternalRelationship(HfaObjectProp.HAS_INTERTITLE_LANGUAGE, field.getTextValue());
+    	}
     }
 
 }

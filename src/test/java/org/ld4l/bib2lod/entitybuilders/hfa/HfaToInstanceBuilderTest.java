@@ -10,6 +10,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.ld4l.bib2lod.caching.CachingService;
 import org.ld4l.bib2lod.caching.MapCachingService;
+import org.ld4l.bib2lod.entity.Attribute;
 import org.ld4l.bib2lod.entity.Entity;
 import org.ld4l.bib2lod.entitybuilders.BuildParams;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilder;
@@ -75,6 +76,18 @@ public class HfaToInstanceBuilderTest extends AbstractHfaTest {
 		
 		Entity collectionEntity = instanceEntity.getChild(HfaObjectProp.IS_PART_OF);
 		Assert.assertNotNull(collectionEntity);
+		
+		String language = instanceEntity.getExternal(Ld4lObjectProp.HAS_LANGUAGE);
+		Assert.assertNotNull(language);
+		Assert.assertEquals(HfaTestData.LANGUAGE, language);
+		
+		language = instanceEntity.getExternal(HfaObjectProp.HAS_SUBTITLE_LANGUAGE);
+		Assert.assertNotNull(language);
+		Assert.assertEquals(HfaTestData.LANGUAGE, language);
+		
+		language = instanceEntity.getExternal(HfaObjectProp.HAS_INTERTITLE_LANGUAGE);
+		Assert.assertNotNull(language);
+		Assert.assertEquals(HfaTestData.LANGUAGE, language);
 	}
 	
 	@Test

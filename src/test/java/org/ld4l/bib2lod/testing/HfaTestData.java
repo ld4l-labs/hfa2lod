@@ -44,6 +44,7 @@ public class HfaTestData {
 	public static final String CAST2 = "Person 2";
 	public static final String CAST3 = "Person 3";
 	public static final String CAST_MEMBERS = CAST1 + "," + CAST2 + " , " + CAST3;
+	public static final String LANGUAGE = "English ";
 	
 	public static final String VALID_ITEM_NUMBER_FIELD =
 			"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + ITEM_NUMBER + "</col>";
@@ -115,6 +116,9 @@ public class HfaTestData {
 		        		"<col column='" + HfaRecord.ColumnAttributeText.COLLECTION.getColumnAttributeText() + "'>" + COLLECTION + "</col>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.EDITOR.getColumnAttributeText() + "'>" + EDITOR + "</col>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.PRODUCER.getColumnAttributeText() + "'>" + PRODUCERS + "</col>" +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.LANGUAGE.getColumnAttributeText() + "'>" + LANGUAGE + "</col>" +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.SUBTITLES_LANGUAGE.getColumnAttributeText() + "'>" + LANGUAGE + "</col>" +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.INTERTITLES_LANGUAGE.getColumnAttributeText() + "'>" + LANGUAGE + "</col>" +
 		        		CAST_MEMBERS_HFA_FIELD +
 		        		YEAR_OF_RELEASE_FIELD +
 		        		COUNTRY1_FIELD +
