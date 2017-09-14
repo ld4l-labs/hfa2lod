@@ -40,6 +40,7 @@ public class HfaRecord extends BaseXmlRecord {
     	SCRIPT("Script"),
     	SHORT("short'"), // yes, this is the column name with the single quote
     	SUBTITLES_LANGUAGE("Subtitle Language"),
+    	SYNOPSIS("Synopsis"),
     	TITLE("Original Titles"),
     	YEAR_OF_RELEASE("Year of Release");
         

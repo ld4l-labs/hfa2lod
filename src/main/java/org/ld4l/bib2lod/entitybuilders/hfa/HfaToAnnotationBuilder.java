@@ -2,7 +2,6 @@
 
 package org.ld4l.bib2lod.entitybuilders.hfa;
 
-import org.ld4l.bib2lod.entity.Attribute;
 import org.ld4l.bib2lod.entity.Entity;
 import org.ld4l.bib2lod.entitybuilders.BuildParams;
 import org.ld4l.bib2lod.ontology.NamedIndividual;

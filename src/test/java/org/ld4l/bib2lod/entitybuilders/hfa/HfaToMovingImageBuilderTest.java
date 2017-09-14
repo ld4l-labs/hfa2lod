@@ -16,11 +16,14 @@ import org.ld4l.bib2lod.entitybuilders.BuildParams;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilder;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilder.EntityBuilderException;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilderFactory;
+import org.ld4l.bib2lod.ontology.NamedIndividual;
 import org.ld4l.bib2lod.ontology.Type;
 import org.ld4l.bib2lod.ontology.hfa.HarvardType;
 import org.ld4l.bib2lod.ontology.hfa.HfaActivityType;
+import org.ld4l.bib2lod.ontology.hfa.HfaNamedIndividual;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lAnnotationType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lDatatypeProp;
+import org.ld4l.bib2lod.ontology.ld4l.Ld4lNamedIndividual;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lObjectProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lWorkType;
 import org.ld4l.bib2lod.record.xml.hfa.HfaRecord;
@@ -114,7 +117,7 @@ public class HfaToMovingImageBuilderTest extends AbstractHfaTest {
 		
 		List<Entity> annotationEntities = movingImageEntity.getChildren(Ld4lObjectProp.HAS_ANNOTATION, Ld4lAnnotationType.ANNOTATION);
 		Assert.assertNotNull(annotationEntities);
-		Assert.assertEquals(1, annotationEntities.size());
+		Assert.assertEquals(2, annotationEntities.size());
 	}
 	
 	@Test
@@ -192,10 +195,26 @@ public class HfaToMovingImageBuilderTest extends AbstractHfaTest {
 		HfaToMovingImageBuilder builder = new HfaToMovingImageBuilder();
 		Type activityType = builder.getTypeFromColumn(ColumnAttributeText.EDITOR);
 		Assert.assertNotNull(activityType);
+		Assert.assertEquals(HfaActivityType.EDITOR_ACTIVITY, activityType);
 	}
 	
 	@Test
 	public void invalid_TypeFromColumn_ThrowsException() throws EntityBuilderException {
+		expectException(EntityBuilderException.class, "Column name must match an expected value.");
+		HfaToMovingImageBuilder builder = new HfaToMovingImageBuilder();
+		builder.getTypeFromColumn(ColumnAttributeText.NON_FICTION);
+	}
+	
+	@Test
+	public void valid_NamedIndividualFromColumn() throws EntityBuilderException {
+		HfaToMovingImageBuilder builder = new HfaToMovingImageBuilder();
+		NamedIndividual namedIndividual = builder.getNamedIndividualFromColumn(ColumnAttributeText.SYNOPSIS);
+		Assert.assertNotNull(namedIndividual);
+		Assert.assertEquals(Ld4lNamedIndividual.SUMMARIZING, namedIndividual);
+	}
+	
+	@Test
+	public void invalid_NamedIndividualFromColumn_ThrowsException() throws EntityBuilderException {
 		expectException(EntityBuilderException.class, "Column name must match an expected value.");
 		HfaToMovingImageBuilder builder = new HfaToMovingImageBuilder();
 		builder.getTypeFromColumn(ColumnAttributeText.NON_FICTION);

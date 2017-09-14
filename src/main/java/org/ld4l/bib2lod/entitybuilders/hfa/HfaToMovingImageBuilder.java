@@ -13,6 +13,7 @@ import org.ld4l.bib2lod.entitybuilders.EntityBuilder;
 import org.ld4l.bib2lod.externalbuilders.ConcordanceReferenceBuilder;
 import org.ld4l.bib2lod.externalbuilders.HfaToGenreConcordanceBuilder;
 import org.ld4l.bib2lod.externalbuilders.HfaToTopicConcordanceBuilder;
+import org.ld4l.bib2lod.ontology.NamedIndividual;
 import org.ld4l.bib2lod.ontology.Type;
 import org.ld4l.bib2lod.ontology.hfa.HarvardType;
 import org.ld4l.bib2lod.ontology.hfa.HfaActivityType;
@@ -21,6 +22,7 @@ import org.ld4l.bib2lod.ontology.ld4l.Ld4lActivityType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lAnnotationType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lDatatypeProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lInstanceType;
+import org.ld4l.bib2lod.ontology.ld4l.Ld4lNamedIndividual;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lObjectProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lTitleType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lWorkType;
@@ -35,20 +37,25 @@ public class HfaToMovingImageBuilder extends HfaToLd4lEntityBuilder {
     
     private HfaRecord record;
     private Entity work;
-    private HfaTextField principalCastField;
     
     private static Pattern commaRegex;
     
     static final int ITEM_NUMBER_LENGTH = 10; // not private since used in tests
     private static final String ITEM_NUMBER_STRING_FORMAT = "%" + ITEM_NUMBER_LENGTH + "s"; // "%10s"
  
-    private static final ColumnAttributeText[] activityColumns =
-    	   {ColumnAttributeText.DIRECTOR,
+    private static final ColumnAttributeText[] activityColumns = {
+    		ColumnAttributeText.DIRECTOR,
     		ColumnAttributeText.DP_CINEMATOGRAPHER,
 			ColumnAttributeText.EDITOR,
 			ColumnAttributeText.PRODUCER,
 			ColumnAttributeText.SCRIPT,
-			ColumnAttributeText.PRODUCTION_COMPANY};
+			ColumnAttributeText.PRODUCTION_COMPANY
+	};
+    
+    private static final ColumnAttributeText[] annotationColumns = {
+			ColumnAttributeText.PRINCIPAL_CAST,
+			ColumnAttributeText.SYNOPSIS
+	};
 
     private static final Logger LOGGER = LogManager.getLogger();
     
@@ -71,7 +78,7 @@ public class HfaToMovingImageBuilder extends HfaToLd4lEntityBuilder {
         buildInstances();
         addIdentifiers();
         buildActivies();
-        buildPricipalCastAnnotation();
+        buildAnnotations();
         try {
 			addGenres();
 			addTopics();
@@ -137,26 +144,32 @@ public class HfaToMovingImageBuilder extends HfaToLd4lEntityBuilder {
         builder.build(params);
     }
     
-    private void buildPricipalCastAnnotation() throws EntityBuilderException {
-    	
-    	HfaTextField principalCastField = record.getField(ColumnAttributeText.PRINCIPAL_CAST);
-    	if (principalCastField == null) {
-    		return;
-    	}
+    private void buildAnnotations() throws EntityBuilderException {
     	
     	EntityBuilder builder = getBuilder(Ld4lAnnotationType.ANNOTATION);
-    	BuildParams params = new BuildParams()
-    			.setParent(work)
-    			.setField(principalCastField)
-    			.setNamedIndividual(HfaNamedIndividual.LISTING_CREDITS);        
-    	builder.build(params);
+    	
+        // iterate through all possible values need to create annotations
+    	for (ColumnAttributeText column : annotationColumns) {
+        	HfaTextField field = record.getField(column);
+            if (field == null) {
+            	continue;
+            }
+
+            NamedIndividual namedIndividual = getNamedIndividualFromColumn(column);
+        	
+        	BuildParams params = new BuildParams()
+        			.setParent(work)
+        			.setField(field)
+        			.setNamedIndividual(namedIndividual);
+        	builder.build(params);
+    	}
     }
 
     private void buildActivies() throws EntityBuilderException {
 
         EntityBuilder builder = getBuilder(Ld4lActivityType.ACTIVITY);
 
-        // iterate through all expected activity types of interest
+        // iterate through all possible values need to create activities
         for (ColumnAttributeText column : activityColumns) {
         	HfaTextField field = record.getField(column);
             if (field == null) {
@@ -224,5 +237,25 @@ public class HfaToMovingImageBuilder extends HfaToLd4lEntityBuilder {
             	throw new EntityBuilderException("Column name must match an expected value.");
         }
         return activityType;
+    }
+    
+    /*
+     * Get named individual for expected field name.
+     * protected for allow for unit tests.
+     */
+    protected NamedIndividual getNamedIndividualFromColumn(ColumnAttributeText column) throws EntityBuilderException {
+    	
+    	NamedIndividual namedIndividual = null;
+        switch (column) {
+        	case PRINCIPAL_CAST:
+        		namedIndividual = HfaNamedIndividual.LISTING_CREDITS;
+        		break;
+            case SYNOPSIS:
+            	namedIndividual = Ld4lNamedIndividual.SUMMARIZING;
+            	break;
+            default:
+            	throw new EntityBuilderException("Column name must match an expected value.");
+        }
+        return namedIndividual;
     }
 }
