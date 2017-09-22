@@ -4,6 +4,7 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.ResourceFactory;
 import org.ld4l.bib2lod.ontology.Namespace;
 import org.ld4l.bib2lod.ontology.Type;
+import org.ld4l.bib2lod.ontology.ld4l.Ld4lActivityType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lNamespace;
 
 public enum HfaActivityType implements Type {
@@ -45,5 +46,10 @@ public enum HfaActivityType implements Type {
     @Override
     public Resource ontClass() {
         return ontClass;
+    }
+    
+    @Override
+    public Type superclass() {
+        return Ld4lActivityType.defaultType();
     }
 }

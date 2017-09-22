@@ -40,4 +40,9 @@ public enum HfaEventType implements Type {
     public Resource ontClass() {
         return ontClass;
     }
+
+	@Override
+	public Type superclass() {
+		return LOAN_EVENT;
+	}
 }

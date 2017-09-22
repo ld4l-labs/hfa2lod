@@ -31,4 +31,9 @@ public enum HfaCollectionType implements Type {
     public Resource ontClass() {
         return ontClass;
     }
+
+	@Override
+	public Type superclass() {
+		return COLLECTION;
+	}
 }

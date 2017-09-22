@@ -48,7 +48,7 @@ public class HfaToTitleBuilder extends HfaToLd4lEntityBuilder {
         }
         fullTitle.append(hfaTitle.getTextValue());
 
-        Entity titleEntity = new Entity(Ld4lTitleType.superClass());
+        Entity titleEntity = new Entity(Ld4lTitleType.TITLE);
         titleEntity.addAttribute(Ld4lDatatypeProp.LABEL, fullTitle.toString().trim());
     	bibEntity.addRelationship(Ld4lObjectProp.HAS_TITLE, titleEntity);
         

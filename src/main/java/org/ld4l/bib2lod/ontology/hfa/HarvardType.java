@@ -34,5 +34,10 @@ public enum HarvardType implements Type {
     public Resource ontClass() {
         return ontClass;
     } 
+    
+    @Override
+    public Type superclass() {
+        return HFA_NUMBER;
+    }
 
 }

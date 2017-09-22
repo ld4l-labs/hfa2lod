@@ -37,4 +37,9 @@ public enum HfaHistoryType implements Type {
     public Resource ontClass() {
         return ontClass;
     }
+
+	@Override
+	public Type superclass() {
+		return CUSTODIAL_HISTORY;
+	}
 }
