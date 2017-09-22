@@ -1,5 +1,7 @@
 package org.ld4l.bib2lod.record.xml.hfa;
 
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.ld4l.bib2lod.record.xml.hfa.HfaRecord.ColumnAttributeText;
@@ -48,6 +50,23 @@ public class HfaRecordTest extends AbstractHfaTest {
 	        		"<row>" +
 	        			"<col column='Original Titles'>Some title</col>" +
 	        			"<col column='Item number'>123</col>" +
+	        		"</row>" +
+	        "</HFA-data>";
+    
+	private static final String VALID_record_with_loans = 
+	        "<HFA-data>" +
+	        		"<row>" +
+	        			"<col column='Original Titles'>Some title</col>" +
+	        			"<col column='Item number'>123</col>" +
+	        			"<loan>" +
+	        				"<col column='Outside borrower'>The Borrower</col>" +
+	        				"<col column='State / Province'>Massachusetts</col>" +
+	        				"<col column='Country'>USA</col>" +
+	        			"</loan>" +
+	        			"<loan>" +
+	        				"<col column='Outside borrower'>Another Borrower</col>" +
+	        				"<col column='State / Province'>Maine</col>" +
+	        			"</loan>" +
 	        		"</row>" +
 	        "</HFA-data>";
 
@@ -106,6 +125,36 @@ public class HfaRecordTest extends AbstractHfaTest {
     	Assert.assertEquals("Some title", field.getTextValue());
     	
     	field = record.getField(ColumnAttributeText.PREFIX);
+    	Assert.assertNull(field);
+    }
+    
+    @Test
+    public void validRecordWithLoan_Valid() throws Exception {
+    	HfaRecord record = buildHfaRecordFromString(VALID_record_with_loans);
+    	
+    	List<HfaLoan> loans = record.getHfaLoanFields();
+    	Assert.assertNotNull(loans);
+    	Assert.assertEquals(2, loans.size());
+    	
+    	HfaLoan loan = loans.get(0);
+    	HfaTextField field = loan.getField(HfaLoan.ColumnAttributeText.OUTSIDE_BORROWER);
+    	Assert.assertNotNull(field);
+    	Assert.assertEquals("The Borrower", field.getTextValue());
+    	field = loan.getField(HfaLoan.ColumnAttributeText.STATE_PROVINCE);
+    	Assert.assertNotNull(field);
+    	Assert.assertEquals("Massachusetts", field.getTextValue());
+    	field = loan.getField(HfaLoan.ColumnAttributeText.COUNTRY);
+    	Assert.assertNotNull(field);
+    	Assert.assertEquals("USA", field.getTextValue());
+    	
+    	loan = loans.get(1);
+    	field = loan.getField(HfaLoan.ColumnAttributeText.OUTSIDE_BORROWER);
+    	Assert.assertNotNull(field);
+    	Assert.assertEquals("Another Borrower", field.getTextValue());
+    	field = loan.getField(HfaLoan.ColumnAttributeText.STATE_PROVINCE);
+    	Assert.assertNotNull(field);
+    	Assert.assertEquals("Maine", field.getTextValue());
+    	field = loan.getField(HfaLoan.ColumnAttributeText.COUNTRY);
     	Assert.assertNull(field);
     }
 }

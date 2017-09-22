@@ -1,5 +1,6 @@
 package org.ld4l.bib2lod.testing;
 
+import org.ld4l.bib2lod.record.xml.hfa.HfaLoan;
 import org.ld4l.bib2lod.record.xml.hfa.HfaRecord;
 
 /**
@@ -46,6 +47,13 @@ public class HfaTestData {
 	public static final String CAST_MEMBERS = CAST1 + "," + CAST2 + " , " + CAST3;
 	public static final String LANGUAGE = "English ";
 	public static final String SYNOPSIS = "This is the synopsis.";
+	public static final String OUTSIDE_BORROWER1 = "Borrower One Name";
+	public static final String OUTSIDE_BORROWER2 = "Borrower Two Name";
+	public static final String LOAN_DATE = "2017-02-14";
+	public static final String COMPANY1_NAME = "Company One Name";
+	public static final String COMPANY2_NAME = "Company Two Name";
+	public static final String STATE = "Massachusetts";
+	public static final String CITY = "Cambridge";
 	
 	public static final String VALID_ITEM_NUMBER_FIELD =
 			"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + ITEM_NUMBER + "</col>";
@@ -73,6 +81,23 @@ public class HfaTestData {
 
 	public static final String COUNTRY1_FIELD =
     		"<col column='" + HfaRecord.ColumnAttributeText.COUNTRY.getColumnAttributeText() + "'>" + COUNTRY1 + "</col>";
+
+	public static final String LOAN1_FIELD =
+			"<loan>" +
+					"<col column='" + HfaLoan.ColumnAttributeText.OUTSIDE_BORROWER.getColumnAttributeText() + "'>" + OUTSIDE_BORROWER1 + "</col>" +
+					"<col column='" + HfaLoan.ColumnAttributeText.COMPANY_NAME.getColumnAttributeText() + "'>" + COMPANY1_NAME + "</col>" +
+					"<col column='" + HfaLoan.ColumnAttributeText.CITY.getColumnAttributeText() + "'>" + CITY + "</col>" +
+					"<col column='" + HfaLoan.ColumnAttributeText.STATE_PROVINCE.getColumnAttributeText() + "'>" + STATE + "</col>" +
+					"<col column='" + HfaLoan.ColumnAttributeText.COUNTRY.getColumnAttributeText() + "'>" + COUNTRY1 + "</col>" +
+					"<col column='" + HfaLoan.ColumnAttributeText.DATE_OF_LOAN.getColumnAttributeText() + "'>" + LOAN_DATE + "</col>" +
+					"<col column='" + HfaLoan.ColumnAttributeText.PLAY_DATE.getColumnAttributeText() + "'>" + LOAN_DATE + "</col>" +
+			"</loan>";
+
+	public static final String LOAN2_FIELD =
+			"<loan>" +
+					"<col column='" + HfaLoan.ColumnAttributeText.OUTSIDE_BORROWER.getColumnAttributeText() + "'>" + OUTSIDE_BORROWER2 + "</col>" +
+					"<col column='" + HfaLoan.ColumnAttributeText.COUNTRY.getColumnAttributeText() + "'>" + COUNTRY1 + "</col>" +
+			"</loan>";
 
 	public static final String VALID_TITLE_HFA_RECORD = 
 	        "<HFA-data>" +
@@ -247,6 +272,25 @@ public class HfaTestData {
 	        			VALID_ITEM_NUMBER_FIELD +
 	        			VALID_TITLE_FIELD +
 		        		CAST_MEMBERS_HFA_FIELD +
+	        		"</row>" +
+	        "</HFA-data>";
+
+	public static final String VALID_ITEM_HFA_RECORD = 
+	        "<HFA-data>" +
+	        		"<row>" +
+		        		VALID_ITEM_NUMBER_FIELD +
+	        			VALID_TITLE_FIELD +
+	        			LOAN1_FIELD +
+	        		"</row>" +
+	        "</HFA-data>";
+
+	public static final String VALID_ITEM_HFA_RECORD_2_LOANS = 
+	        "<HFA-data>" +
+	        		"<row>" +
+		        		VALID_ITEM_NUMBER_FIELD +
+	        			VALID_TITLE_FIELD +
+	        			LOAN1_FIELD +
+	        			LOAN2_FIELD +
 	        		"</row>" +
 	        "</HFA-data>";
 }

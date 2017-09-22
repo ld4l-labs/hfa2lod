@@ -23,6 +23,7 @@ import org.ld4l.bib2lod.records.Record.RecordException;
 import org.ld4l.bib2lod.testing.AbstractHfaTest;
 import org.ld4l.bib2lod.testing.HfaTestData;
 import org.ld4l.bib2lod.testing.xml.XmlTestUtils;
+import org.ld4l.bib2lod.util.HfaConstants;
 import org.w3c.dom.Element;
 
 /**
@@ -62,7 +63,7 @@ public class HfaToAnnotationBuilderTest extends AbstractHfaTest {
 				annotationEntity.getExternal(Ld4lObjectProp.MOTIVATED_BY));
 		String creatorEntity =  annotationEntity.getExternal(Ld4lObjectProp.HAS_CREATOR);
 		Assert.assertNotNull(creatorEntity);
-		Assert.assertEquals(HfaToAnnotationBuilder.HARVARD_LIBRARY_CREATOR, creatorEntity);
+		Assert.assertEquals(HfaConstants.HARVARD_LIBRARY_CREATOR, creatorEntity);
 		
 		Entity textualBodyEntity = annotationEntity.getChild(Ld4lObjectProp.HAS_BODY);
 		Assert.assertNotNull(textualBodyEntity);

@@ -10,15 +10,13 @@ import org.ld4l.bib2lod.ontology.ld4l.Ld4lDatatypeProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lObjectProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lTextualBodyType;
 import org.ld4l.bib2lod.record.xml.hfa.HfaTextField;
+import org.ld4l.bib2lod.util.HfaConstants;
 
 /**
  * Builds an Annotation Entity.
  */
 public class HfaToAnnotationBuilder extends HfaToLd4lEntityBuilder {
 	
-	// protected so can be used in unit tests
-	protected static final String HARVARD_LIBRARY_CREATOR = "https://library.harvard.edu/hfa/ld4l";
-
 	/* (non-Javadoc)
 	 * @see org.ld4l.bib2lod.entitybuilders.EntityBuilder#build(org.ld4l.bib2lod.entitybuilders.BuildParams)
 	 */
@@ -43,7 +41,7 @@ public class HfaToAnnotationBuilder extends HfaToLd4lEntityBuilder {
         
         Entity annotation = new Entity(Ld4lAnnotationType.ANNOTATION);
         annotation.addExternalRelationship(Ld4lObjectProp.MOTIVATED_BY, namedIndividual);
-        annotation.addExternalRelationship(Ld4lObjectProp.HAS_CREATOR, HARVARD_LIBRARY_CREATOR);
+        annotation.addExternalRelationship(Ld4lObjectProp.HAS_CREATOR, HfaConstants.HARVARD_LIBRARY_CREATOR);
         Entity textualBody = new Entity(Ld4lTextualBodyType.TEXTUAL_BODY);
 		textualBody.addAttribute(Ld4lDatatypeProp.VALUE, field.getTextValue());
 		annotation.addRelationship(Ld4lObjectProp.HAS_BODY, textualBody);

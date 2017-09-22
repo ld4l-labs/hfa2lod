@@ -12,8 +12,11 @@ public enum HfaNamespace implements Namespace {
 
     /* Datasets/controlled vocabularies */
     /* List in alpha order */
+	// FIXME: The following namespace is just a placeholder
+	FIX_ME("http://localhost/fixme/", "ex"),
 	GENRE_FORMS("http://id.loc.gov/authorities/genreForms"),
 	ISNI("http://isni.org/isni/"),
+	// FIXME: The following namespace URI is just a placeholder
 	MOVING_IMAGE("http://localhost/movingimage/", "mi");
     
     private final String uri;

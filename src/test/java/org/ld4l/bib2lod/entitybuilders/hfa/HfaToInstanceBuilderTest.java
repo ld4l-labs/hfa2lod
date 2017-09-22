@@ -10,7 +10,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.ld4l.bib2lod.caching.CachingService;
 import org.ld4l.bib2lod.caching.MapCachingService;
-import org.ld4l.bib2lod.entity.Attribute;
 import org.ld4l.bib2lod.entity.Entity;
 import org.ld4l.bib2lod.entitybuilders.BuildParams;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilder;

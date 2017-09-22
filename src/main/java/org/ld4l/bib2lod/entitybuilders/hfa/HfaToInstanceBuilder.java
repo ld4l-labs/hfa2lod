@@ -8,6 +8,7 @@ import org.ld4l.bib2lod.entitybuilders.EntityBuilder;
 import org.ld4l.bib2lod.ontology.hfa.HfaCollectionType;
 import org.ld4l.bib2lod.ontology.hfa.HfaObjectProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lInstanceType;
+import org.ld4l.bib2lod.ontology.ld4l.Ld4lItemType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lObjectProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lTitleType;
 import org.ld4l.bib2lod.record.xml.hfa.HfaRecord;
@@ -43,6 +44,7 @@ public class HfaToInstanceBuilder extends HfaToLd4lEntityBuilder {
         
         buildTitle();
         buildCollection();
+        buildItem();
         addLanguages();
         
         work.addRelationship(Ld4lObjectProp.HAS_INSTANCE, instance);
@@ -62,6 +64,15 @@ public class HfaToInstanceBuilder extends HfaToLd4lEntityBuilder {
     private void buildCollection() throws EntityBuilderException {
         
         EntityBuilder builder = getBuilder(HfaCollectionType.COLLECTION);
+        BuildParams params = new BuildParams()
+                .setRecord(record)
+                .setParent(instance);
+        builder.build(params);
+    }
+    
+    private void buildItem() throws EntityBuilderException {
+        
+        EntityBuilder builder = getBuilder(Ld4lItemType.ITEM);
         BuildParams params = new BuildParams()
                 .setRecord(record)
                 .setParent(instance);

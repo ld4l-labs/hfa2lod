@@ -9,9 +9,11 @@ import org.ld4l.bib2lod.ontology.ld4l.Ld4lNamespace;
 public enum HfaActivityType implements Type {
     
     /* List in alpha order */
+	BORROWER_ACTIVITY(Ld4lNamespace.BIBLIOTEKO, "BorrowerActivity", "Borrower"),
 	CINEMATOGRAPHER_ACTIVITY(Ld4lNamespace.BIBLIOTEKO, "CinematographerActivity", "Cinematographer"),
     DIRECTOR_ACTIVITY(Ld4lNamespace.BIBLIOTEKO, "FilmDirectorActivity", "Film Director"),
     EDITOR_ACTIVITY(Ld4lNamespace.BIBLIOTEKO, "FilmEditorActivity", "Film Editor"),
+    LENDER_ACTIVITY(Ld4lNamespace.BIBLIOTEKO, "LenderActivity", "Lender"),
     PRODUCER_ACTIVITY(Ld4lNamespace.BIBLIOTEKO, "ProducerActivity", "Producer"),
     // FIXME: The following namespace might not be correct.
     PRODUCTION_COMPANY_ACTIVITY(HfaNamespace.MOVING_IMAGE, "ProductionCompanyActivity", "Production"),
@@ -24,7 +26,6 @@ public enum HfaActivityType implements Type {
     
     /**
      * Constructor
-     * @param label TODO
      */
     HfaActivityType(Namespace namespace, String localName, String label) {
         this.uri = namespace.uri() + localName;

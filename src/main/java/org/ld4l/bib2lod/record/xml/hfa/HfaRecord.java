@@ -2,7 +2,9 @@
 
 package org.ld4l.bib2lod.record.xml.hfa;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.ld4l.bib2lod.records.RecordField.RecordFieldException;
@@ -55,7 +57,19 @@ public class HfaRecord extends BaseXmlRecord {
         }
     }
     
+    private enum Field {
+    	
+        LOAN("loan");
+        
+        private final String tagName;
+        
+        private Field(String tagName) {
+            this.tagName = tagName;
+        }       
+    }
+    
     private Map<ColumnAttributeText, HfaTextField> columnToField;
+    private List<HfaLoan> loanFields;
     
     private static final String COLUMN_ELEMENT_NAME = "col";
     private static final String COLUMN_ATTRIBUTE_NAME = "column";
@@ -76,6 +90,9 @@ public class HfaRecord extends BaseXmlRecord {
 				columnToField.put(attr, field);
 			}
 		}
+		
+		loanFields = buildLoanFields(record);
+		
 		isValid();
 	}
 	
@@ -93,7 +110,7 @@ public class HfaRecord extends BaseXmlRecord {
 		}
 	}
 	
-	private HfaTextField buildField(Element record, ColumnAttributeText field) throws RecordException {
+	private final HfaTextField buildField(Element record, ColumnAttributeText field) throws RecordException {
 		NodeList columnNodes = 
 				record.getElementsByTagName(COLUMN_ELEMENT_NAME);
         if (columnNodes.getLength() == 0) {
@@ -116,6 +133,34 @@ public class HfaRecord extends BaseXmlRecord {
         }
         return null; // no match found
 	}
+    
+    /**
+     * Builds this Record's loan fields from the HFA input.
+     * Returns an empty List if there are no control fields.
+     * @throws RecordException 
+     */
+    private final List<HfaLoan> buildLoanFields(Element record) 
+            throws RecordException {
+        
+        List<HfaLoan> loanFields = 
+                new ArrayList<>();
+
+        NodeList loanNodes = record.getElementsByTagName(Field.LOAN.tagName);
+
+        for (int i = 0; i < loanNodes.getLength(); i++) {
+            Element field = (Element) loanNodes.item(i);
+            loanFields.add(new HfaLoan(field));
+        }  
+        
+        return loanFields;
+    }
+    
+    /**
+     * Returns HfaLoan fields or empty list if none.
+     */
+    public List<HfaLoan> getHfaLoanFields() {
+    	return loanFields;
+    }
 
 	@Override
 	public String toString() {
@@ -132,6 +177,10 @@ public class HfaRecord extends BaseXmlRecord {
 			builder.append(column.getColumnAttributeText());
 			builder.append('=');
 			builder.append(columnToField.get(column).getTextValue());
+		}
+		
+		if ( !loanFields.isEmpty()) {
+			builder.append(loanFields);
 		}
 		builder.append("]");
 		return builder.toString();

@@ -19,6 +19,7 @@ import org.ld4l.bib2lod.record.xml.hfa.HfaRecord;
 import org.ld4l.bib2lod.record.xml.hfa.HfaRecord.ColumnAttributeText;
 import org.ld4l.bib2lod.record.xml.hfa.HfaTextField;
 import org.ld4l.bib2lod.util.Hfa2LodDateUtils;
+import org.ld4l.bib2lod.util.HfaConstants;
 
 /**
  * Builds an Activity Entity.
@@ -100,6 +101,9 @@ public class HfaToActivityBuilder extends HfaToLd4lEntityBuilder {
     				this.activityEntity.addExternalRelationship(Ld4lObjectProp.HAS_LOCATION, location.trim());
     			}
     		}
+    	} else if (HfaActivityType.LENDER_ACTIVITY.equals(activityType)) {
+    		// create agent here with URI
+    		this.activityEntity.addExternalRelationship(Ld4lObjectProp.HAS_AGENT, HfaConstants.HARVARD_LIBRARY_CREATOR);
     	} else {
             
             // An agent text value is needed for all Activity types except PROVIDER_ACTIVITY so
