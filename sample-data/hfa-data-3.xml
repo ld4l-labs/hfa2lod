@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <HFA-data>
-     <row number="2">
+    <row number="2">
         <col column="Country"><![CDATA[United States]]></col>
         <col column="Classification"><![CDATA[Fiction Feature]]></col>
         <col column="Producer"><![CDATA[Burtt Harris]]></col>
@@ -24,7 +24,7 @@ Color]]></col>
         <col column="HFA Number"><![CDATA[113]]></col>
         <col column="Sound Aspect(s)"><![CDATA[Sound]]></col>
         <col column="Original Format"/>
-        <col column="Year of Release"><![CDATA[1985]]></col>
+        <col column="Year of Release"/>
         <col column="Date Entered"/>
         <col column="Entered by"/>
         <col column="Edited by"/>
@@ -275,5 +275,49 @@ Fiction ]]></col>
         <col column="Release on file?"/>
         <col column="Hollis updated after discard?"/>
         <col column="Laurel update"/>
+        <loan>
+            <col column="Accession Number"/>
+            <col column="Borrower"/>
+            <col column="Box Office Take"/>
+            <col column="Check Duplicates"><![CDATA[Dup]]></col>
+            <col column="City"><![CDATA[New York]]></col>
+            <col column="Company Name"><![CDATA[Film Society of Lincoln Center]]></col>
+            <col column="Contact Name"><![CDATA[Josh Strauss]]></col>
+            <col column="Contact Title"><![CDATA[Programmer]]></col>
+            <col column="Counter"><![CDATA[981]]></col>
+            <col column="Country"><![CDATA[USA]]></col>
+            <col column="Curator Approval"><![CDATA[HG]]></col>
+            <col column="Date Arrived"/>
+            <col column="Date Inspected"><![CDATA[2011-06-15]]></col>
+            <col column="Date Reinspected"/>
+            <col column="Date Requested"><![CDATA[2011-06-01]]></col>
+            <col column="Date Returned"/>
+            <col column="Date Sent"><![CDATA[2011-07-15]]></col>
+            <col column="Email"><![CDATA[jstrauss@filmlinc.com]]></col>
+            <col column="Fax"><![CDATA[212 875 5636]]></col>
+            <col column="Flat Cost"/>
+            <col column="Loan form signed and returned to borrower"/>
+            <col column="Number of Reels"/>
+            <col column="Payment Received"/>
+            <col column="Percentage"/>
+            <col column="Phone"><![CDATA[212 875 5638]]></col>
+            <col column="Play Date"><![CDATA[2011-07-24]]></col>
+            <col column="Results"><![CDATA[bad]]></col>
+            <col column="Rights Holder"/>
+            <col column="State / Province"><![CDATA[NY]]></col>
+            <col column="Street Name"><![CDATA[165 W. 65th Street , 4th Floor]]></col>
+            <col column="Title"/>
+            <col column="Total Fees"/>
+            <col column="Warning"/>
+            <col column="ZIP"><![CDATA[10023]]></col>
+            <col column="CountryWarning"/>
+            <col column="Course#"/>
+            <col column="Location"><![CDATA[Depository]]></col>
+            <col column="shipping notes"><![CDATA[Use Fedex acct # 402394706]]></col>
+            <col column="#of times screened"/>
+            <col column="Outside Borrower"/>
+            <col column="Status"><![CDATA[Returned]]></col>
+            <col column="ItemNumber"><![CDATA[3]]></col>
+        </loan>
     </row>
 </HFA-data>

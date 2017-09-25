@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.ld4l.bib2lod.conversion.Converter.ConverterException;
+import org.ld4l.bib2lod.entity.Attribute;
 import org.ld4l.bib2lod.entity.Entity;
 import org.ld4l.bib2lod.entitybuilders.BuildParams;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilder;
@@ -17,6 +18,7 @@ import org.ld4l.bib2lod.ontology.NamedIndividual;
 import org.ld4l.bib2lod.ontology.Type;
 import org.ld4l.bib2lod.ontology.hfa.HarvardType;
 import org.ld4l.bib2lod.ontology.hfa.HfaActivityType;
+import org.ld4l.bib2lod.ontology.hfa.HfaDatatypeProp;
 import org.ld4l.bib2lod.ontology.hfa.HfaNamedIndividual;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lActivityType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lAnnotationType;
@@ -87,6 +89,14 @@ public class HfaToMovingImageBuilder extends HfaToLd4lEntityBuilder {
             		e.getMessage(), e);
 		}
 
+        // add HFA Time
+        HfaTextField hfaTime = record.getField(ColumnAttributeText.HFA_TIME);
+        if (hfaTime != null) {
+        	String iso8601Duration = "P" + hfaTime.getTextValue() + "M";
+        	work.addAttribute(HfaDatatypeProp.DURATION_SCHEMA, iso8601Duration);
+        	work.addAttribute(HfaDatatypeProp.DURATION_BF, new Attribute(hfaTime.getTextValue(), "en"));
+        }
+        
         return this.work;
     }
     

@@ -54,6 +54,8 @@ public class HfaTestData {
 	public static final String COMPANY2_NAME = "Company Two Name";
 	public static final String STATE = "Massachusetts";
 	public static final String CITY = "Cambridge";
+	public static final String DURATION = "123";
+	public static final String ISO_8601_DURATION = "P123M";
 	
 	public static final String VALID_ITEM_NUMBER_FIELD =
 			"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + ITEM_NUMBER + "</col>";
@@ -146,6 +148,8 @@ public class HfaTestData {
 		        		"<col column='" + HfaRecord.ColumnAttributeText.SUBTITLES_LANGUAGE.getColumnAttributeText() + "'>" + LANGUAGE + "</col>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.INTERTITLES_LANGUAGE.getColumnAttributeText() + "'>" + LANGUAGE + "</col>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.SYNOPSIS.getColumnAttributeText() + "'>" + SYNOPSIS + "</col>" +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.HFA_TIME.getColumnAttributeText() + "'>" + DURATION + "</col>" +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.RUNNING_TIME.getColumnAttributeText() + "'>" + DURATION + "</col>" +
 		        		CAST_MEMBERS_HFA_FIELD +
 		        		YEAR_OF_RELEASE_FIELD +
 		        		COUNTRY1_FIELD +
@@ -282,6 +286,7 @@ public class HfaTestData {
 	        			VALID_TITLE_FIELD +
 	        			LOAN1_FIELD +
 	        		"</row>" +
+	        		"<col column='" + HfaRecord.ColumnAttributeText.HFA_TIME.getColumnAttributeText() + "'>" + DURATION + "</col>" +
 	        "</HFA-data>";
 
 	public static final String VALID_ITEM_HFA_RECORD_2_LOANS = 

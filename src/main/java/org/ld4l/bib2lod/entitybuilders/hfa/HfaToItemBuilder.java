@@ -10,6 +10,7 @@ import org.ld4l.bib2lod.entity.Entity;
 import org.ld4l.bib2lod.entitybuilders.BuildParams;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilder;
 import org.ld4l.bib2lod.ontology.hfa.HfaActivityType;
+import org.ld4l.bib2lod.ontology.hfa.HfaDatatypeProp;
 import org.ld4l.bib2lod.ontology.hfa.HfaEventType;
 import org.ld4l.bib2lod.ontology.hfa.HfaHistoryType;
 import org.ld4l.bib2lod.ontology.hfa.HfaObjectProp;
@@ -17,8 +18,10 @@ import org.ld4l.bib2lod.ontology.ld4l.Ld4lActivityType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lDatatypeProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lItemType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lObjectProp;
+import org.ld4l.bib2lod.ontology.ld4l.Ld4lTitleType;
 import org.ld4l.bib2lod.record.xml.hfa.HfaLoan;
 import org.ld4l.bib2lod.record.xml.hfa.HfaRecord;
+import org.ld4l.bib2lod.record.xml.hfa.HfaRecord.ColumnAttributeText;
 import org.ld4l.bib2lod.record.xml.hfa.HfaTextField;
 
 /**
@@ -45,33 +48,47 @@ public class HfaToItemBuilder extends HfaToLd4lEntityBuilder {
             throw new EntityBuilderException(
                     "A parent Entity is required to build an Item.");
         }
-        
-        // Building this Entity depends solely on the existence of HfaLoan values.
-        hfaLoans = record.getHfaLoanFields();
-        if (hfaLoans.isEmpty()) {
-        	return null;
-        }
 
         this.item = new Entity(Ld4lItemType.ITEM);
-        Attribute labelAttr = instance.getAttribute(Ld4lDatatypeProp.LABEL);
-        if (labelAttr != null) {
-        	this.item.addAttribute(Ld4lDatatypeProp.LABEL, labelAttr.getValue());
+        
+        buildTitle();
+        
+        // add running time
+        HfaTextField hfaTime = record.getField(ColumnAttributeText.HFA_TIME);
+        if (hfaTime != null) {
+        	String iso8601Duration = "P" + hfaTime.getTextValue() + "M";
+        	item.addAttribute(HfaDatatypeProp.DURATION_SCHEMA, iso8601Duration);
+        	item.addAttribute(HfaDatatypeProp.DURATION_BF, new Attribute(hfaTime.getTextValue(), "en"));
         }
         
-        // FIXME: This might be the wrong type and, also, the construct may not conform to ontology.
-        Entity custodialHistoryEvent = new Entity(HfaHistoryType.CUSTODIAL_HISTORY);
-        custodialHistoryEvent.addAttribute(Ld4lDatatypeProp.LABEL, HfaHistoryType.CUSTODIAL_HISTORY.label());
-        item.addRelationship(HfaObjectProp.HAS_CUSTODIAL_HISTORY, custodialHistoryEvent);
-        
-        Entity itemEvent = new Entity(HfaEventType.ITEM_EVENT);
-        custodialHistoryEvent.addRelationship(Ld4lObjectProp.HAS_PART, itemEvent);
-        
-        buildLoanEvent(itemEvent);
-        buildExhibitionEvent();
-        
+        // Building this section depends solely on the existence of HfaLoan values.
+        hfaLoans = record.getHfaLoanFields();
+        if ( !hfaLoans.isEmpty()) {
+        	
+        	// FIXME: This might be the wrong type and, also, the construct may not conform to ontology.
+        	Entity custodialHistoryEvent = new Entity(HfaHistoryType.CUSTODIAL_HISTORY);
+        	custodialHistoryEvent.addAttribute(Ld4lDatatypeProp.LABEL, HfaHistoryType.CUSTODIAL_HISTORY.label());
+        	item.addRelationship(HfaObjectProp.HAS_CUSTODIAL_HISTORY, custodialHistoryEvent);
+        	
+        	Entity itemEvent = new Entity(HfaEventType.ITEM_EVENT);
+        	custodialHistoryEvent.addRelationship(Ld4lObjectProp.HAS_PART, itemEvent);
+        	
+        	buildLoanEvent(itemEvent);
+        	buildExhibitionEvent();
+        }
+                
         instance.addRelationship(Ld4lObjectProp.HAS_ITEM, item);
         
         return item;
+    }
+    
+    private void buildTitle() throws EntityBuilderException {
+        
+        EntityBuilder builder = getBuilder(Ld4lTitleType.TITLE);
+        BuildParams params = new BuildParams()
+                .setRecord(record)
+                .setParent(item);
+        builder.build(params);
     }
     
     private void buildLoanEvent(Entity itemEvent) throws EntityBuilderException {

@@ -13,7 +13,9 @@ import org.ld4l.bib2lod.ontology.ld4l.Ld4lNamespace;
 public enum HfaDatatypeProp implements DatatypeProp {
     
     /* List in alpha order */
-    KEYWORDS(Ld4lNamespace.SCHEMA, "keywords");
+	DURATION_BF(Ld4lNamespace.BIBFRAME, "duration"),
+	DURATION_SCHEMA(Ld4lNamespace.SCHEMA, "duration"),
+	KEYWORDS(Ld4lNamespace.SCHEMA, "keywords");
     
     private String uri;
     private Property property;

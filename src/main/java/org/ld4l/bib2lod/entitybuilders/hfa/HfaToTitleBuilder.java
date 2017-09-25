@@ -28,8 +28,8 @@ public class HfaToTitleBuilder extends HfaToLd4lEntityBuilder {
                     "A HfaRecord is required to build a title.");
         }
 
-        Entity bibEntity = params.getParent();
-        if (bibEntity == null) {
+        Entity parentEntity = params.getParent();
+        if (parentEntity == null) {
             throw new EntityBuilderException(
                     "A parent Entity is required to build a title.");
         }
@@ -50,7 +50,7 @@ public class HfaToTitleBuilder extends HfaToLd4lEntityBuilder {
 
         Entity titleEntity = new Entity(Ld4lTitleType.TITLE);
         titleEntity.addAttribute(Ld4lDatatypeProp.LABEL, fullTitle.toString().trim());
-    	bibEntity.addRelationship(Ld4lObjectProp.HAS_TITLE, titleEntity);
+    	parentEntity.addRelationship(Ld4lObjectProp.HAS_TITLE, titleEntity);
         
         return titleEntity;
     }

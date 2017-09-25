@@ -20,6 +20,7 @@ import org.ld4l.bib2lod.ontology.NamedIndividual;
 import org.ld4l.bib2lod.ontology.Type;
 import org.ld4l.bib2lod.ontology.hfa.HarvardType;
 import org.ld4l.bib2lod.ontology.hfa.HfaActivityType;
+import org.ld4l.bib2lod.ontology.hfa.HfaDatatypeProp;
 import org.ld4l.bib2lod.ontology.hfa.HfaNamedIndividual;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lAnnotationType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lDatatypeProp;
@@ -118,6 +119,13 @@ public class HfaToMovingImageBuilderTest extends AbstractHfaTest {
 		List<Entity> annotationEntities = movingImageEntity.getChildren(Ld4lObjectProp.HAS_ANNOTATION, Ld4lAnnotationType.ANNOTATION);
 		Assert.assertNotNull(annotationEntities);
 		Assert.assertEquals(2, annotationEntities.size());
+		
+		Attribute runningTime = movingImageEntity.getAttribute(HfaDatatypeProp.DURATION_SCHEMA);
+		Assert.assertNotNull(runningTime);
+		Assert.assertEquals(HfaTestData.ISO_8601_DURATION, runningTime.getValue());
+		runningTime = movingImageEntity.getAttribute(HfaDatatypeProp.DURATION_BF);
+		Assert.assertNotNull(runningTime);
+		Assert.assertEquals(HfaTestData.DURATION, runningTime.getValue());
 	}
 	
 	@Test

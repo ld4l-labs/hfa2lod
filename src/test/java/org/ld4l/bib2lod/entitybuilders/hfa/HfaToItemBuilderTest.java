@@ -19,6 +19,7 @@ import org.ld4l.bib2lod.entitybuilders.EntityBuilder.EntityBuilderException;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilderFactory;
 import org.ld4l.bib2lod.ontology.Type;
 import org.ld4l.bib2lod.ontology.hfa.HfaActivityType;
+import org.ld4l.bib2lod.ontology.hfa.HfaDatatypeProp;
 import org.ld4l.bib2lod.ontology.hfa.HfaEventType;
 import org.ld4l.bib2lod.ontology.hfa.HfaHistoryType;
 import org.ld4l.bib2lod.ontology.hfa.HfaObjectProp;
@@ -26,6 +27,7 @@ import org.ld4l.bib2lod.ontology.ld4l.Ld4lDatatypeProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lInstanceType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lItemType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lObjectProp;
+import org.ld4l.bib2lod.ontology.ld4l.Ld4lTitleType;
 import org.ld4l.bib2lod.record.xml.hfa.HfaRecord;
 import org.ld4l.bib2lod.records.Record.RecordException;
 import org.ld4l.bib2lod.testing.AbstractHfaTest;
@@ -60,7 +62,6 @@ public class HfaToItemBuilderTest extends AbstractHfaTest {
         itemBuilder = new HfaToItemBuilder();
         hfaRecord = buildHfaRecordFromString(HfaTestData.VALID_ITEM_HFA_RECORD);
         parentEntity = new Entity(Ld4lInstanceType.INSTANCE);
-        parentEntity.addAttribute(Ld4lDatatypeProp.LABEL, TITLE);
     }
 	
 	@Test
@@ -78,8 +79,6 @@ public class HfaToItemBuilderTest extends AbstractHfaTest {
 		Assert.assertEquals(Ld4lItemType.ITEM, type);
 		
 		String label = item.getValue(Ld4lDatatypeProp.LABEL);
-		Assert.assertNotNull(label);
-		Assert.assertEquals(TITLE, label);
 		
 		Entity custodialHistory = item.getChild(HfaObjectProp.HAS_CUSTODIAL_HISTORY);
 		Assert.assertNotNull(custodialHistory);
@@ -123,6 +122,13 @@ public class HfaToItemBuilderTest extends AbstractHfaTest {
 		Assert.assertNotNull(exhibitionDate);
 		Assert.assertEquals(HfaTestData.LOAN_DATE, exhibitionDate.getValue());
 		Assert.assertEquals(XsdDatatype.DATE, exhibitionDate.getDatatype());
+		
+		Attribute runningTime = item.getAttribute(HfaDatatypeProp.DURATION_SCHEMA);
+		Assert.assertNotNull(runningTime);
+		Assert.assertEquals(HfaTestData.ISO_8601_DURATION, runningTime.getValue());
+		runningTime = item.getAttribute(HfaDatatypeProp.DURATION_BF);
+		Assert.assertNotNull(runningTime);
+		Assert.assertEquals(HfaTestData.DURATION, runningTime.getValue());
 		
 	}
 	
