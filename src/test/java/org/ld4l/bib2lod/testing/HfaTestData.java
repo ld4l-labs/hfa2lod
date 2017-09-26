@@ -13,6 +13,12 @@ public class HfaTestData {
 
 	public static final String TITLE_TEXT = "Title";
 	public static final String PREFIX_TEXT = "The";
+	public static final String ALT_TITLE_TEXT = "Alt Title";
+	public static final String ALSO_KNOWN_AS_TITLE_TEXT = "Also Known Title";
+	public static final String AKA_TITLE_TEXT = "AKA Title";
+	public static final String ORIGINAL_TITLE_TEXT = "Original Title";
+	public static final String ENGLISH_TITLE_TEXT = "English Title";
+	public static final String TITLE_ON_PRINT_TEXT = "Title on print";
 	public static final String ITEM_NUMBER = "1234";
 	public static final String ALT_ITEM_NUMBER = "V9876";
 	public static final String FICTION_GENRE = "Fiction";
@@ -68,6 +74,24 @@ public class HfaTestData {
 	
 	public static final String INVALID_TITLE_NO_TEXT_FIELD = 
 			"<col column='" + HfaRecord.ColumnAttributeText.TITLE.getColumnAttributeText() + "'>" + "</col>";
+
+	public static final String ALT_TITLE_FIELD = 
+			"<col column='" + HfaRecord.ColumnAttributeText.ALTERNATE_TITLE.getColumnAttributeText() + "'>" + ALT_TITLE_TEXT + "</col>";
+
+	public static final String ALSO_KNOWN_AS_TITLE_FIELD = 
+			"<col column='" + HfaRecord.ColumnAttributeText.ALSO_KNOWN_AS_TITLE.getColumnAttributeText() + "'>" + ALSO_KNOWN_AS_TITLE_TEXT + "</col>";
+
+	public static final String AKA_TITLE_FIELD = 
+			"<col column='" + HfaRecord.ColumnAttributeText.AKA_TITLE.getColumnAttributeText() + "'>" + AKA_TITLE_TEXT + "</col>";
+
+	public static final String ORIGINAL_TITLE_FIELD = 
+			"<col column='" + HfaRecord.ColumnAttributeText.ORIGINAL_TITLE.getColumnAttributeText() + "'>" + ORIGINAL_TITLE_TEXT + "</col>";
+
+	public static final String ENGLISH_TITLE_FIELD = 
+			"<col column='" + HfaRecord.ColumnAttributeText.ENGLISH_TITLE.getColumnAttributeText() + "'>" + ENGLISH_TITLE_TEXT + "</col>";
+
+	public static final String TITLE_ON_PRINT_FIELD = 
+			"<col column='" + HfaRecord.ColumnAttributeText.TITLE_ON_PRINT.getColumnAttributeText() + "'>" + TITLE_ON_PRINT_TEXT + "</col>";
 	
 	public static final String FILM_DIRECTOR_HFA_FIELD = 
     		"<col column='" + HfaRecord.ColumnAttributeText.DIRECTOR.getColumnAttributeText() + "'>" + FILM_DIRECTOR + "</col>";
@@ -139,6 +163,12 @@ public class HfaTestData {
 	        		"<row>" +
 	        			VALID_PREFIX_FIELD +
 	        			VALID_TITLE_FIELD +
+	        			AKA_TITLE_FIELD + 
+	        			ALSO_KNOWN_AS_TITLE_FIELD +
+	        			ENGLISH_TITLE_FIELD +
+	        			ALT_TITLE_FIELD +
+	        			ORIGINAL_TITLE_FIELD +
+	        			TITLE_ON_PRINT_FIELD +
 		        		VALID_ITEM_NUMBER_FIELD +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.DIRECTOR.getColumnAttributeText() + "'>" + FILM_DIRECTOR + "</col>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.COLLECTION.getColumnAttributeText() + "'>" + COLLECTION + "</col>" +
@@ -283,6 +313,7 @@ public class HfaTestData {
 	        "<HFA-data>" +
 	        		"<row>" +
 		        		VALID_ITEM_NUMBER_FIELD +
+	        			VALID_PREFIX_FIELD +
 	        			VALID_TITLE_FIELD +
 	        			LOAN1_FIELD +
 	        		"</row>" +

@@ -10,6 +10,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.ld4l.bib2lod.caching.CachingService;
 import org.ld4l.bib2lod.caching.MapCachingService;
+import org.ld4l.bib2lod.entity.Attribute;
 import org.ld4l.bib2lod.entity.Entity;
 import org.ld4l.bib2lod.entitybuilders.BuildParams;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilder;
@@ -17,6 +18,7 @@ import org.ld4l.bib2lod.entitybuilders.EntityBuilder.EntityBuilderException;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilderFactory;
 import org.ld4l.bib2lod.ontology.Type;
 import org.ld4l.bib2lod.ontology.hfa.HfaObjectProp;
+import org.ld4l.bib2lod.ontology.ld4l.Ld4lDatatypeProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lInstanceType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lObjectProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lWorkType;
@@ -69,9 +71,14 @@ public class HfaToInstanceBuilderTest extends AbstractHfaTest {
 		Assert.assertEquals(1, types.size());
 		Assert.assertTrue(types.contains(Ld4lInstanceType.INSTANCE));
 		
+		Attribute labelAttr = instanceEntity.getAttribute(Ld4lDatatypeProp.LABEL);
+		Assert.assertNotNull(labelAttr);
+		String prefixPlusTitle = HfaTestData.PREFIX_TEXT + " " + HfaTestData.TITLE_TEXT;
+		Assert.assertEquals(prefixPlusTitle, labelAttr.getValue());
+		
 		List<Entity> titleEntities = instanceEntity.getChildren(Ld4lObjectProp.HAS_TITLE);
 		Assert.assertNotNull(titleEntities);
-		Assert.assertEquals(1, titleEntities.size());
+		Assert.assertEquals(7, titleEntities.size());
 		
 		Entity collectionEntity = instanceEntity.getChild(HfaObjectProp.IS_PART_OF);
 		Assert.assertNotNull(collectionEntity);

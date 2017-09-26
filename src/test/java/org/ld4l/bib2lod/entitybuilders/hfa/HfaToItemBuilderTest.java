@@ -27,7 +27,6 @@ import org.ld4l.bib2lod.ontology.ld4l.Ld4lDatatypeProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lInstanceType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lItemType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lObjectProp;
-import org.ld4l.bib2lod.ontology.ld4l.Ld4lTitleType;
 import org.ld4l.bib2lod.record.xml.hfa.HfaRecord;
 import org.ld4l.bib2lod.records.Record.RecordException;
 import org.ld4l.bib2lod.testing.AbstractHfaTest;
@@ -78,11 +77,14 @@ public class HfaToItemBuilderTest extends AbstractHfaTest {
 		Assert.assertNotNull(type);
 		Assert.assertEquals(Ld4lItemType.ITEM, type);
 		
-		String label = item.getValue(Ld4lDatatypeProp.LABEL);
+		Attribute labelAttr = item.getAttribute(Ld4lDatatypeProp.LABEL);
+		Assert.assertNotNull(labelAttr);
+		String prefixPlusTitle = HfaTestData.PREFIX_TEXT + " " + HfaTestData.TITLE_TEXT;
+		Assert.assertEquals(prefixPlusTitle, labelAttr.getValue());
 		
 		Entity custodialHistory = item.getChild(HfaObjectProp.HAS_CUSTODIAL_HISTORY);
 		Assert.assertNotNull(custodialHistory);
-		label = custodialHistory.getValue(Ld4lDatatypeProp.LABEL);
+		String label = custodialHistory.getValue(Ld4lDatatypeProp.LABEL);
 		Assert.assertNotNull(label);
 		Assert.assertEquals(HfaHistoryType.CUSTODIAL_HISTORY.label(), label);
 		

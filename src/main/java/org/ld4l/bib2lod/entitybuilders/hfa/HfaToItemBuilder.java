@@ -87,8 +87,11 @@ public class HfaToItemBuilder extends HfaToLd4lEntityBuilder {
         EntityBuilder builder = getBuilder(Ld4lTitleType.TITLE);
         BuildParams params = new BuildParams()
                 .setRecord(record)
+                .setField(record.getField(HfaRecord.ColumnAttributeText.TITLE))
                 .setParent(item);
-        builder.build(params);
+        Entity titleEntity = builder.build(params);
+        // add primary title as label for this entity
+        item.addAttribute(Ld4lDatatypeProp.LABEL, titleEntity.getAttribute(Ld4lDatatypeProp.LABEL));
     }
     
     private void buildLoanEvent(Entity itemEvent) throws EntityBuilderException {

@@ -7,6 +7,7 @@ import org.ld4l.bib2lod.entitybuilders.BuildParams;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilder;
 import org.ld4l.bib2lod.ontology.hfa.HfaCollectionType;
 import org.ld4l.bib2lod.ontology.hfa.HfaObjectProp;
+import org.ld4l.bib2lod.ontology.ld4l.Ld4lDatatypeProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lInstanceType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lItemType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lObjectProp;
@@ -42,7 +43,7 @@ public class HfaToInstanceBuilder extends HfaToLd4lEntityBuilder {
         // need to pass title along
         this.instance = new Entity(Ld4lInstanceType.INSTANCE);
         
-        buildTitle();
+        buildTitles();
         buildCollection();
         buildItem();
         addLanguages();
@@ -52,13 +53,55 @@ public class HfaToInstanceBuilder extends HfaToLd4lEntityBuilder {
         return instance;
     }
     
-    private void buildTitle() throws EntityBuilderException {
+    private void buildTitles() throws EntityBuilderException {
+    	
+    	HfaTextField hfaTitleField = record.getField(HfaRecord.ColumnAttributeText.TITLE);
         
         EntityBuilder builder = getBuilder(Ld4lTitleType.TITLE);
         BuildParams params = new BuildParams()
                 .setRecord(record)
+                .setField(hfaTitleField)
                 .setParent(instance);
-        builder.build(params);
+        Entity titleEntity = builder.build(params);
+        // add primary title as label for this entity
+        instance.addAttribute(Ld4lDatatypeProp.LABEL, titleEntity.getAttribute(Ld4lDatatypeProp.LABEL));
+        
+        // build any alternative title records
+        hfaTitleField = record.getField(HfaRecord.ColumnAttributeText.ALTERNATE_TITLE);
+        if (hfaTitleField != null) {
+        	params.setField(hfaTitleField);
+        	builder.build(params);
+        }
+        
+        hfaTitleField = record.getField(HfaRecord.ColumnAttributeText.ALSO_KNOWN_AS_TITLE);
+        if (hfaTitleField != null) {
+        	params.setField(hfaTitleField);
+        	builder.build(params);
+        }
+        
+        hfaTitleField = record.getField(HfaRecord.ColumnAttributeText.AKA_TITLE);
+        if (hfaTitleField != null) {
+        	params.setField(hfaTitleField);
+        	builder.build(params);
+        }
+        
+        hfaTitleField = record.getField(HfaRecord.ColumnAttributeText.ORIGINAL_TITLE);
+        if (hfaTitleField != null) {
+        	params.setField(hfaTitleField);
+        	builder.build(params);
+        }
+        
+        hfaTitleField = record.getField(HfaRecord.ColumnAttributeText.ENGLISH_TITLE);
+        if (hfaTitleField != null) {
+        	params.setField(hfaTitleField);
+        	builder.build(params);
+        }
+        
+        hfaTitleField = record.getField(HfaRecord.ColumnAttributeText.TITLE_ON_PRINT);
+        if (hfaTitleField != null) {
+        	params.setField(hfaTitleField);
+        	builder.build(params);
+        }
     }
     
     private void buildCollection() throws EntityBuilderException {

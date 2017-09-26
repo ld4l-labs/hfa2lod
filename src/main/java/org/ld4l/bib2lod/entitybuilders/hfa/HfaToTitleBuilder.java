@@ -34,19 +34,22 @@ public class HfaToTitleBuilder extends HfaToLd4lEntityBuilder {
                     "A parent Entity is required to build a title.");
         }
         
-        HfaTextField hfaTitle = record.getField(HfaRecord.ColumnAttributeText.TITLE);
-        if (hfaTitle == null) {
+        HfaTextField hfaTitleField = (HfaTextField) params.getField();
+        if (hfaTitleField == null) {
             throw new EntityBuilderException(
-                    "A HfaField with column attribute [" + HfaRecord.ColumnAttributeText.TITLE.getColumnAttributeText() + "] is required to build a title.");
+                    "A HfaField with is required to build a title.");
         }
-        HfaTextField hfaPrefix = record.getField(HfaRecord.ColumnAttributeText.PREFIX);
-        
+
         StringBuilder fullTitle = new StringBuilder();
-        if (hfaPrefix != null) {
-        	fullTitle.append(hfaPrefix.getTextValue());
-        	fullTitle.append(' ');
+        if (HfaRecord.ColumnAttributeText.TITLE.getColumnAttributeText().equals(hfaTitleField.getFieldName())) {
+        	// look for Prefix field only fot this one title type
+        	HfaTextField hfaPrefix = record.getField(HfaRecord.ColumnAttributeText.PREFIX);
+        	if (hfaPrefix != null) {
+        		fullTitle.append(hfaPrefix.getTextValue().trim());
+        		fullTitle.append(' ');
+        	}
         }
-        fullTitle.append(hfaTitle.getTextValue());
+        fullTitle.append(hfaTitleField.getTextValue().trim());
 
         Entity titleEntity = new Entity(Ld4lTitleType.TITLE);
         titleEntity.addAttribute(Ld4lDatatypeProp.LABEL, fullTitle.toString().trim());

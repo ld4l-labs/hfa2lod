@@ -76,7 +76,7 @@ public class HfaToMovingImageBuilder extends HfaToLd4lEntityBuilder {
         
         this.work = new Entity(Ld4lWorkType.MOVING_IMAGE);
         
-        buildTitle();
+        buildTitles();
         buildInstances();
         addIdentifiers();
         buildActivies();
@@ -100,13 +100,49 @@ public class HfaToMovingImageBuilder extends HfaToLd4lEntityBuilder {
         return this.work;
     }
     
-    private void buildTitle() throws EntityBuilderException { 
+    private void buildTitles() throws EntityBuilderException {
+    	
+    	HfaTextField hfaTitleField = record.getField(HfaRecord.ColumnAttributeText.TITLE);
         
         EntityBuilder builder = getBuilder(Ld4lTitleType.TITLE);
         BuildParams params = new BuildParams()
                 .setRecord(record)
+                .setField(hfaTitleField)
                 .setParent(work);
-        builder.build(params);
+        Entity titleEntity = builder.build(params);
+        // add primary title as label for this entity
+        work.addAttribute(Ld4lDatatypeProp.LABEL, titleEntity.getAttribute(Ld4lDatatypeProp.LABEL));
+        
+        // build any other title records
+        hfaTitleField = record.getField(HfaRecord.ColumnAttributeText.ALTERNATE_TITLE);
+        if (hfaTitleField != null) {
+        	params.setField(hfaTitleField);
+        	builder.build(params);
+        }
+        
+        hfaTitleField = record.getField(HfaRecord.ColumnAttributeText.ALSO_KNOWN_AS_TITLE);
+        if (hfaTitleField != null) {
+        	params.setField(hfaTitleField);
+        	builder.build(params);
+        }
+        
+        hfaTitleField = record.getField(HfaRecord.ColumnAttributeText.AKA_TITLE);
+        if (hfaTitleField != null) {
+        	params.setField(hfaTitleField);
+        	builder.build(params);
+        }
+        
+        hfaTitleField = record.getField(HfaRecord.ColumnAttributeText.ORIGINAL_TITLE);
+        if (hfaTitleField != null) {
+        	params.setField(hfaTitleField);
+        	builder.build(params);
+        }
+        
+        hfaTitleField = record.getField(HfaRecord.ColumnAttributeText.ENGLISH_TITLE);
+        if (hfaTitleField != null) {
+        	params.setField(hfaTitleField);
+        	builder.build(params);
+        }
     }
     
     private void buildInstances() throws EntityBuilderException {

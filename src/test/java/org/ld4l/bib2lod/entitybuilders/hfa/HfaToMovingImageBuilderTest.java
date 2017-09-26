@@ -74,9 +74,14 @@ public class HfaToMovingImageBuilderTest extends AbstractHfaTest {
 		Assert.assertEquals(1, types.size());
 		Assert.assertTrue(types.contains(Ld4lWorkType.MOVING_IMAGE));
 		
+		Attribute labelAttr = movingImageEntity.getAttribute(Ld4lDatatypeProp.LABEL);
+		Assert.assertNotNull(labelAttr);
+		String prefixPlusTitle = HfaTestData.PREFIX_TEXT + " " + HfaTestData.TITLE_TEXT;
+		Assert.assertEquals(prefixPlusTitle, labelAttr.getValue());
+
 		List<Entity> titleEntities = movingImageEntity.getChildren(Ld4lObjectProp.HAS_TITLE);
 		Assert.assertNotNull(titleEntities);
-		Assert.assertEquals(1, titleEntities.size());
+		Assert.assertEquals(6, titleEntities.size());
 		
 		List<Entity> instanceEntities = movingImageEntity.getChildren(Ld4lObjectProp.HAS_INSTANCE);
 		Assert.assertNotNull(instanceEntities);

@@ -23,12 +23,19 @@ public class HfaRecord extends BaseXmlRecord {
 	 * (listed alphabetically)
 	 */
     public enum ColumnAttributeText {
+    	AKA_TITLE("aka Title"),
+    	ALTERNATE_TITLE("Alternate Title"),
+    	ALSO_KNOWN_AS_TITLE("Also known as Title"),
+    	CAUTIONS("Cautions:"),
     	CLASSIFICATION("Classification"),
     	COLLECTION("Collection Title"),
+    	COLOR("B/W-Color"),
+    	CONDITION_DEFECTS("Condition Defects"),
     	COUNTRY("Country"),
     	DIRECTOR("Director"),
     	DP_CINEMATOGRAPHER("DP/Cinematographer"),
     	EDITOR("Editor"),
+    	ENGLISH_TITLE("English Titles"),
     	FICTION("Fiction"),
     	GENRE("Genre"),
     	HFA_TIME("HFA Time"),
@@ -36,8 +43,10 @@ public class HfaRecord extends BaseXmlRecord {
     	ITEM_NUMBER("Item number"),
     	LANGUAGE("Language"),
     	NON_FICTION("Non Fiction"),
+    	ORIGINAL_TITLE("Original Title"),
     	PREFIX("prefix"),
     	PRINCIPAL_CAST("Principal Cast"),
+    	PRINT_CONDITION("Print Condition"),
     	PRODUCER("Producer"),
     	PRODUCTION_COMPANY("Production Company"),
     	RUNNING_TIME("Running Time {Length}"),
@@ -46,6 +55,7 @@ public class HfaRecord extends BaseXmlRecord {
     	SUBTITLES_LANGUAGE("Subtitle Language"),
     	SYNOPSIS("Synopsis"),
     	TITLE("Original Titles"),
+    	TITLE_ON_PRINT("Title on Print"),
     	YEAR_OF_RELEASE("Year of Release");
         
         private final String attrText;
