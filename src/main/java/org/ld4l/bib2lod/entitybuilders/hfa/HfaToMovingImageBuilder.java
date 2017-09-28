@@ -12,6 +12,7 @@ import org.ld4l.bib2lod.entity.Entity;
 import org.ld4l.bib2lod.entitybuilders.BuildParams;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilder;
 import org.ld4l.bib2lod.externalbuilders.ConcordanceReferenceBuilder;
+import org.ld4l.bib2lod.externalbuilders.HfaToCharacteristicsConcordanceBuilder;
 import org.ld4l.bib2lod.externalbuilders.HfaToGenreConcordanceBuilder;
 import org.ld4l.bib2lod.externalbuilders.HfaToTopicConcordanceBuilder;
 import org.ld4l.bib2lod.ontology.NamedIndividual;
@@ -84,6 +85,7 @@ public class HfaToMovingImageBuilder extends HfaToLd4lEntityBuilder {
         try {
 			addGenres();
 			addTopics();
+			addColor();
 		} catch (ConverterException e) {
             throw new EntityBuilderException(
             		e.getMessage(), e);
@@ -190,6 +192,16 @@ public class HfaToMovingImageBuilder extends HfaToLd4lEntityBuilder {
         builder.build(params);
     }
     
+    private void addColor() throws ConverterException {
+        
+    	ConcordanceReferenceBuilder builder = new HfaToCharacteristicsConcordanceBuilder();
+
+        BuildParams params = new BuildParams()
+                .setRecord(record)
+                .setParent(work);        
+        builder.build(params);
+    }
+
     private void buildAnnotations() throws EntityBuilderException {
     	
     	EntityBuilder builder = getBuilder(Ld4lAnnotationType.ANNOTATION);

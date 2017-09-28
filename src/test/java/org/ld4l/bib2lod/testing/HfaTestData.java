@@ -62,6 +62,10 @@ public class HfaTestData {
 	public static final String CITY = "Cambridge";
 	public static final String DURATION = "123";
 	public static final String ISO_8601_DURATION = "P123M";
+	public static final String COLOR_BW = "B/W";
+	public static final String DEFECT = "Poor sound";
+	public static final String CAUTION = "incomplete print";
+	public static final String PRINT_CONDITION = "Excellent";
 	
 	public static final String VALID_ITEM_NUMBER_FIELD =
 			"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + ITEM_NUMBER + "</col>";
@@ -180,6 +184,7 @@ public class HfaTestData {
 		        		"<col column='" + HfaRecord.ColumnAttributeText.SYNOPSIS.getColumnAttributeText() + "'>" + SYNOPSIS + "</col>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.HFA_TIME.getColumnAttributeText() + "'>" + DURATION + "</col>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.RUNNING_TIME.getColumnAttributeText() + "'>" + DURATION + "</col>" +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.COLOR.getColumnAttributeText() + "'>" + COLOR_BW + "</col>" +		        		
 		        		CAST_MEMBERS_HFA_FIELD +
 		        		YEAR_OF_RELEASE_FIELD +
 		        		COUNTRY1_FIELD +
@@ -316,8 +321,12 @@ public class HfaTestData {
 	        			VALID_PREFIX_FIELD +
 	        			VALID_TITLE_FIELD +
 	        			LOAN1_FIELD +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.COLOR.getColumnAttributeText() + "'>" + COLOR_BW + "</col>" +		        		
+		        		"<col column='" + HfaRecord.ColumnAttributeText.CONDITION_DEFECTS.getColumnAttributeText() + "'>" + DEFECT + "</col>" +		        		
+		        		"<col column='" + HfaRecord.ColumnAttributeText.CAUTIONS.getColumnAttributeText() + "'>" + CAUTION + "</col>" +		        		
+		        		"<col column='" + HfaRecord.ColumnAttributeText.PRINT_CONDITION.getColumnAttributeText() + "'>" + PRINT_CONDITION + "</col>" +		        		
+		        		"<col column='" + HfaRecord.ColumnAttributeText.HFA_TIME.getColumnAttributeText() + "'>" + DURATION + "</col>" +
 	        		"</row>" +
-	        		"<col column='" + HfaRecord.ColumnAttributeText.HFA_TIME.getColumnAttributeText() + "'>" + DURATION + "</col>" +
 	        "</HFA-data>";
 
 	public static final String VALID_ITEM_HFA_RECORD_2_LOANS = 

@@ -36,3 +36,7 @@ Reversal,B/W-Color,mi:Reversal
 B&W tinted,B/W-Color,mi:BWtinted
 B&W toned,B/W-Color,mi:BWtoned
 Kodacolor,B/W-Color,mi:Kodacolor
+excellent,Print Condition,mi:ExcellentCondition
+good,Print Condition,mi:GoodCondition
+acceptable,Print Condition,mi:AcceptableCondition
+poor,Print Condition,mi:PoorCondition

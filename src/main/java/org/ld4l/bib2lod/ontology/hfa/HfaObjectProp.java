@@ -13,6 +13,8 @@ import org.ld4l.bib2lod.ontology.ld4l.Ld4lNamespace;
 public enum HfaObjectProp implements ObjectProp {
     
     /* List in alpha order */
+	HAS_CHARACTERISTIC(HfaNamespace.MOVING_IMAGE, "hasCharacteristic"),
+	HAS_COLOR_CONTENT(Ld4lNamespace.BIBFRAME, "colorContent"),
 	// FIXME: The following property needs its namespace changed.
 	HAS_CUSTODIAL_HISTORY(HfaNamespace.FIX_ME, "hasCustodialHistory"),
 	HAS_INTERTITLE_LANGUAGE(HfaNamespace.MOVING_IMAGE, "intertitleLanguage"),

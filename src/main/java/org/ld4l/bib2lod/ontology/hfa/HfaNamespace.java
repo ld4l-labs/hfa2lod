@@ -14,8 +14,7 @@ public enum HfaNamespace implements Namespace {
     /* List in alpha order */
 	// FIXME: The following namespace is just a placeholder
 	FIX_ME("http://localhost/fixme/", "ex"),
-	GENRE_FORMS("http://id.loc.gov/authorities/genreForms"),
-	ISNI("http://isni.org/isni/"),
+	ISNI("http://isni.org/isni/", "isni"),
 	// FIXME: The following namespace URI is just a placeholder
 	MOVING_IMAGE("http://localhost/movingimage/", "mi");
     
@@ -39,4 +38,14 @@ public enum HfaNamespace implements Namespace {
         return this.prefix;
     }
     
+    public static HfaNamespace getHfaNamespaceByPrefix(String prefix) {
+    	
+    	HfaNamespace value = null;
+    	for (HfaNamespace ns : HfaNamespace.values()) {
+    		if (ns.prefix != null && ns.prefix.equals(prefix)) {
+    			value = ns;
+    		}
+    	}
+    	return value;
+    }
 }

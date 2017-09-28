@@ -4,11 +4,14 @@ package org.ld4l.bib2lod.entitybuilders.hfa;
 
 import java.util.List;
 
+import org.ld4l.bib2lod.conversion.Converter.ConverterException;
 import org.ld4l.bib2lod.datatypes.XsdDatatype;
 import org.ld4l.bib2lod.entity.Attribute;
 import org.ld4l.bib2lod.entity.Entity;
 import org.ld4l.bib2lod.entitybuilders.BuildParams;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilder;
+import org.ld4l.bib2lod.externalbuilders.ConcordanceReferenceBuilder;
+import org.ld4l.bib2lod.externalbuilders.HfaToCharacteristicsConcordanceBuilder;
 import org.ld4l.bib2lod.ontology.hfa.HfaActivityType;
 import org.ld4l.bib2lod.ontology.hfa.HfaDatatypeProp;
 import org.ld4l.bib2lod.ontology.hfa.HfaEventType;
@@ -52,6 +55,12 @@ public class HfaToItemBuilder extends HfaToLd4lEntityBuilder {
         this.item = new Entity(Ld4lItemType.ITEM);
         
         buildTitle();
+        try {
+			addCharacteristics();
+		} catch (ConverterException e) {
+            throw new EntityBuilderException(
+            		e.getMessage(), e);
+		}
         
         // add running time
         HfaTextField hfaTime = record.getField(ColumnAttributeText.HFA_TIME);
@@ -92,6 +101,16 @@ public class HfaToItemBuilder extends HfaToLd4lEntityBuilder {
         Entity titleEntity = builder.build(params);
         // add primary title as label for this entity
         item.addAttribute(Ld4lDatatypeProp.LABEL, titleEntity.getAttribute(Ld4lDatatypeProp.LABEL));
+    }
+    
+    private void addCharacteristics() throws ConverterException {
+        
+    	ConcordanceReferenceBuilder builder = new HfaToCharacteristicsConcordanceBuilder();
+
+        BuildParams params = new BuildParams()
+                .setRecord(record)
+                .setParent(item);        
+        builder.build(params);
     }
     
     private void buildLoanEvent(Entity itemEvent) throws EntityBuilderException {

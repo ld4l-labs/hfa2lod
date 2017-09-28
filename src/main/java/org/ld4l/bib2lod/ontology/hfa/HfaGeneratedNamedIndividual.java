@@ -7,33 +7,22 @@ import org.apache.jena.rdf.model.ResourceFactory;
 import org.ld4l.bib2lod.ontology.NamedIndividual;
 import org.ld4l.bib2lod.ontology.Namespace;
 import org.ld4l.bib2lod.ontology.Type;
-import org.ld4l.bib2lod.ontology.ld4l.Ld4lMotivationType;
-import org.ld4l.bib2lod.ontology.ld4l.Ld4lNamespace;
 
 /**
- * Enumerates named individuals used in HFA data model.
+ * Generates named individuals used in HFA data model.
  */
-public enum HfaNamedIndividual implements NamedIndividual {
-    
-    /* Web Annotation Motivation 
-     */
-	LISTING_CREDITS(Ld4lNamespace.BIBFRAME, "listingCredits", Ld4lMotivationType.MOTIVATION);
-    
+public class HfaGeneratedNamedIndividual implements NamedIndividual {
+        
     private String uri;
     private Resource resource;
-    private Type type;
     
     /**
      * Constructor
+     * @throws java.lang.NullPointerException if namespace is <code>null</code>.
      */
-    HfaNamedIndividual(Namespace namespace, String localName, Type type) {
+    public HfaGeneratedNamedIndividual(Namespace namespace, String localName) {
         this.uri = namespace.uri() + localName;
         this.resource = ResourceFactory.createResource(uri);
-        this.type = type;
-    }
-    
-    HfaNamedIndividual(Namespace namespace, String localName) {
-        this(namespace,  localName, null);
     }
     
     @Override
@@ -48,7 +37,7 @@ public enum HfaNamedIndividual implements NamedIndividual {
     
     @Override
     public Type type() {
-        return type;
+        return null;
     }
 
 }

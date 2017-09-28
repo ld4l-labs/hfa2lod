@@ -38,7 +38,7 @@ public class CharacteristicsConcordanceManagerTest {
 			Map<String, CharacteristicsConcordanceBean> map = mgr.getMap();
 			Assert.assertNotNull(map);
 			Assert.assertFalse(map.isEmpty());
-			Assert.assertEquals(3, map.size());
+			Assert.assertEquals(41, map.size());
 			
 			CharacteristicsConcordanceBean bean = mgr.getConcordanceEntry("Dirty");
 			Assert.assertNotNull(bean);

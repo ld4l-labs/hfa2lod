@@ -39,7 +39,7 @@ public class CharacteristicsConcordanceManager extends AbstractConcordanceManage
 		
 	}
 	
-	private static final String CONCORANCE_FILE_NAME = "/Agents_concordance_v1.csv";
+	private static final String CONCORANCE_FILE_NAME = "/characteristics.csv";
 	
     /**
      * Constructor which loads default CSV file.
@@ -57,7 +57,7 @@ public class CharacteristicsConcordanceManager extends AbstractConcordanceManage
 	 * @throws URISyntaxException 
 	 * @throws FileNotFoundException - If file not found on classpath.
 	 */
-	protected CharacteristicsConcordanceManager(String fileName) throws URISyntaxException, IOException {
+	public CharacteristicsConcordanceManager(String fileName) throws URISyntaxException, IOException {
 		super(fileName);
 	}
 	
