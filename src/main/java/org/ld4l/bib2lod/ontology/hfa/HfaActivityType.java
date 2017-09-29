@@ -13,6 +13,7 @@ public enum HfaActivityType implements Type {
 	BORROWER_ACTIVITY(Ld4lNamespace.BIBLIOTEKO, "BorrowerActivity", "Borrower"),
 	CINEMATOGRAPHER_ACTIVITY(Ld4lNamespace.BIBLIOTEKO, "CinematographerActivity", "Cinematographer"),
     DIRECTOR_ACTIVITY(Ld4lNamespace.BIBLIOTEKO, "FilmDirectorActivity", "Film Director"),
+    DONOR_ACTIVITY(Ld4lNamespace.BIBLIOTEKO, "DonorActivity", "Donor"),
     EDITOR_ACTIVITY(Ld4lNamespace.BIBLIOTEKO, "FilmEditorActivity", "Film Editor"),
     LENDER_ACTIVITY(Ld4lNamespace.BIBLIOTEKO, "LenderActivity", "Lender"),
     MUSICIAN_ACTIVITY(Ld4lNamespace.BIBLIOTEKO, "MusicianActivity", "Musician"),

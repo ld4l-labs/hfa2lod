@@ -65,8 +65,9 @@ public class HfaTestData {
 	public static final String COLOR_BW = "B/W";
 	public static final String DEFECT = "Poor sound";
 	public static final String CAUTION = "incomplete print";
-	public static final String PRINT_CONDITION = "Excellent";
+	public static final String PRINT_CONDITION = "Excellent"; // intentionally capitalized whereas lower case in concordance file
 	public static final String MUSIC = "John Q. Composer";
+	public static final String DONATED_BY = " Mary O. Benefactor ";
 	
 	public static final String VALID_ITEM_NUMBER_FIELD =
 			"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + ITEM_NUMBER + "</col>";
@@ -328,6 +329,7 @@ public class HfaTestData {
 		        		"<col column='" + HfaRecord.ColumnAttributeText.CAUTIONS.getColumnAttributeText() + "'>" + CAUTION + "</col>" +		        		
 		        		"<col column='" + HfaRecord.ColumnAttributeText.PRINT_CONDITION.getColumnAttributeText() + "'>" + PRINT_CONDITION + "</col>" +		        		
 		        		"<col column='" + HfaRecord.ColumnAttributeText.HFA_TIME.getColumnAttributeText() + "'>" + DURATION + "</col>" +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.DONATED_BY.getColumnAttributeText() + "'>" + DONATED_BY + "</col>" +
 	        		"</row>" +
 	        "</HFA-data>";
 

@@ -55,6 +55,7 @@ public class HfaToItemBuilder extends HfaToLd4lEntityBuilder {
         this.item = new Entity(Ld4lItemType.ITEM);
         
         buildTitle();
+
         try {
 			addCharacteristics();
 		} catch (ConverterException e) {
@@ -70,25 +71,50 @@ public class HfaToItemBuilder extends HfaToLd4lEntityBuilder {
         	item.addAttribute(HfaDatatypeProp.DURATION_BF, new Attribute(hfaTime.getTextValue(), "en"));
         }
         
+        // A custodialHistoryEvent and itemEvent Entity will be built and added
+        // to the item iff there is either loan donor data in the record.
+        Entity itemEvent = null;
+        
+    	HfaTextField donorField = record.getField(ColumnAttributeText.DONATED_BY);
+    	if (donorField != null) {
+    		itemEvent = buildCustodialAndItemEventEntitiesAndAddToItemEntity();
+        	buildGiftEvent(donorField, itemEvent);
+    	}
+
+        
         // Building this section depends solely on the existence of HfaLoan values.
         hfaLoans = record.getHfaLoanFields();
         if ( !hfaLoans.isEmpty()) {
         	
-        	// FIXME: This might be the wrong type and, also, the construct may not conform to ontology.
-        	Entity custodialHistoryEvent = new Entity(HfaHistoryType.CUSTODIAL_HISTORY);
-        	custodialHistoryEvent.addAttribute(Ld4lDatatypeProp.LABEL, HfaHistoryType.CUSTODIAL_HISTORY.label());
-        	item.addRelationship(HfaObjectProp.HAS_CUSTODIAL_HISTORY, custodialHistoryEvent);
-        	
-        	Entity itemEvent = new Entity(HfaEventType.ITEM_EVENT);
-        	custodialHistoryEvent.addRelationship(Ld4lObjectProp.HAS_PART, itemEvent);
+        	if (itemEvent == null) {
+        		itemEvent = buildCustodialAndItemEventEntitiesAndAddToItemEntity();
+        	}
         	
         	buildLoanEvent(itemEvent);
         	buildExhibitionEvent();
         }
-                
+
         instance.addRelationship(Ld4lObjectProp.HAS_ITEM, item);
         
         return item;
+    }
+    
+    /*
+     * Build custodial event Entity, add to Item Entity, build item event Entity, add it
+     * to custodial event Entity.
+     * Return the item event Entity for later use.
+     */
+    private Entity buildCustodialAndItemEventEntitiesAndAddToItemEntity() {
+
+    	// FIXME: This might be the wrong type and, also, the construct may not conform to ontology.
+        Entity custodialHistoryEvent = new Entity(HfaHistoryType.CUSTODIAL_HISTORY);
+		custodialHistoryEvent.addAttribute(Ld4lDatatypeProp.LABEL, HfaHistoryType.CUSTODIAL_HISTORY.label());
+		item.addRelationship(HfaObjectProp.HAS_CUSTODIAL_HISTORY, custodialHistoryEvent);
+		
+		Entity itemEvent = new Entity(HfaEventType.ITEM_EVENT);
+		custodialHistoryEvent.addRelationship(Ld4lObjectProp.HAS_PART, itemEvent);
+
+		return itemEvent;
     }
     
     private void buildTitle() throws EntityBuilderException {
@@ -166,6 +192,24 @@ public class HfaToItemBuilder extends HfaToLd4lEntityBuilder {
     		builder.build(params);
     	}
     	
+    }
+    
+    private void buildGiftEvent(HfaTextField donorField, Entity itemEvent) throws EntityBuilderException {
+    	
+    	if (donorField == null) {
+    		return;
+    	}
+
+    	Entity giftEvent = new Entity(HfaEventType.GIFT_EVENT);
+		itemEvent.addRelationship(Ld4lObjectProp.IS_PART_OF, giftEvent);
+		
+		EntityBuilder builder = getBuilder(Ld4lActivityType.ACTIVITY);
+		BuildParams params = new BuildParams()
+				.setRecord(record)
+				.setParent(giftEvent)
+				.setType(HfaActivityType.DONOR_ACTIVITY)
+				.setValue(donorField.getTextValue());
+		builder.build(params);
     }
 
     private void buildExhibitionEvent() throws EntityBuilderException {

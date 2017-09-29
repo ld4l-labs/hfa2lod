@@ -2,15 +2,12 @@
 
 package org.ld4l.bib2lod.entitybuilders.hfa;
 
-import java.util.List;
-
 import org.ld4l.bib2lod.entity.Entity;
 import org.ld4l.bib2lod.entitybuilders.BuildParams;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilder;
 import org.ld4l.bib2lod.ontology.Type;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lObjectProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lTitleType;
-import org.ld4l.bib2lod.record.xml.hfa.HfaLoan;
 import org.ld4l.bib2lod.record.xml.hfa.HfaRecord;
 
 /**
@@ -21,7 +18,6 @@ public class HfaToEventBuilder extends HfaToLd4lEntityBuilder {
     private HfaRecord record;
     private Entity parent;
     private Type type;
-//    private List<HfaLoan> hfaLoans;
     private Entity event;
   
     @Override

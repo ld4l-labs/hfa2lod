@@ -94,7 +94,7 @@ public class HfaToItemBuilderTest extends AbstractHfaTest {
 		Assert.assertNotNull(type);
 		Assert.assertEquals(HfaEventType.ITEM_EVENT, type);
 
-		Entity loanEvent = itemEvent.getChild(Ld4lObjectProp.IS_PART_OF);
+		Entity loanEvent = itemEvent.getChild(Ld4lObjectProp.IS_PART_OF, HfaEventType.LOAN_EVENT);
 		Assert.assertNotNull(loanEvent);
 		type = loanEvent.getType();
 		Assert.assertNotNull(type);
@@ -132,6 +132,16 @@ public class HfaToItemBuilderTest extends AbstractHfaTest {
 		Assert.assertNotNull(runningTime);
 		Assert.assertEquals(HfaTestData.DURATION, runningTime.getValue());
 		
+		Entity giftEvent = itemEvent.getChild(Ld4lObjectProp.IS_PART_OF, HfaEventType.GIFT_EVENT);
+		Assert.assertNotNull(giftEvent);
+		type = giftEvent.getType();
+		Assert.assertNotNull(type);
+		Assert.assertEquals( HfaEventType.GIFT_EVENT, type);
+		Entity donorActivity = giftEvent.getChild(Ld4lObjectProp.HAS_ACTIVITY, HfaActivityType.DONOR_ACTIVITY);
+		Assert.assertNotNull(donorActivity);
+		Entity agent = donorActivity.getChild(Ld4lObjectProp.HAS_AGENT);
+		Assert.assertNotNull(agent);
+		Assert.assertEquals(HfaTestData.DONATED_BY.trim(), agent.getAttribute(Ld4lDatatypeProp.LABEL).getValue());
 	}
 	
 	@Test

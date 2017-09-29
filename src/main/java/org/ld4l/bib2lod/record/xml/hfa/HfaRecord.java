@@ -34,6 +34,7 @@ public class HfaRecord extends BaseXmlRecord {
     	CONDITION_DEFECTS("Condition Defects"),
     	COUNTRY("Country"),
     	DIRECTOR("Director"),
+    	DONATED_BY("Donated By:"),
     	DP_CINEMATOGRAPHER("DP/Cinematographer"),
     	EDITOR("Editor"),
     	ELEMENT("Element"),
