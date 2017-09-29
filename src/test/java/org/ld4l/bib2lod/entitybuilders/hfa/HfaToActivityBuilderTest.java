@@ -240,5 +240,25 @@ public class HfaToActivityBuilderTest extends AbstractHfaTest {
 		
 		activityBuilder.build(params);
 	}
+	
+	@Test
+	public void validMusicRecord() throws Exception {
+
+		BuildParams params = new BuildParams()
+				.setRecord(hfaRecord)
+				.setParent(parentEntity)
+				.setType(HfaActivityType.MUSICIAN_ACTIVITY)
+				.setValue(HfaTestData.MUSIC);
+		
+		Entity activityEntity = activityBuilder.build(params);
+		Assert.assertNotNull(activityEntity);
+		Type type = activityEntity.getType();
+		Assert.assertNotNull(type);
+		Assert.assertEquals(HfaActivityType.MUSICIAN_ACTIVITY, type);
+		List<Entity> agentEntities = activityEntity.getChildren(Ld4lObjectProp.HAS_AGENT);
+		Assert.assertEquals(1, agentEntities.size());
+		Entity agentEntity = agentEntities.get(0);
+		Assert.assertEquals(HfaTestData.MUSIC, agentEntity.getAttribute(Ld4lDatatypeProp.LABEL).getValue());
+	}
 
 }

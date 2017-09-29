@@ -52,7 +52,8 @@ public class HfaToMovingImageBuilder extends HfaToLd4lEntityBuilder {
 			ColumnAttributeText.EDITOR,
 			ColumnAttributeText.PRODUCER,
 			ColumnAttributeText.SCRIPT,
-			ColumnAttributeText.PRODUCTION_COMPANY
+			ColumnAttributeText.PRODUCTION_COMPANY,
+			ColumnAttributeText.MUSIC
 	};
     
     private static final ColumnAttributeText[] annotationColumns = {
@@ -290,6 +291,10 @@ public class HfaToMovingImageBuilder extends HfaToLd4lEntityBuilder {
             case PRODUCTION_COMPANY:
             	// FIXME: the folloiwng might not be correct.
             	activityType = HfaActivityType.PRODUCTION_COMPANY_ACTIVITY;
+            	break;
+            case MUSIC:
+            	// FIXME: the folloiwng might not be correct.
+            	activityType = HfaActivityType.MUSICIAN_ACTIVITY;
             	break;
             default:
             	throw new EntityBuilderException("Column name must match an expected value.");

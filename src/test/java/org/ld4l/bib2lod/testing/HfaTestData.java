@@ -47,7 +47,7 @@ public class HfaTestData {
 	public static final String COUNTRY3 = "Boreo";
 	public static final String YEAR_OF_RELEASE = "1999";
 	public static final String COUNTRIES = COUNTRY1 + " /" + COUNTRY2 + " , " + COUNTRY3;
-	public static final String CAST1 = " Person 1 ";
+	public static final String CAST1 = " Person 1 "; // yes, wanted to pad with spaces
 	public static final String CAST2 = "Person 2";
 	public static final String CAST3 = "Person 3";
 	public static final String CAST_MEMBERS = CAST1 + "," + CAST2 + " , " + CAST3;
@@ -66,6 +66,7 @@ public class HfaTestData {
 	public static final String DEFECT = "Poor sound";
 	public static final String CAUTION = "incomplete print";
 	public static final String PRINT_CONDITION = "Excellent";
+	public static final String MUSIC = "John Q. Composer";
 	
 	public static final String VALID_ITEM_NUMBER_FIELD =
 			"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + ITEM_NUMBER + "</col>";
@@ -177,6 +178,7 @@ public class HfaTestData {
 		        		"<col column='" + HfaRecord.ColumnAttributeText.DIRECTOR.getColumnAttributeText() + "'>" + FILM_DIRECTOR + "</col>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.COLLECTION.getColumnAttributeText() + "'>" + COLLECTION + "</col>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.EDITOR.getColumnAttributeText() + "'>" + EDITOR + "</col>" +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.MUSIC.getColumnAttributeText() + "'>" + MUSIC + "</col>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.PRODUCER.getColumnAttributeText() + "'>" + PRODUCERS + "</col>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.LANGUAGE.getColumnAttributeText() + "'>" + LANGUAGE + "</col>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.SUBTITLES_LANGUAGE.getColumnAttributeText() + "'>" + LANGUAGE + "</col>" +

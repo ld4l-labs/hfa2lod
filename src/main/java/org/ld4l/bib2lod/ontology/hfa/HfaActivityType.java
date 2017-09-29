@@ -15,6 +15,7 @@ public enum HfaActivityType implements Type {
     DIRECTOR_ACTIVITY(Ld4lNamespace.BIBLIOTEKO, "FilmDirectorActivity", "Film Director"),
     EDITOR_ACTIVITY(Ld4lNamespace.BIBLIOTEKO, "FilmEditorActivity", "Film Editor"),
     LENDER_ACTIVITY(Ld4lNamespace.BIBLIOTEKO, "LenderActivity", "Lender"),
+    MUSICIAN_ACTIVITY(Ld4lNamespace.BIBLIOTEKO, "MusicianActivity", "Musician"),
     PRODUCER_ACTIVITY(Ld4lNamespace.BIBLIOTEKO, "ProducerActivity", "Producer"),
     // FIXME: The following namespace might not be correct.
     PRODUCTION_COMPANY_ACTIVITY(HfaNamespace.MOVING_IMAGE, "ProductionCompanyActivity", "Production"),
