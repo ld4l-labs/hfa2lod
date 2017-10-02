@@ -19,6 +19,7 @@ public class HfaTestData {
 	public static final String ORIGINAL_TITLE_TEXT = "Original Title";
 	public static final String ENGLISH_TITLE_TEXT = "English Title";
 	public static final String TITLE_ON_PRINT_TEXT = "Title on print";
+	public static final String ANOTHER_TITLE_TEXT = "Title";
 	public static final String ITEM_NUMBER = "1234";
 	public static final String ALT_ITEM_NUMBER = "V9876";
 	public static final String FICTION_GENRE = "Fiction";
@@ -67,7 +68,7 @@ public class HfaTestData {
 	public static final String CAUTION = "incomplete print";
 	public static final String PRINT_CONDITION = "Excellent"; // intentionally capitalized whereas lower case in concordance file
 	public static final String MUSIC = "John Q. Composer";
-	public static final String DONATED_BY = " Mary O. Benefactor ";
+	public static final String DONATED_BY = " Mary O. Benefactor "; // yes, wanted to pad with spaces
 	
 	public static final String VALID_ITEM_NUMBER_FIELD =
 			"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + ITEM_NUMBER + "</col>";
@@ -329,6 +330,15 @@ public class HfaTestData {
 		        		"<col column='" + HfaRecord.ColumnAttributeText.CAUTIONS.getColumnAttributeText() + "'>" + CAUTION + "</col>" +		        		
 		        		"<col column='" + HfaRecord.ColumnAttributeText.PRINT_CONDITION.getColumnAttributeText() + "'>" + PRINT_CONDITION + "</col>" +		        		
 		        		"<col column='" + HfaRecord.ColumnAttributeText.HFA_TIME.getColumnAttributeText() + "'>" + DURATION + "</col>" +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.DONATED_BY.getColumnAttributeText() + "'>" + DONATED_BY + "</col>" +
+	        		"</row>" +
+	        "</HFA-data>";
+
+	public static final String VALID_SECOND_ITEM_HFA_RECORD_SAME_DONOR = 
+	        "<HFA-data>" +
+	        		"<row>" +
+	        			"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>5678</col>" +
+	        			"<col column='" + HfaRecord.ColumnAttributeText.TITLE.getColumnAttributeText() + "'>" + ANOTHER_TITLE_TEXT + "</col>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.DONATED_BY.getColumnAttributeText() + "'>" + DONATED_BY + "</col>" +
 	        		"</row>" +
 	        "</HFA-data>";

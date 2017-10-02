@@ -4,6 +4,7 @@ package org.ld4l.bib2lod.entitybuilders.hfa;
 
 import java.util.List;
 
+import org.apache.jena.rdf.model.Resource;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -23,6 +24,7 @@ import org.ld4l.bib2lod.ontology.hfa.HfaDatatypeProp;
 import org.ld4l.bib2lod.ontology.hfa.HfaEventType;
 import org.ld4l.bib2lod.ontology.hfa.HfaHistoryType;
 import org.ld4l.bib2lod.ontology.hfa.HfaObjectProp;
+import org.ld4l.bib2lod.ontology.ld4l.Ld4lAgentType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lDatatypeProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lInstanceType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lItemType;
@@ -46,7 +48,6 @@ public class HfaToItemBuilderTest extends AbstractHfaTest {
 	private Entity parentEntity;
 	
     private static BaseMockBib2LodObjectFactory factory;
-    private static final String TITLE = "The title";
     
     @BeforeClass
     public static void setUpClass() throws Exception {
@@ -66,9 +67,9 @@ public class HfaToItemBuilderTest extends AbstractHfaTest {
 	@Test
 	public void validItemRecord() throws Exception {
 		
-		BuildParams params = new BuildParams();
-		params.setRecord(hfaRecord);
-		params.setParent(parentEntity);
+		BuildParams params = new BuildParams()
+				.setRecord(hfaRecord)
+				.setParent(parentEntity);
 		
 		Entity item = itemBuilder.build(params);
 
@@ -149,9 +150,9 @@ public class HfaToItemBuilderTest extends AbstractHfaTest {
 		
 		hfaRecord = buildHfaRecordFromString(HfaTestData.VALID_ITEM_HFA_RECORD_2_LOANS);
 		
-		BuildParams params = new BuildParams();
-		params.setRecord(hfaRecord);
-		params.setParent(parentEntity);
+		BuildParams params = new BuildParams()
+				.setRecord(hfaRecord)
+				.setParent(parentEntity);
 		
 		Entity item = itemBuilder.build(params);
 		Assert.assertNotNull(item);
@@ -205,14 +206,62 @@ public class HfaToItemBuilderTest extends AbstractHfaTest {
 
 		List<Entity> exhibitions = item.getChildren(Ld4lObjectProp.HAS_ACTIVITY, HfaEventType.EXHIBITION_EVENT);
 		Assert.assertEquals(2, exhibitions.size());
-}
+	}
+	
+	@Test
+	public void testCachedDuplicateDonor() throws Exception {
+		BuildParams params = new BuildParams()
+				.setRecord(hfaRecord)
+				.setParent(parentEntity);
+
+		Entity item = itemBuilder.build(params);
+		Assert.assertEquals(HfaTestData.PREFIX_TEXT + " " + HfaTestData.TITLE_TEXT, item.getAttribute(Ld4lDatatypeProp.LABEL).getValue());
+		Assert.assertNotNull(item);
+		Entity custodialHistory = item.getChild(HfaObjectProp.HAS_CUSTODIAL_HISTORY);
+		Assert.assertNotNull(custodialHistory);
+		Entity itemEvent = custodialHistory.getChild(Ld4lObjectProp.HAS_PART);
+		Assert.assertNotNull(itemEvent);
+		Entity giftEvent = itemEvent.getChild(Ld4lObjectProp.IS_PART_OF, HfaEventType.GIFT_EVENT);
+		Assert.assertNotNull(giftEvent);
+		Entity donorActivity = giftEvent.getChild(Ld4lObjectProp.HAS_ACTIVITY, HfaActivityType.DONOR_ACTIVITY);
+		Assert.assertNotNull(donorActivity);
+		Entity agent = donorActivity.getChild(Ld4lObjectProp.HAS_AGENT);
+		Assert.assertNotNull(agent);
+		Assert.assertEquals(Ld4lAgentType.AGENT, agent.getType());
+		Assert.assertEquals(HfaTestData.DONATED_BY.trim(), agent.getAttribute(Ld4lDatatypeProp.LABEL).getValue());
+		Resource agentResource = agent.getResource();
+		Assert.assertNotNull(agentResource);
+		String uri = agentResource.getURI();
+		Assert.assertNotNull(uri);
+		params.setRecord(buildHfaRecordFromString(HfaTestData.VALID_SECOND_ITEM_HFA_RECORD_SAME_DONOR));
+		item = itemBuilder.build(params);
+		Assert.assertEquals(HfaTestData.ANOTHER_TITLE_TEXT, item.getAttribute(Ld4lDatatypeProp.LABEL).getValue());
+		Assert.assertNotNull(item);
+		custodialHistory = item.getChild(HfaObjectProp.HAS_CUSTODIAL_HISTORY);
+		Assert.assertNotNull(custodialHistory);
+		itemEvent = custodialHistory.getChild(Ld4lObjectProp.HAS_PART);
+		Assert.assertNotNull(itemEvent);
+		giftEvent = itemEvent.getChild(Ld4lObjectProp.IS_PART_OF, HfaEventType.GIFT_EVENT);
+		Assert.assertNotNull(giftEvent);
+		donorActivity = giftEvent.getChild(Ld4lObjectProp.HAS_ACTIVITY, HfaActivityType.DONOR_ACTIVITY);
+		Assert.assertNotNull(donorActivity);
+		agent = donorActivity.getChild(Ld4lObjectProp.HAS_AGENT);
+		Assert.assertNotNull(agent);
+		Assert.assertEquals(Ld4lAgentType.AGENT, agent.getType());
+		Assert.assertEquals(HfaTestData.DONATED_BY.trim(), agent.getAttribute(Ld4lDatatypeProp.LABEL).getValue());
+		agentResource = agent.getResource();
+		Assert.assertNotNull(agentResource);
+		String sameAgentUri = agentResource.getURI();
+		Assert.assertNotNull(sameAgentUri);
+		Assert.assertEquals(uri, sameAgentUri);
+	}
 	
 	@Test
 	public void nullRecord_ThrowsException() throws Exception {
 		expectException(EntityBuilderException.class, "A HfaRecord is required to build an Item.");
-		BuildParams params = new BuildParams();
-		params.setRecord(null);
-		params.setParent(parentEntity);
+		BuildParams params = new BuildParams()
+				.setRecord(null)
+				.setParent(parentEntity);
 		
 		itemBuilder.build(params);
 	}
@@ -220,9 +269,9 @@ public class HfaToItemBuilderTest extends AbstractHfaTest {
 	@Test
 	public void nullParentEntity_ThrowsException() throws Exception {
 		expectException(EntityBuilderException.class, "A parent Entity is required to build an Item.");
-		BuildParams params = new BuildParams();
-		params.setRecord(hfaRecord);
-		params.setParent(null);
+		BuildParams params = new BuildParams()
+				.setRecord(hfaRecord)
+				.setParent(null);
 		
 		itemBuilder.build(params);
 	}

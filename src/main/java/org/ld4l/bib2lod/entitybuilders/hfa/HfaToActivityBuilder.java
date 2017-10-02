@@ -2,21 +2,29 @@
 
 package org.ld4l.bib2lod.entitybuilders.hfa;
 
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.ld4l.bib2lod.caching.CachingService;
+import org.ld4l.bib2lod.caching.CachingService.CachingServiceException;
+import org.ld4l.bib2lod.caching.CachingService.MapType;
 import org.ld4l.bib2lod.datatypes.Ld4lCustomDatatypes.BibDatatype;
 import org.ld4l.bib2lod.entity.Attribute;
 import org.ld4l.bib2lod.entity.Entity;
 import org.ld4l.bib2lod.entitybuilders.BuildParams;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilder;
+import org.ld4l.bib2lod.entitybuilders.EntityBuilder.EntityBuilderException;
 import org.ld4l.bib2lod.ontology.hfa.HfaActivityType;
+import org.ld4l.bib2lod.ontology.hfa.HfaCollectionType;
+import org.ld4l.bib2lod.ontology.hfa.HfaObjectProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lAgentType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lDatatypeProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lObjectProp;
 import org.ld4l.bib2lod.record.xml.hfa.HfaRecord;
 import org.ld4l.bib2lod.record.xml.hfa.HfaRecord.ColumnAttributeText;
+import org.ld4l.bib2lod.uris.UriService;
 import org.ld4l.bib2lod.record.xml.hfa.HfaTextField;
 import org.ld4l.bib2lod.util.Hfa2LodDateUtils;
 import org.ld4l.bib2lod.util.HfaConstants;
@@ -27,8 +35,10 @@ import org.ld4l.bib2lod.util.HfaConstants;
 public class HfaToActivityBuilder extends HfaToLd4lEntityBuilder {
 
     private HfaRecord record;
+    private Entity parentEntity;
     private Entity activityEntity;
     private String agentText;
+    private CachingService cachingService;
     
     private static Pattern commaRegex;
 
@@ -48,13 +58,15 @@ public class HfaToActivityBuilder extends HfaToLd4lEntityBuilder {
     @Override
     public Entity build(BuildParams params) throws EntityBuilderException {
         
+    	cachingService = CachingService.instance();
+        
     	this.record = (HfaRecord) params.getRecord();
         if (this.record == null) {
             throw new EntityBuilderException(
                     "A HfaRecord is required to build an activity.");
         }
 
-        Entity parentEntity = params.getParent();
+        parentEntity = params.getParent();
         if (parentEntity == null) {
             throw new EntityBuilderException(
                     "A parent Entity is required to build an activity.");
@@ -113,7 +125,14 @@ public class HfaToActivityBuilder extends HfaToLd4lEntityBuilder {
                         "A field text value is required to build an Activity.");
             }
             
-            addAgent();
+            // Special case where activityType is a DonorActivity:
+            // The Agent Entity is created locally rather than calling its Builder class,
+            // and its URI should be cached and reused if another donor name is identical.
+            if (HfaActivityType.DONOR_ACTIVITY.equals(activityType)) {
+            	handleDonorAgent(agentText.trim());
+            } else {
+            	addAgent();
+            }
     	}
        
         return this.activityEntity;
@@ -131,6 +150,33 @@ public class HfaToActivityBuilder extends HfaToLd4lEntityBuilder {
     			.setParent(activityEntity)
     			.setValue(agentText.trim());
     	builder.build(params);
+    }
+    
+    private void handleDonorAgent(String agentName) throws EntityBuilderException {
+    	
+        Map<String, String> mapToUri = cachingService.getMap(MapType.NAMES_TO_URI);
+        String cachedAgentUri = mapToUri.get(agentName);
+        Entity agentEntity = null;
+        if (cachedAgentUri == null) {
+        	agentEntity = new Entity(Ld4lAgentType.AGENT);
+        	agentEntity.addAttribute(Ld4lDatatypeProp.LABEL, agentName);
+        	String agentUri = UriService.getUri(agentEntity);
+        	
+        	agentEntity.buildResource(agentUri);
+        	try {
+				cachingService.putUri(MapType.NAMES_TO_URI, agentName, agentUri);
+			} catch (CachingServiceException e) {
+				throw new EntityBuilderException(e);
+			}
+        	activityEntity.addRelationship(Ld4lObjectProp.HAS_AGENT, agentEntity);
+        } else {
+
+        	agentEntity = new Entity(Ld4lAgentType.AGENT);
+        	agentEntity.addAttribute(Ld4lDatatypeProp.LABEL, agentName);
+        	
+        	agentEntity.buildResource(cachedAgentUri);
+        	activityEntity.addRelationship(Ld4lObjectProp.HAS_AGENT, agentEntity);
+        }
     }
     
 }
