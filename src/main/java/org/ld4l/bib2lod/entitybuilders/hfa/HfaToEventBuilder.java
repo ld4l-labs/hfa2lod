@@ -40,12 +40,6 @@ public class HfaToEventBuilder extends HfaToLd4lEntityBuilder {
             throw new EntityBuilderException(
                     "A Type is required to build an Event.");
         }
-        
-        // Building this Entity depends solely on the existence of HfaLoan values.
-//        hfaLoans = record.getHfaLoanFields();
-//        if (hfaLoans.isEmpty()) {
-//        	return null;
-//        }
 
         this.event = new Entity(type);
         

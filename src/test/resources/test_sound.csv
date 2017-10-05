@@ -1,0 +1,9 @@
+Value,Field,Named Individual
+Silent,Sound aspects,rdasco:1002
+Dolby A,Sound aspects,rdaspc:1005
+Dolby SR,Sound aspects,mi:DolbySR
+DTS,Sound aspects,mi:DTS
+Sound,Sound aspects,rdasco:1001
+Variable area,Soundtrack type,mi:VariableArea
+Variable density,Soundtrack type,mi:VariableDensity
+Magnetic,Soundtrack type,mi:Magnetic

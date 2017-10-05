@@ -70,6 +70,8 @@ public class HfaTestData {
 	public static final String MUSIC = "John Q. Composer";
 	public static final String DONATED_BY = " Mary O. Benefactor "; // yes, wanted to pad with spaces
 	public static final String ASPECT_RATIO = "1.66:1";
+	public static final String SOUND_ASPECT = "Dolby A";
+	public static final String SOUNDTRACK_TYPE = "Sound";
 	
 	public static final String VALID_ITEM_NUMBER_FIELD =
 			"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + ITEM_NUMBER + "</col>";
@@ -191,6 +193,8 @@ public class HfaTestData {
 		        		"<col column='" + HfaRecord.ColumnAttributeText.RUNNING_TIME.getColumnAttributeText() + "'>" + DURATION + "</col>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.COLOR.getColumnAttributeText() + "'>" + COLOR_BW + "</col>" +		        		
 		        		"<col column='" + HfaRecord.ColumnAttributeText.ASPECT_RATIO.getColumnAttributeText() + "'>" + ASPECT_RATIO + "</col>" +		        		
+		        		"<col column='" + HfaRecord.ColumnAttributeText.SOUND_ASPECTS.getColumnAttributeText() + "'>" + SOUND_ASPECT + "</col>" +		        		
+		        		"<col column='" + HfaRecord.ColumnAttributeText.SOUNDTRACK_TYPE.getColumnAttributeText() + "'>" + SOUNDTRACK_TYPE + "</col>" +		        		
 		        		CAST_MEMBERS_HFA_FIELD +
 		        		YEAR_OF_RELEASE_FIELD +
 		        		COUNTRY1_FIELD +

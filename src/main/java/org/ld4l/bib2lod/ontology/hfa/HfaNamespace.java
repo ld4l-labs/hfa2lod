@@ -16,7 +16,9 @@ public enum HfaNamespace implements Namespace {
 	FIX_ME("http://localhost/fixme/", "ex"),
 	ISNI("http://isni.org/isni/", "isni"),
 	// FIXME: The following namespace URI is just a placeholder
-	MOVING_IMAGE("http://localhost/movingimage/", "mi");
+	MOVING_IMAGE("http://localhost/movingimage/", "mi"),
+	SOUND_ASPECT("http://www.rdaregistry.info/termList/AspectRatio/", "rdaspc"),
+	SOUND_CONTENT("http://www.rdaregistry.info/termList/soundCont/", "rdasco");
     
     private final String uri;
     private final String prefix;

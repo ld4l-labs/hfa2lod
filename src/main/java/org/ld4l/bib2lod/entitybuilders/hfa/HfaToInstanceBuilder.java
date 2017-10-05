@@ -8,6 +8,7 @@ import org.ld4l.bib2lod.entitybuilders.BuildParams;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilder;
 import org.ld4l.bib2lod.externalbuilders.ConcordanceReferenceBuilder;
 import org.ld4l.bib2lod.externalbuilders.HfaToCharacteristicsConcordanceBuilder;
+import org.ld4l.bib2lod.externalbuilders.HfaToSoundConcordanceBuilder;
 import org.ld4l.bib2lod.ontology.hfa.HfaCollectionType;
 import org.ld4l.bib2lod.ontology.hfa.HfaObjectProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lDatatypeProp;
@@ -53,7 +54,7 @@ public class HfaToInstanceBuilder extends HfaToLd4lEntityBuilder {
         addOriginalFormat();
 
         try {
-			addCharacteristics();
+			addCharacteristics();			
 		} catch (ConverterException e) {
             throw new EntityBuilderException(
             		e.getMessage(), e);
@@ -161,8 +162,13 @@ public class HfaToInstanceBuilder extends HfaToLd4lEntityBuilder {
     private void addCharacteristics() throws ConverterException {
         
     	ConcordanceReferenceBuilder builder = new HfaToCharacteristicsConcordanceBuilder();
-
         BuildParams params = new BuildParams()
+                .setRecord(record)
+                .setParent(instance);        
+        builder.build(params);
+
+        builder = new HfaToSoundConcordanceBuilder();
+        params = new BuildParams()
                 .setRecord(record)
                 .setParent(instance);        
         builder.build(params);
