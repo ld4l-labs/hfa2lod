@@ -2,9 +2,12 @@
 
 package org.ld4l.bib2lod.entitybuilders.hfa;
 
+import org.ld4l.bib2lod.conversion.Converter.ConverterException;
 import org.ld4l.bib2lod.entity.Entity;
 import org.ld4l.bib2lod.entitybuilders.BuildParams;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilder;
+import org.ld4l.bib2lod.externalbuilders.ConcordanceReferenceBuilder;
+import org.ld4l.bib2lod.externalbuilders.HfaToCharacteristicsConcordanceBuilder;
 import org.ld4l.bib2lod.ontology.hfa.HfaCollectionType;
 import org.ld4l.bib2lod.ontology.hfa.HfaObjectProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lDatatypeProp;
@@ -13,8 +16,8 @@ import org.ld4l.bib2lod.ontology.ld4l.Ld4lItemType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lObjectProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lTitleType;
 import org.ld4l.bib2lod.record.xml.hfa.HfaRecord;
-import org.ld4l.bib2lod.record.xml.hfa.HfaTextField;
 import org.ld4l.bib2lod.record.xml.hfa.HfaRecord.ColumnAttributeText;
+import org.ld4l.bib2lod.record.xml.hfa.HfaTextField;
 
 /**
  * Builds an Instance individual from a Record.
@@ -47,6 +50,14 @@ public class HfaToInstanceBuilder extends HfaToLd4lEntityBuilder {
         buildCollection();
         buildItem();
         addLanguages();
+        addOriginalFormat();
+
+        try {
+			addCharacteristics();
+		} catch (ConverterException e) {
+            throw new EntityBuilderException(
+            		e.getMessage(), e);
+		}
         
         work.addRelationship(Ld4lObjectProp.HAS_INSTANCE, instance);
         
@@ -145,6 +156,30 @@ public class HfaToInstanceBuilder extends HfaToLd4lEntityBuilder {
     		// if (uri != null) { add external relationship, otherwise do nothing }
     		instance.addExternalRelationship(HfaObjectProp.HAS_INTERTITLE_LANGUAGE, field.getTextValue());
     	}
+    }
+    
+    private void addCharacteristics() throws ConverterException {
+        
+    	ConcordanceReferenceBuilder builder = new HfaToCharacteristicsConcordanceBuilder();
+
+        BuildParams params = new BuildParams()
+                .setRecord(record)
+                .setParent(instance);        
+        builder.build(params);
+    }
+    
+    private void addOriginalFormat() {
+    	
+    	HfaTextField originalFormatField = record.getField(ColumnAttributeText.ORIGINAL_FORMAT);
+    	if (originalFormatField != null) {
+    		String fieldText = originalFormatField.getTextValue();
+    		// common bad data needing removal is a trailing period '.'
+    		if (fieldText.endsWith(".")) {
+    			fieldText = fieldText.substring(0, fieldText.lastIndexOf('.'));
+    		}
+    		// TODO: lookup in concordance
+    	}
+    	
     }
 
 }

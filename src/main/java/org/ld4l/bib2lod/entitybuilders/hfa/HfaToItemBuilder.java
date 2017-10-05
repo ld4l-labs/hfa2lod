@@ -80,7 +80,6 @@ public class HfaToItemBuilder extends HfaToLd4lEntityBuilder {
     		itemEvent = buildCustodialAndItemEventEntitiesAndAddToItemEntity();
         	buildGiftEvent(donorField, itemEvent);
     	}
-
         
         // Building this section depends solely on the existence of HfaLoan values.
         hfaLoans = record.getHfaLoanFields();
@@ -93,6 +92,9 @@ public class HfaToItemBuilder extends HfaToLd4lEntityBuilder {
         	buildLoanEvent(itemEvent);
         	buildExhibitionEvent();
         }
+        
+        // add HFA Formats and Elements
+        addHfaFormatAndElement();
 
         instance.addRelationship(Ld4lObjectProp.HAS_ITEM, item);
         
@@ -275,6 +277,20 @@ public class HfaToItemBuilder extends HfaToLd4lEntityBuilder {
 		}
     	
     	return location;
+    }
+    
+    // adding the "HFA Format" and not the "Format"
+    private void addHfaFormatAndElement() {
+    
+    	HfaTextField hfaFormatField = record.getField(ColumnAttributeText.HFA_FORMAT);
+    	if (hfaFormatField!= null) {
+    		// TODO: lookup in concordance
+    	}
+    	
+    	HfaTextField hfaElementField = record.getField(ColumnAttributeText.ELEMENT);
+    	if (hfaElementField != null) {
+    		// TODO: lookup in concordance
+    	}
     }
 
 }

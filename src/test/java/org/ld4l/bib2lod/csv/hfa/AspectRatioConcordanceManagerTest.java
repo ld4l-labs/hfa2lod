@@ -12,15 +12,15 @@ import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class CharacteristicsConcordanceManagerTest {
+public class AspectRatioConcordanceManagerTest {
 
-	private static final String TEST_CSV_FILE = "/test_characteristics.csv";
+	private static final String TEST_CSV_FILE = "/test_aspect_ratio.csv";
     private static final Logger LOGGER = LogManager.getLogger();
 
 	@Test
 	public void readFileIntoManager() {
 		try {
-			new CharacteristicsConcordanceManager(TEST_CSV_FILE);
+			new AspectRatioConcordanceManager(TEST_CSV_FILE);
 		} catch (Exception e) {
 			LOGGER.error(e, e);
 			Assert.fail(e.getMessage());
@@ -29,24 +29,23 @@ public class CharacteristicsConcordanceManagerTest {
 
 	@Test(expected=FileNotFoundException.class)
 	public void readMissingFileIntoManager() throws URISyntaxException, IOException {
-		new CharacteristicsConcordanceManager("/missing-file.csv");
+		new AspectRatioConcordanceManager("/missing-file.csv");
 		Assert.fail("File should be missing and exception thrown");
 	}
 	
 	@Test
 	public void readData() {
 		try {
-			CharacteristicsConcordanceManager mgr = new CharacteristicsConcordanceManager(TEST_CSV_FILE);
-			Map<String, CharacteristicsConcordanceBean> map = mgr.getMap();
+			AspectRatioConcordanceManager mgr = new AspectRatioConcordanceManager(TEST_CSV_FILE);
+			Map<String, AspectRatioConcordanceBean> map = mgr.getMap();
 			Assert.assertNotNull(map);
 			Assert.assertFalse(map.isEmpty());
-			Assert.assertEquals(41, map.size());
+			Assert.assertEquals(5, map.size());
 			
-			CharacteristicsConcordanceBean bean = mgr.getConcordanceEntry("Dirty");
+			AspectRatioConcordanceBean bean = mgr.getConcordanceEntry("1:1.85");
 			Assert.assertNotNull(bean);
-			Assert.assertEquals("Dirty", bean.getMatchingText());
-			Assert.assertEquals("Condition Defects", bean.getField());
-			Assert.assertEquals("mi:Dirty", bean.getNamedIndividual());
+			Assert.assertEquals("1:1.85", bean.getMatchingText());
+			Assert.assertEquals("mi:Widescreen185", bean.getNamedIndividual());
 			
 			bean = mgr.getConcordanceEntry("no-entry");
 			Assert.assertNull(bean);

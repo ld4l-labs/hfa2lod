@@ -69,6 +69,7 @@ public class HfaTestData {
 	public static final String PRINT_CONDITION = "Excellent"; // intentionally capitalized whereas lower case in concordance file
 	public static final String MUSIC = "John Q. Composer";
 	public static final String DONATED_BY = " Mary O. Benefactor "; // yes, wanted to pad with spaces
+	public static final String ASPECT_RATIO = "1.66:1";
 	
 	public static final String VALID_ITEM_NUMBER_FIELD =
 			"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + ITEM_NUMBER + "</col>";
@@ -189,6 +190,7 @@ public class HfaTestData {
 		        		"<col column='" + HfaRecord.ColumnAttributeText.HFA_TIME.getColumnAttributeText() + "'>" + DURATION + "</col>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.RUNNING_TIME.getColumnAttributeText() + "'>" + DURATION + "</col>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.COLOR.getColumnAttributeText() + "'>" + COLOR_BW + "</col>" +		        		
+		        		"<col column='" + HfaRecord.ColumnAttributeText.ASPECT_RATIO.getColumnAttributeText() + "'>" + ASPECT_RATIO + "</col>" +		        		
 		        		CAST_MEMBERS_HFA_FIELD +
 		        		YEAR_OF_RELEASE_FIELD +
 		        		COUNTRY1_FIELD +

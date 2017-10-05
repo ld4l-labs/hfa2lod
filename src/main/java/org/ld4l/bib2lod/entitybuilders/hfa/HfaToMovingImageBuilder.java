@@ -12,6 +12,7 @@ import org.ld4l.bib2lod.entity.Entity;
 import org.ld4l.bib2lod.entitybuilders.BuildParams;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilder;
 import org.ld4l.bib2lod.externalbuilders.ConcordanceReferenceBuilder;
+import org.ld4l.bib2lod.externalbuilders.HfaToAspectRatioConcordanceBuilder;
 import org.ld4l.bib2lod.externalbuilders.HfaToCharacteristicsConcordanceBuilder;
 import org.ld4l.bib2lod.externalbuilders.HfaToGenreConcordanceBuilder;
 import org.ld4l.bib2lod.externalbuilders.HfaToTopicConcordanceBuilder;
@@ -87,6 +88,7 @@ public class HfaToMovingImageBuilder extends HfaToLd4lEntityBuilder {
 			addGenres();
 			addTopics();
 			addColor();
+			addAspectRatio();
 		} catch (ConverterException e) {
             throw new EntityBuilderException(
             		e.getMessage(), e);
@@ -202,6 +204,17 @@ public class HfaToMovingImageBuilder extends HfaToLd4lEntityBuilder {
                 .setParent(work);        
         builder.build(params);
     }
+    
+    private void addAspectRatio() throws ConverterException {
+        
+    	ConcordanceReferenceBuilder builder = new HfaToAspectRatioConcordanceBuilder();
+
+        BuildParams params = new BuildParams()
+                .setRecord(record)
+                .setParent(work);        
+        builder.build(params);
+    }
+
 
     private void buildAnnotations() throws EntityBuilderException {
     	
@@ -289,11 +302,9 @@ public class HfaToMovingImageBuilder extends HfaToLd4lEntityBuilder {
             	activityType = HfaActivityType.SCREENWRITER_ACTIVITY;
             	break;
             case PRODUCTION_COMPANY:
-            	// FIXME: the folloiwng might not be correct.
             	activityType = HfaActivityType.PRODUCTION_COMPANY_ACTIVITY;
             	break;
             case MUSIC:
-            	// FIXME: the folloiwng might not be correct.
             	activityType = HfaActivityType.MUSICIAN_ACTIVITY;
             	break;
             default:

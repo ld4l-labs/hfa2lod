@@ -21,7 +21,9 @@ import org.ld4l.bib2lod.ontology.Type;
 import org.ld4l.bib2lod.ontology.hfa.HarvardType;
 import org.ld4l.bib2lod.ontology.hfa.HfaActivityType;
 import org.ld4l.bib2lod.ontology.hfa.HfaDatatypeProp;
-import org.ld4l.bib2lod.ontology.hfa.HfaNamedIndividual;
+import org.ld4l.bib2lod.ontology.hfa.HfaGeneratedNamedIndividual;
+import org.ld4l.bib2lod.ontology.hfa.HfaNamespace;
+import org.ld4l.bib2lod.ontology.hfa.HfaObjectProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lAnnotationType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lDatatypeProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lNamedIndividual;
@@ -137,6 +139,16 @@ public class HfaToMovingImageBuilderTest extends AbstractHfaTest {
 		runningTime = movingImageEntity.getAttribute(HfaDatatypeProp.DURATION_BF);
 		Assert.assertNotNull(runningTime);
 		Assert.assertEquals(HfaTestData.DURATION, runningTime.getValue());
+		
+		String color = movingImageEntity.getExternal(HfaObjectProp.HAS_COLOR_CONTENT);
+		Assert.assertNotNull(color);
+		NamedIndividual namedIndividual = new HfaGeneratedNamedIndividual(HfaNamespace.MOVING_IMAGE, "BW");
+		Assert.assertEquals(namedIndividual.uri(), color);
+		
+		String aspectRatio = movingImageEntity.getExternal(HfaObjectProp.HAS_CHARACTERISTIC);
+		Assert.assertNotNull(aspectRatio);
+		namedIndividual = new HfaGeneratedNamedIndividual(HfaNamespace.MOVING_IMAGE, "Widescreen166");
+		Assert.assertEquals(namedIndividual.uri(), aspectRatio);
 	}
 	
 	@Test
