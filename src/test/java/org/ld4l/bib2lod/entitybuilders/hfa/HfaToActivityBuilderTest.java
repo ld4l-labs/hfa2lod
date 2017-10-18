@@ -8,6 +8,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.ld4l.bib2lod.caching.CachingService;
+import org.ld4l.bib2lod.caching.MapCachingService;
 import org.ld4l.bib2lod.datatypes.Ld4lCustomDatatypes.BibDatatype;
 import org.ld4l.bib2lod.entity.Attribute;
 import org.ld4l.bib2lod.entity.Entity;
@@ -45,6 +47,7 @@ public class HfaToActivityBuilderTest extends AbstractHfaTest {
     public static void setUpClass() throws Exception {
         factory = new BaseMockBib2LodObjectFactory();
         factory.addInstance(EntityBuilderFactory.class, new HfaToLd4lEntityBuilderFactory());
+        factory.addInstance(CachingService.class, new MapCachingService());
     }
 
     @Before
