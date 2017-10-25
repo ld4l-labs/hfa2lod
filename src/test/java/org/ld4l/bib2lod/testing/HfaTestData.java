@@ -46,13 +46,15 @@ public class HfaTestData {
 	public static final String COUNTRY1 = "Upper Volta";
 	public static final String COUNTRY2 = "Moldova";
 	public static final String COUNTRY3 = "Boreo";
+	public static final String COUNTRY4 = "Peoples Republic of Cambridge";
 	public static final String YEAR_OF_RELEASE = "1999";
-	public static final String COUNTRIES = COUNTRY1 + " /" + COUNTRY2 + " , " + COUNTRY3;
+	public static final String COUNTRIES = COUNTRY1 + " /" + COUNTRY2 + " , " + COUNTRY3 + " | " + COUNTRY4;
 	public static final String CAST1 = " Person 1 "; // yes, wanted to pad with spaces
 	public static final String CAST2 = "Person 2";
 	public static final String CAST3 = "Person 3";
 	public static final String CAST_MEMBERS = CAST1 + "," + CAST2 + " , " + CAST3;
 	public static final String LANGUAGE = "English ";
+	public static final String LANGUAGE_UNKNOWN = "[unknown]";
 	public static final String SYNOPSIS = "This is the synopsis.";
 	public static final String OUTSIDE_BORROWER1 = "Borrower One Name";
 	public static final String OUTSIDE_BORROWER2 = "Borrower Two Name";
@@ -73,6 +75,10 @@ public class HfaTestData {
 	public static final String SOUND_ASPECT = "Dolby A";
 	public static final String SOUNDTRACK_TYPE = "Sound";
 	
+	
+	// FIXME: will not need this eventually once concordances are complete
+	public static final String tempUriBase = "http://localhost/bogus-base/";
+
 	public static final String VALID_ITEM_NUMBER_FIELD =
 			"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + ITEM_NUMBER + "</col>";
 

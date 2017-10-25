@@ -133,7 +133,7 @@ public class HfaToActivityBuilderTest extends AbstractHfaTest {
 		Assert.assertEquals(BibDatatype.EDTF, dateAttr.getDatatype());
 		
 		List<String> locations = activityEntity.getExternals(Ld4lObjectProp.HAS_LOCATION);
-		Assert.assertEquals(3, locations.size());
+		Assert.assertEquals(4, locations.size());
 	}
 	
 	@Test
@@ -190,7 +190,8 @@ public class HfaToActivityBuilderTest extends AbstractHfaTest {
 		List<String> locations = activityEntity.getExternals(Ld4lObjectProp.HAS_LOCATION);
 		Assert.assertEquals(1, locations.size());
 		String location = locations.get(0);
-		Assert.assertEquals(HfaTestData.COUNTRY1, location);
+		// FIXME: this is just to accommodate kludge until concordances are complete
+		Assert.assertEquals(HfaTestData.tempUriBase + HfaTestData.COUNTRY1.replace(' ', '_'), location);
 
 		Attribute dateAttr = activityEntity.getAttribute(Ld4lDatatypeProp.DATE);
 		Assert.assertNull(dateAttr);

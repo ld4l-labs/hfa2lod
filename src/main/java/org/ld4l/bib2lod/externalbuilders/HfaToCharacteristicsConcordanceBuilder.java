@@ -60,7 +60,7 @@ public class HfaToCharacteristicsConcordanceBuilder implements ConcordanceRefere
         if (Ld4lWorkType.MOVING_IMAGE.equals(parentEntity.getType())) {
         	HfaTextField hfaField = record.getField(ColumnAttributeText.COLOR);
         	if (hfaField != null) {
-        		CharacteristicsConcordanceBean characteristicBean = characteristicsConcordanceManager.getConcordanceEntry(hfaField.getTextValue());
+        		CharacteristicsConcordanceBean characteristicBean = characteristicsConcordanceManager.getConcordanceEntry(hfaField.getTextValue().trim());
         		if (characteristicBean != null) {
         			String ni = characteristicBean.getNamedIndividual();
         			String[] parts = parseNamedIndividualText(ni);
@@ -92,7 +92,7 @@ public class HfaToCharacteristicsConcordanceBuilder implements ConcordanceRefere
         	// go through all fields and tokenize each by newline character then loop through each token
         	for (HfaTextField field : hfaTextFields) {
         		String fieldText = field.getTextValue();
-        		CharacteristicsConcordanceBean characteristicBean = characteristicsConcordanceManager.getConcordanceEntry(fieldText);
+        		CharacteristicsConcordanceBean characteristicBean = characteristicsConcordanceManager.getConcordanceEntry(fieldText.trim());
         		if (characteristicBean != null) {
         			String ni = characteristicBean.getNamedIndividual();
         			String[] parts = parseNamedIndividualText(ni);
@@ -100,7 +100,7 @@ public class HfaToCharacteristicsConcordanceBuilder implements ConcordanceRefere
         			HfaGeneratedNamedIndividual namedIndividual = new HfaGeneratedNamedIndividual(ns, parts[1]);
         			parentEntity.addExternalRelationship(HfaObjectProp.HAS_CHARACTERISTIC, namedIndividual);
         		} else {
-        			LOGGER.warn("No concordance match for [{}]", hfaField.getTextValue());
+        			LOGGER.warn("No concordance match for [{}]", field.getTextValue());
         		}
         	}
         }

@@ -53,7 +53,7 @@ public class HfaToAspectRatioConcordanceBuilder implements ConcordanceReferenceB
         
     	HfaTextField hfaField = record.getField(ColumnAttributeText.ASPECT_RATIO);
     	if (hfaField != null) {
-    		AspectRatioConcordanceBean aspectRationBean = aspectRatioConcordanceManager.getConcordanceEntry(hfaField.getTextValue());
+    		AspectRatioConcordanceBean aspectRationBean = aspectRatioConcordanceManager.getConcordanceEntry(hfaField.getTextValue().trim());
     		if (aspectRationBean != null) {
     			String ni = aspectRationBean.getNamedIndividual();
     			String[] parts = parseNamedIndividualText(ni);

@@ -136,26 +136,40 @@ public class HfaToInstanceBuilder extends HfaToLd4lEntityBuilder {
     
     private void addLanguages() {
     	
-    	// FIXME: values should pull from a concordance file
+    	// TODO: will not need this eventually once concordances are complete
+    	String tempUriBase = "http://localhost/bogus-base/";
+    	
+    	// FIXME: lookup exteral URI for language in concordance file
     	HfaTextField field = record.getField(ColumnAttributeText.LANGUAGE);
     	if (field != null) {
     		// String uri = concordance.getLanguage(field.field.getTextValue().trim()
     		// if (uri != null) { add external relationship, otherwise do nothing }
-    		instance.addExternalRelationship(Ld4lObjectProp.HAS_LANGUAGE, field.getTextValue());
+    		String fieldText = field.getTextValue().trim();
+    		fieldText = fieldText.replace(' ', '_').replace("\n", "_")
+    				.replace("[", "").replace("]", ""); // TODO: remove - temporary until there is a URI
+    		instance.addExternalRelationship(Ld4lObjectProp.HAS_LANGUAGE, tempUriBase + fieldText);
     	}
     	
+    	// FIXME: lookup exteral URI for language in concordance file
     	field = record.getField(ColumnAttributeText.SUBTITLES_LANGUAGE);
     	if (field != null) {
     		// String uri = concordance.getLanguage(field.field.getTextValue().trim()
     		// if (uri != null) { add external relationship, otherwise do nothing }
-    		instance.addExternalRelationship(HfaObjectProp.HAS_SUBTITLE_LANGUAGE, field.getTextValue());
+    		String fieldText = field.getTextValue().trim();
+    		fieldText = fieldText.replace(' ', '_').replace("\n", "_")
+    				.replace("[", "").replace("]", ""); // TODO: remove - temporary until there is a URI
+    		instance.addExternalRelationship(HfaObjectProp.HAS_SUBTITLE_LANGUAGE, tempUriBase + fieldText);
     	}
     	
+    	// FIXME: lookup exteral URI for language in concordance file
     	field = record.getField(ColumnAttributeText.INTERTITLES_LANGUAGE);
     	if (field != null) {
     		// String uri = concordance.getLanguage(field.field.getTextValue().trim()
     		// if (uri != null) { add external relationship, otherwise do nothing }
-    		instance.addExternalRelationship(HfaObjectProp.HAS_INTERTITLE_LANGUAGE, field.getTextValue());
+    		String fieldText = field.getTextValue().trim();
+    		fieldText = fieldText.replace(' ', '_').replace("\n", "_")
+    				.replace("[", "").replace("]", ""); // TODO: remove - temporary until there is a URI
+    		instance.addExternalRelationship(HfaObjectProp.HAS_INTERTITLE_LANGUAGE, tempUriBase + fieldText);
     	}
     }
     
@@ -183,7 +197,7 @@ public class HfaToInstanceBuilder extends HfaToLd4lEntityBuilder {
     		if (fieldText.endsWith(".")) {
     			fieldText = fieldText.substring(0, fieldText.lastIndexOf('.'));
     		}
-    		// TODO: lookup in concordance
+    		// FIXME: lookup exteral URI for original format in concordance file
     	}
     	
     }

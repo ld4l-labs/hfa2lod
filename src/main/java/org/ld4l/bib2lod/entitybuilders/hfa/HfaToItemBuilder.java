@@ -154,13 +154,17 @@ public class HfaToItemBuilder extends HfaToLd4lEntityBuilder {
     		if (dateOfLoan != null) {
     			loanEvent.addAttribute(Ld4lDatatypeProp.DATE, dateOfLoan.getTextValue().trim(), XsdDatatype.DATE);
     		}
+	    	
+	    	// TODO: will not need this eventually once concordances are complete
+	    	String tempUriBase = "http://localhost/bogus-base/";
     		
-    		// FIXME: This needs to be transformed into a geolocation URI via concordance file.
-    		// TODO: lookup exteral URI for location in concordance file
+    		// FIXME: lookup exteral URI for location in concordance file
     		// String locationUri = concordance.lookup(location);
     		String location = getLocation(loan, false);
     		if (location != null) {
-    			loanEvent.addExternalRelationship(Ld4lObjectProp.HAS_LOCATION, location);
+    			location = location.trim();
+    			loanEvent.addExternalRelationship(Ld4lObjectProp.HAS_LOCATION, tempUriBase + location.replace(' ', '_').replace("\n", "_")
+    					.replace("[", "").replace("]", ""));
     		}
     		
     		HfaTextField outsideBorrower = loan.getField(HfaLoan.ColumnAttributeText.OUTSIDE_BORROWER);
@@ -234,11 +238,16 @@ public class HfaToItemBuilder extends HfaToLd4lEntityBuilder {
     		if (playDate != null) {
     			exhibitionEvent.addAttribute(Ld4lDatatypeProp.DATE, playDate.getTextValue().trim(), XsdDatatype.DATE);
     		}
-    		// FIXME: This needs to be transformed into a geolocation URI via concordance file.
-			// TODO: lookup exteral URI for location in concordance file
+	    	
+	    	// TODO: will not need this eventually once concordances are complete
+	    	String tempUriBase = "http://localhost/bogus-base/";
+
+	    	// FIXME: lookup exteral URI for location in concordance file
 			// String locationUri = concordance.lookup(location);
     		if (location != null) {
-    			exhibitionEvent.addExternalRelationship(Ld4lObjectProp.HAS_LOCATION, location);
+    			location = location.trim();
+    			exhibitionEvent.addExternalRelationship(Ld4lObjectProp.HAS_LOCATION, tempUriBase + location.replace(' ', '_').replace("\n", "_")
+    					.replace("[", "").replace("]", ""));
     		}
 
     		item.addRelationship(Ld4lObjectProp.HAS_ACTIVITY, exhibitionEvent);
@@ -284,12 +293,12 @@ public class HfaToItemBuilder extends HfaToLd4lEntityBuilder {
     
     	HfaTextField hfaFormatField = record.getField(ColumnAttributeText.HFA_FORMAT);
     	if (hfaFormatField!= null) {
-    		// TODO: lookup in concordance
+    		// FIXME: lookup exteral URI for HFA format in concordance file
     	}
     	
     	HfaTextField hfaElementField = record.getField(ColumnAttributeText.ELEMENT);
     	if (hfaElementField != null) {
-    		// TODO: lookup in concordance
+    		// FIXME: lookup exteral URI for element field in concordance file
     	}
     }
 

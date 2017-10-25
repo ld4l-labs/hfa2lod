@@ -15,17 +15,14 @@ import org.ld4l.bib2lod.entity.Attribute;
 import org.ld4l.bib2lod.entity.Entity;
 import org.ld4l.bib2lod.entitybuilders.BuildParams;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilder;
-import org.ld4l.bib2lod.entitybuilders.EntityBuilder.EntityBuilderException;
 import org.ld4l.bib2lod.ontology.hfa.HfaActivityType;
-import org.ld4l.bib2lod.ontology.hfa.HfaCollectionType;
-import org.ld4l.bib2lod.ontology.hfa.HfaObjectProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lAgentType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lDatatypeProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lObjectProp;
 import org.ld4l.bib2lod.record.xml.hfa.HfaRecord;
 import org.ld4l.bib2lod.record.xml.hfa.HfaRecord.ColumnAttributeText;
-import org.ld4l.bib2lod.uris.UriService;
 import org.ld4l.bib2lod.record.xml.hfa.HfaTextField;
+import org.ld4l.bib2lod.uris.UriService;
 import org.ld4l.bib2lod.util.Hfa2LodDateUtils;
 import org.ld4l.bib2lod.util.HfaConstants;
 
@@ -45,7 +42,7 @@ public class HfaToActivityBuilder extends HfaToLd4lEntityBuilder {
     private static final Logger LOGGER = LogManager.getLogger();
     
     static {
-    	commaRegex = Pattern.compile(",|/");
+    	commaRegex = Pattern.compile(",|/|\\|"); // includes pipe '|' char as well as ',' and '/'
     }
 
     /**
@@ -106,11 +103,16 @@ public class HfaToActivityBuilder extends HfaToLd4lEntityBuilder {
     		
     		// parse possible multiple country names
     		if (countryField != null) {
-    			// FIXME: need to look up country URI, not the country String value.
-    			String[] locations = commaRegex.split(countryField.getTextValue());
+    	    	
+    	    	// TODO: will not need this eventually once concordances are complete
+    	    	String tempUriBase = "http://localhost/bogus-base/";
+
+    	    	String[] locations = commaRegex.split(countryField.getTextValue());
     			for (String location : locations) {
-    				// TODO: lookup location URI in either concordance file or external service
-    				this.activityEntity.addExternalRelationship(Ld4lObjectProp.HAS_LOCATION, location.trim());
+    				// FIXME: lookup exteral URI for location in concordance file
+    				location = location.trim().replace(' ', '_').replace("\n", "_")
+    						.replace("[", "").replace("]", ""); // TODO: remove - temporary until there is a URI
+    				this.activityEntity.addExternalRelationship(Ld4lObjectProp.HAS_LOCATION, tempUriBase + location.trim());
     			}
     		}
     	} else if (HfaActivityType.LENDER_ACTIVITY.equals(activityType)) {

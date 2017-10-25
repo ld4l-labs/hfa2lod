@@ -66,7 +66,7 @@ public class HfaToAgentBuilder extends HfaToLd4lEntityBuilder {
         agentEntity.addAttribute(Ld4lDatatypeProp.LABEL, new Attribute(agentName));
         parentEntity.addRelationship(Ld4lObjectProp.HAS_AGENT, agentEntity);
         
-        NamesConcordanceBean nameConcordanceBean = concordanceManager.getConcordanceEntry(agentName);
+        NamesConcordanceBean nameConcordanceBean = concordanceManager.getConcordanceEntry(agentName.trim());
         if (nameConcordanceBean != null) {
         	String isniUri = nameConcordanceBean.getIsni();
         	if (isniUri != null && !isniUri.isEmpty()) {

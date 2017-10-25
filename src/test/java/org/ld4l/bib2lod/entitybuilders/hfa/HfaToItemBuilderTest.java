@@ -109,6 +109,8 @@ public class HfaToItemBuilderTest extends AbstractHfaTest {
 		String location = loanEvent.getExternal(Ld4lObjectProp.HAS_LOCATION);
 		Assert.assertNotNull(location);
 		String expectedLocation = HfaTestData.STATE + ", " + HfaTestData.COUNTRY1;
+		// FIXME: this is just to accommodate kludge until concordances are complete
+		expectedLocation = HfaTestData.tempUriBase + expectedLocation.replace(' ', '_');
 		Assert.assertEquals(expectedLocation, location);
 		
 		Entity borrower = loanEvent.getChild(Ld4lObjectProp.HAS_ACTIVITY, HfaActivityType.BORROWER_ACTIVITY);

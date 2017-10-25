@@ -64,7 +64,7 @@ public class HfaToSoundConcordanceBuilder implements ConcordanceReferenceBuilder
         for (ColumnAttributeText fieldName : attrs){
         	HfaTextField hfaField = record.getField(fieldName);
         	if (hfaField != null) {
-        		SoundConcordanceBean characteristicBean = soundConcordanceManager.getConcordanceEntry(hfaField.getTextValue());
+        		SoundConcordanceBean characteristicBean = soundConcordanceManager.getConcordanceEntry(hfaField.getTextValue().trim());
         		if (characteristicBean != null) {
         			String ni = characteristicBean.getNamedIndividual();
         			String[] parts = parseNamedIndividualText(ni);
