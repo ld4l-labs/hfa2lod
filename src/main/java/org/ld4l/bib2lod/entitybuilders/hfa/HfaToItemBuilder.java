@@ -243,11 +243,12 @@ public class HfaToItemBuilder extends HfaToLd4lEntityBuilder {
 	    	String tempUriBase = "http://localhost/bogus-base/";
 
 	    	// FIXME: lookup exteral URI for location in concordance file
-			// String locationUri = concordance.lookup(location);
+			// Agreed to remove "?" from location		
+			// String locationUri = concordance.lookup(location.replace("[", "").replace("]", "").replace("?", ""));
     		if (location != null) {
     			location = location.trim();
     			exhibitionEvent.addExternalRelationship(Ld4lObjectProp.HAS_LOCATION, tempUriBase + location.replace(' ', '_').replace("\n", "_")
-    					.replace("[", "").replace("]", ""));
+    					.replace("[", "").replace("]", "").replace("?", ""));
     		}
 
     		item.addRelationship(Ld4lObjectProp.HAS_ACTIVITY, exhibitionEvent);

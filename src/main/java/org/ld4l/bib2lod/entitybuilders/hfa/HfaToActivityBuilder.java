@@ -85,14 +85,22 @@ public class HfaToActivityBuilder extends HfaToLd4lEntityBuilder {
     	// Date and location are only specific to a Provider Activity while, at the same time,
     	// there are no Agents to add.
     	if (HfaActivityType.PROVIDER_ACTIVITY.equals(activityType)) {
+    		// TODO: ignore "[unknown]" and "[various]" and similar
     		HfaTextField dateField = this.record.getField(ColumnAttributeText.YEAR_OF_RELEASE);
+    		String dateText = null;
+    		if (dateField != null && 
+    				(!dateField.getTextValue().contains("[unknown]") && !dateField.getTextValue().contains("[various]") ) ) {
+    			dateText = dateField.getTextValue();
+    		}
     		HfaTextField countryField = this.record.getField(ColumnAttributeText.COUNTRY);
-    		if (dateField == null && countryField == null) {
+    		if (dateText == null && countryField == null) {
     			return null;
     		}
     		
-    		if (dateField != null) {
-    			String dateText = dateField.getTextValue();
+    		// check for and remove sentinel values
+    		if (dateText != null) {
+    			// some dates have extra brackets -- need to strip them
+    			dateText = dateText.replace("[", "").replace("]", "");
     			if (Hfa2LodDateUtils.isCircaDate(dateText)) {
     				dateText = Hfa2LodDateUtils.convertCircaDateToISOStandard(dateText);
     			} else {
@@ -100,7 +108,6 @@ public class HfaToActivityBuilder extends HfaToLd4lEntityBuilder {
     			}
     			this.activityEntity.addAttribute(Ld4lDatatypeProp.DATE, dateText, BibDatatype.EDTF);
     		}
-    		
     		// parse possible multiple country names
     		if (countryField != null) {
     	    	
@@ -110,7 +117,9 @@ public class HfaToActivityBuilder extends HfaToLd4lEntityBuilder {
     	    	String[] locations = commaRegex.split(countryField.getTextValue());
     			for (String location : locations) {
     				// FIXME: lookup exteral URI for location in concordance file
-    				location = location.trim().replace(' ', '_').replace("\n", "_")
+					// Agreed to remove "?" from location		
+    				// String locationUri = concordance.lookup(location.replace("[", "").replace("]", "").replace("?", ""));
+    				location = location.trim().replace(' ', '_').replace("\n", "_").replace("?", "")
     						.replace("[", "").replace("]", ""); // TODO: remove - temporary until there is a URI
     				this.activityEntity.addExternalRelationship(Ld4lObjectProp.HAS_LOCATION, tempUriBase + location.trim());
     			}
