@@ -13,13 +13,12 @@ import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.ld4l.bib2lod.conversion.Converter.ConverterException;
-import org.ld4l.bib2lod.conversion.Converter.RecordConversionException;
 import org.ld4l.bib2lod.csv.hfa.FilmGenreConcordanceManager;
 import org.ld4l.bib2lod.csv.hfa.TelevisionGenreConcordanceManager;
 import org.ld4l.bib2lod.entity.Attribute;
 import org.ld4l.bib2lod.entity.Entity;
 import org.ld4l.bib2lod.entitybuilders.BuildParams;
+import org.ld4l.bib2lod.entitybuilders.EntityBuilder.EntityBuilderException;
 import org.ld4l.bib2lod.ontology.hfa.HfaDatatypeProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lObjectProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lWorkType;
@@ -39,7 +38,7 @@ public class HfaToGenreConcordanceTest extends AbstractHfaTest {
 	private static final Logger LOGGER = LogManager.getLogger();
 
     @Before
-    public void setUp() throws RecordException, URISyntaxException, IOException, ConverterException {
+    public void setUp() throws RecordException, URISyntaxException, IOException, EntityBuilderException {
     	HfaToGenreConcordanceBuilder builder = new HfaToGenreConcordanceBuilder();
     	builder.setTelevisionConcordanceManager(new TelevisionGenreConcordanceManager("/test_television_genre.csv"));
     	builder.setFilmConcordanceManager(new FilmGenreConcordanceManager("/test_film_genre.csv"));
@@ -136,7 +135,7 @@ public class HfaToGenreConcordanceTest extends AbstractHfaTest {
 	
 	@Test
 	public void nullRecord_ThrowsException() throws Exception {
-		expectException(RecordConversionException.class, "A HfaRecord is required to build a title.");
+		expectException(EntityBuilderException.class, "A HfaRecord is required to build a title.");
 		BuildParams params = new BuildParams();
 		params.setRecord(null);
 		params.setParent(parentEntity);
@@ -146,7 +145,7 @@ public class HfaToGenreConcordanceTest extends AbstractHfaTest {
 	
 	@Test
 	public void nullParentEntity_ThrowsException() throws Exception {
-		expectException(RecordConversionException.class, "A parent Entity is required to build a title.");
+		expectException(EntityBuilderException.class, "A parent Entity is required to build a title.");
 		BuildParams params = new BuildParams();
 		params.setRecord(hfaRecord);
 		params.setParent(null);

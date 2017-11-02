@@ -8,12 +8,10 @@ import org.ld4l.bib2lod.ontology.Type;
 public enum HfaEventType implements Type {
     
     /* List in alpha order */
-    // FIXME: The following namespace might not be correct.
+	EXHIBITION_EVENT(HfaNamespace.MOVING_IMAGE, "ExhibitionEvent", "Screening"),
     GIFT_EVENT(HfaNamespace.MOVING_IMAGE, "GiftEvent", "Gift Event"),
     ITEM_EVENT(HfaNamespace.MOVING_IMAGE, "ItemEvent", "Item Event"),
-    LOAN_EVENT(HfaNamespace.MOVING_IMAGE, "LoanEvent", "Loan"),
-    // FIXME: The following namespace might not be correct.
-    EXHIBITION_EVENT(HfaNamespace.MOVING_IMAGE, "ExhibitionEvent", "Screening");
+    LOAN_EVENT(HfaNamespace.MOVING_IMAGE, "LoanEvent", "Loan");
     
     private final String uri;
     private final Resource ontClass;

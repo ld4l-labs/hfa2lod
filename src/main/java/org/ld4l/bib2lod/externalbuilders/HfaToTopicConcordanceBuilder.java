@@ -10,8 +10,6 @@ import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.ld4l.bib2lod.conversion.Converter.ConverterException;
-import org.ld4l.bib2lod.conversion.Converter.RecordConversionException;
 import org.ld4l.bib2lod.csv.hfa.ExternalUriBean;
 import org.ld4l.bib2lod.csv.hfa.FilmGenreConcordanceManager;
 import org.ld4l.bib2lod.csv.hfa.SubjectConcordanceManager;
@@ -19,6 +17,7 @@ import org.ld4l.bib2lod.csv.hfa.TelevisionGenreConcordanceManager;
 import org.ld4l.bib2lod.entity.Attribute;
 import org.ld4l.bib2lod.entity.Entity;
 import org.ld4l.bib2lod.entitybuilders.BuildParams;
+import org.ld4l.bib2lod.entitybuilders.EntityBuilder.EntityBuilderException;
 import org.ld4l.bib2lod.ontology.hfa.HfaDatatypeProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lObjectProp;
 import org.ld4l.bib2lod.record.xml.hfa.HfaRecord;
@@ -39,35 +38,35 @@ public class HfaToTopicConcordanceBuilder implements ConcordanceReferenceBuilder
     private static final String NEW_LINE = System.getProperty("line.separator");
 	private static final Logger LOGGER = LogManager.getLogger();
 
-	public HfaToTopicConcordanceBuilder() throws ConverterException {
+	public HfaToTopicConcordanceBuilder() throws EntityBuilderException {
     	try {
 			this.subjectConcordanceManager = new SubjectConcordanceManager();
 		} catch ( URISyntaxException | IOException e) {
-			throw new ConverterException("Could not instantiate SubjectConcordanceManager", e);
+			throw new EntityBuilderException("Could not instantiate SubjectConcordanceManager", e);
 		}
     	try {
 			this.filmConcordanceManager = new FilmGenreConcordanceManager();
 		} catch ( URISyntaxException | IOException e) {
-			throw new ConverterException("Could not instantiate FilmGenreConcordanceManager", e);
+			throw new EntityBuilderException("Could not instantiate FilmGenreConcordanceManager", e);
 		}
     	try {
 			this.televisionConcordanceManager = new TelevisionGenreConcordanceManager();
 		} catch ( URISyntaxException | IOException e) {
-			throw new ConverterException("Could not instantiate TelevisionGenreConcordanceManager", e);
+			throw new EntityBuilderException("Could not instantiate TelevisionGenreConcordanceManager", e);
 		}
 	}
 
     @Override
-    public void build(BuildParams params) throws RecordConversionException {
+    public void build(BuildParams params) throws EntityBuilderException {
         
         Entity bibEntity = params.getParent();
         if (bibEntity == null) {
-        	throw new RecordConversionException("A parent Entity is required to build a title.");
+        	throw new EntityBuilderException("A parent Entity is required to build a title.");
         }
         
         HfaRecord record = (HfaRecord)params.getRecord();
         if (record == null) {
-        	throw new RecordConversionException("A HfaRecord is required to build a title.");
+        	throw new EntityBuilderException("A HfaRecord is required to build a title.");
         }
         
         HfaTextField hfaField = record.getField(HfaRecord.ColumnAttributeText.GENRE);

@@ -2,9 +2,13 @@
 
 package org.ld4l.bib2lod.entitybuilders.hfa;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.List;
 
 import org.ld4l.bib2lod.conversion.Converter.ConverterException;
+import org.ld4l.bib2lod.csv.hfa.MaterialTypeConcordanceBean;
+import org.ld4l.bib2lod.csv.hfa.MaterialTypeConcordanceManager;
 import org.ld4l.bib2lod.datatypes.XsdDatatype;
 import org.ld4l.bib2lod.entity.Attribute;
 import org.ld4l.bib2lod.entity.Entity;
@@ -12,10 +16,13 @@ import org.ld4l.bib2lod.entitybuilders.BuildParams;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilder;
 import org.ld4l.bib2lod.externalbuilders.ConcordanceReferenceBuilder;
 import org.ld4l.bib2lod.externalbuilders.HfaToCharacteristicsConcordanceBuilder;
+import org.ld4l.bib2lod.ontology.Type;
 import org.ld4l.bib2lod.ontology.hfa.HfaActivityType;
 import org.ld4l.bib2lod.ontology.hfa.HfaDatatypeProp;
 import org.ld4l.bib2lod.ontology.hfa.HfaEventType;
+import org.ld4l.bib2lod.ontology.hfa.HfaGeneratedType;
 import org.ld4l.bib2lod.ontology.hfa.HfaHistoryType;
+import org.ld4l.bib2lod.ontology.hfa.HfaNamespace;
 import org.ld4l.bib2lod.ontology.hfa.HfaObjectProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lActivityType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lDatatypeProp;
@@ -36,7 +43,16 @@ public class HfaToItemBuilder extends HfaToLd4lEntityBuilder {
     private Entity instance;
     private Entity item;
     private List<HfaLoan> hfaLoans;
-  
+	private MaterialTypeConcordanceManager concordanceManager;
+
+	public HfaToItemBuilder() throws ConverterException {
+    	try {
+			this.concordanceManager = new MaterialTypeConcordanceManager();
+		} catch ( URISyntaxException | IOException e) {
+			throw new ConverterException("Could not instantiate MaterialTypeConcordanceManager", e);
+		}
+	}
+	
     @Override
     public Entity build(BuildParams params) throws EntityBuilderException {
 
@@ -55,13 +71,7 @@ public class HfaToItemBuilder extends HfaToLd4lEntityBuilder {
         this.item = new Entity(Ld4lItemType.ITEM);
         
         buildTitle();
-
-        try {
-			addCharacteristics();
-		} catch (ConverterException e) {
-            throw new EntityBuilderException(
-            		e.getMessage(), e);
-		}
+		addCharacteristics();
         
         // add running time
         HfaTextField hfaTime = record.getField(ColumnAttributeText.HFA_TIME);
@@ -108,7 +118,6 @@ public class HfaToItemBuilder extends HfaToLd4lEntityBuilder {
      */
     private Entity buildCustodialAndItemEventEntitiesAndAddToItemEntity() {
 
-    	// FIXME: This might be the wrong type and, also, the construct may not conform to ontology.
         Entity custodialHistoryEvent = new Entity(HfaHistoryType.CUSTODIAL_HISTORY);
 		custodialHistoryEvent.addAttribute(Ld4lDatatypeProp.LABEL, HfaHistoryType.CUSTODIAL_HISTORY.label());
 		item.addRelationship(HfaObjectProp.HAS_CUSTODIAL_HISTORY, custodialHistoryEvent);
@@ -131,7 +140,7 @@ public class HfaToItemBuilder extends HfaToLd4lEntityBuilder {
         item.addAttribute(Ld4lDatatypeProp.LABEL, titleEntity.getAttribute(Ld4lDatatypeProp.LABEL));
     }
     
-    private void addCharacteristics() throws ConverterException {
+    private void addCharacteristics() throws EntityBuilderException {
         
     	ConcordanceReferenceBuilder builder = new HfaToCharacteristicsConcordanceBuilder();
 
@@ -290,16 +299,40 @@ public class HfaToItemBuilder extends HfaToLd4lEntityBuilder {
     }
     
     // adding the "HFA Format" and not the "Format"
-    private void addHfaFormatAndElement() {
+    private void addHfaFormatAndElement() throws EntityBuilderException {
     
     	HfaTextField hfaFormatField = record.getField(ColumnAttributeText.HFA_FORMAT);
     	if (hfaFormatField!= null) {
-    		// FIXME: lookup exteral URI for HFA format in concordance file
+    		MaterialTypeConcordanceBean bean = concordanceManager.getConcordanceEntry(hfaFormatField.getTextValue());
+    		if (bean != null) {
+    			String ontClass = bean.getOntClass();
+    			Type type = null;
+    			try {
+    				String[] parts = ontClass.split(":");
+    				HfaNamespace ns = HfaNamespace.getHfaNamespaceByPrefix(parts[0]);
+    				type = new HfaGeneratedType(ns, parts[1]);
+    			} catch (Exception e) {
+    				throw new EntityBuilderException("Could not parse HfaGeneratedNamedIndividual from concordance value: " + ontClass);
+    			}
+    			item.addType(type);
+    		}
     	}
     	
     	HfaTextField hfaElementField = record.getField(ColumnAttributeText.ELEMENT);
     	if (hfaElementField != null) {
-    		// FIXME: lookup exteral URI for element field in concordance file
+    		MaterialTypeConcordanceBean bean = concordanceManager.getConcordanceEntry(hfaElementField.getTextValue());
+    		if (bean != null) {
+    			String ontClass = bean.getOntClass();
+    			Type type = null;
+    			try {
+    				String[] parts = ontClass.split(":");
+    				HfaNamespace ns = HfaNamespace.getHfaNamespaceByPrefix(parts[0]);
+    				type = new HfaGeneratedType(ns, parts[1]);
+    			} catch (Exception e) {
+    				throw new EntityBuilderException("Could not parse HfaGeneratedNamedIndividual from concordance value: " + ontClass);
+    			}
+    			item.addType(type);
+    		}
     	}
     }
 

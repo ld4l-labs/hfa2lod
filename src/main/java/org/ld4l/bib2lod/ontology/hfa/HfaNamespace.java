@@ -12,11 +12,10 @@ public enum HfaNamespace implements Namespace {
 
     /* Datasets/controlled vocabularies */
     /* List in alpha order */
-	// FIXME: The following namespace is just a placeholder
-	FIX_ME("http://localhost/fixme/", "ex"),
+	// FIXME: this prefix is the same as LD4LNamespace PROV("http://www.w3.org/ns/prov#", "prov")
+	BIB_PROV("http://prov.bibliotek-o.org/0.1/ontology/", "prov"),
 	ISNI("http://isni.org/isni/", "isni"),
-	// FIXME: The following namespace URI is just a placeholder
-	MOVING_IMAGE("http://localhost/movingimage/", "mi"),
+	MOVING_IMAGE("http://ontology.library.harvard.edu/film/", "mi"),
 	SOUND_ASPECT("http://www.rdaregistry.info/termList/AspectRatio/", "rdaspc"),
 	SOUND_CONTENT("http://www.rdaregistry.info/termList/soundCont/", "rdasco");
     

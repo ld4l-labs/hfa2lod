@@ -8,8 +8,7 @@ import org.ld4l.bib2lod.ontology.Type;
 public enum HfaHistoryType implements Type {
     
     /* List in alpha order */
-    // FIXME: The following namespace might not be correct.
-    CUSTODIAL_HISTORY(HfaNamespace.FIX_ME, "CustodialHistory", "Custodial History");
+    CUSTODIAL_HISTORY(HfaNamespace.BIB_PROV, "CustodialHistory", "Custodial History");
     
     private final String uri;
     private final Resource ontClass;

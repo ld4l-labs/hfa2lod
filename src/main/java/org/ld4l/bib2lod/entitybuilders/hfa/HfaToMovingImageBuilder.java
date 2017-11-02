@@ -6,7 +6,6 @@ import java.util.regex.Pattern;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.ld4l.bib2lod.conversion.Converter.ConverterException;
 import org.ld4l.bib2lod.entity.Attribute;
 import org.ld4l.bib2lod.entity.Entity;
 import org.ld4l.bib2lod.entitybuilders.BuildParams;
@@ -84,15 +83,10 @@ public class HfaToMovingImageBuilder extends HfaToLd4lEntityBuilder {
         addIdentifiers();
         buildActivies();
         buildAnnotations();
-        try {
-			addGenres();
-			addTopics();
-			addColor();
-			addAspectRatio();
-		} catch (ConverterException e) {
-            throw new EntityBuilderException(
-            		e.getMessage(), e);
-		}
+		addGenres();
+		addTopics();
+		addColor();
+		addAspectRatio();
 
         // add HFA Time
         HfaTextField hfaTime = record.getField(ColumnAttributeText.HFA_TIME);
@@ -175,7 +169,7 @@ public class HfaToMovingImageBuilder extends HfaToLd4lEntityBuilder {
 		work.addRelationship(Ld4lObjectProp.IDENTIFIED_BY, identifier);
     }
     
-    private void addGenres() throws ConverterException {
+    private void addGenres() throws EntityBuilderException {
         
     	ConcordanceReferenceBuilder builder = new HfaToGenreConcordanceBuilder();
 
@@ -185,7 +179,7 @@ public class HfaToMovingImageBuilder extends HfaToLd4lEntityBuilder {
         builder.build(params);
     }
     
-    private void addTopics() throws ConverterException {
+    private void addTopics() throws EntityBuilderException {
         
     	ConcordanceReferenceBuilder builder = new HfaToTopicConcordanceBuilder();
 
@@ -195,7 +189,7 @@ public class HfaToMovingImageBuilder extends HfaToLd4lEntityBuilder {
         builder.build(params);
     }
     
-    private void addColor() throws ConverterException {
+    private void addColor() throws EntityBuilderException {
         
     	ConcordanceReferenceBuilder builder = new HfaToCharacteristicsConcordanceBuilder();
 
@@ -205,7 +199,7 @@ public class HfaToMovingImageBuilder extends HfaToLd4lEntityBuilder {
         builder.build(params);
     }
     
-    private void addAspectRatio() throws ConverterException {
+    private void addAspectRatio() throws EntityBuilderException {
         
     	ConcordanceReferenceBuilder builder = new HfaToAspectRatioConcordanceBuilder();
 

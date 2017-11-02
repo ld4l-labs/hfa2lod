@@ -9,12 +9,11 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.ld4l.bib2lod.conversion.Converter.ConverterException;
-import org.ld4l.bib2lod.conversion.Converter.RecordConversionException;
 import org.ld4l.bib2lod.csv.hfa.SoundConcordanceBean;
 import org.ld4l.bib2lod.csv.hfa.SoundConcordanceManager;
 import org.ld4l.bib2lod.entity.Entity;
 import org.ld4l.bib2lod.entitybuilders.BuildParams;
+import org.ld4l.bib2lod.entitybuilders.EntityBuilder.EntityBuilderException;
 import org.ld4l.bib2lod.ontology.hfa.HfaGeneratedNamedIndividual;
 import org.ld4l.bib2lod.ontology.hfa.HfaNamespace;
 import org.ld4l.bib2lod.ontology.hfa.HfaObjectProp;
@@ -40,25 +39,25 @@ public class HfaToSoundConcordanceBuilder implements ConcordanceReferenceBuilder
 		attrs.add(ColumnAttributeText.SOUNDTRACK_TYPE);
 	}
 
-	public HfaToSoundConcordanceBuilder() throws ConverterException {
+	public HfaToSoundConcordanceBuilder() throws EntityBuilderException {
     	try {
 			this.soundConcordanceManager = new SoundConcordanceManager();
 		} catch ( URISyntaxException | IOException e) {
-			throw new ConverterException("Could not instantiate SoundConcordanceManager", e);
+			throw new EntityBuilderException("Could not instantiate SoundConcordanceManager", e);
 		}
 	}
 
     @Override
-    public void build(BuildParams params) throws RecordConversionException {
+    public void build(BuildParams params) throws EntityBuilderException {
         
         Entity parentEntity = params.getParent();
         if (parentEntity == null) {
-        	throw new RecordConversionException("A parent Entity is required to build a title.");
+        	throw new EntityBuilderException("A parent Entity is required to build a title.");
         }
         
         HfaRecord record = (HfaRecord)params.getRecord();
         if (record == null) {
-        	throw new RecordConversionException("A HfaRecord is required to build a title.");
+        	throw new EntityBuilderException("A HfaRecord is required to build a title.");
         }
         
         for (ColumnAttributeText fieldName : attrs){
@@ -67,20 +66,20 @@ public class HfaToSoundConcordanceBuilder implements ConcordanceReferenceBuilder
         		SoundConcordanceBean characteristicBean = soundConcordanceManager.getConcordanceEntry(hfaField.getTextValue().trim());
         		if (characteristicBean != null) {
         			String ni = characteristicBean.getNamedIndividual();
-        			String[] parts = parseNamedIndividualText(ni);
-        			HfaNamespace ns = HfaNamespace.getHfaNamespaceByPrefix(parts[0]);
-        			HfaGeneratedNamedIndividual namedIndividual = new HfaGeneratedNamedIndividual(ns, parts[1]);
+        			HfaGeneratedNamedIndividual namedIndividual = null;
+        			try {
+        				String[] parts = ni.split(":");
+        				HfaNamespace ns = HfaNamespace.getHfaNamespaceByPrefix(parts[0]);
+        				namedIndividual = new HfaGeneratedNamedIndividual(ns, parts[1]);
+        			} catch (Exception e) {
+        				throw new EntityBuilderException("Could not parse HfaGeneratedNamedIndividual from concordance value: " + ni);
+        			}
         			parentEntity.addExternalRelationship(HfaObjectProp.HAS_CHARACTERISTIC, namedIndividual);
         		} else {
         			LOGGER.warn("No concordance match for [{}]", hfaField.getTextValue());
         		}
         	}
         }
-    }
-    
-    private String[] parseNamedIndividualText(String s) {
-    	String[] tokens = s.split(":");
-    	return tokens;
     }
 
     /**

@@ -74,7 +74,9 @@ public class HfaTestData {
 	public static final String ASPECT_RATIO = "1.66:1";
 	public static final String SOUND_ASPECT = "Dolby A";
 	public static final String SOUNDTRACK_TYPE = "Sound";
-	
+	public static final String HFA_FORMAT = "Betamax";
+	public static final String ELEMENT = "Outtakes";
+	public static final String ORIGINAL_FORMAT = "70mm.";
 	
 	// FIXME: will not need this eventually once concordances are complete
 	public static final String tempUriBase = "http://localhost/bogus-base/";
@@ -123,6 +125,15 @@ public class HfaTestData {
 
 	public static final String COUNTRY1_FIELD =
     		"<col column='" + HfaRecord.ColumnAttributeText.COUNTRY.getColumnAttributeText() + "'>" + COUNTRY1 + "</col>";
+
+	public static final String HFA_FORMAT_FIELD =
+    		"<col column='" + HfaRecord.ColumnAttributeText.HFA_FORMAT.getColumnAttributeText() + "'>" + HFA_FORMAT + "</col>";
+
+	public static final String ELEMENT_FIELD =
+    		"<col column='" + HfaRecord.ColumnAttributeText.ELEMENT.getColumnAttributeText() + "'>" + ELEMENT + "</col>";
+
+	public static final String ORIGINAL_FORMAT_FIELD =
+    		"<col column='" + HfaRecord.ColumnAttributeText.ORIGINAL_FORMAT.getColumnAttributeText() + "'>" + ORIGINAL_FORMAT + "</col>";
 
 	public static final String LOAN1_FIELD =
 			"<loan>" +
@@ -186,6 +197,7 @@ public class HfaTestData {
 	        			ORIGINAL_TITLE_FIELD +
 	        			TITLE_ON_PRINT_FIELD +
 		        		VALID_ITEM_NUMBER_FIELD +
+		        		ORIGINAL_FORMAT_FIELD +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.DIRECTOR.getColumnAttributeText() + "'>" + FILM_DIRECTOR + "</col>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.COLLECTION.getColumnAttributeText() + "'>" + COLLECTION + "</col>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.EDITOR.getColumnAttributeText() + "'>" + EDITOR + "</col>" +
@@ -337,6 +349,8 @@ public class HfaTestData {
 	        			VALID_PREFIX_FIELD +
 	        			VALID_TITLE_FIELD +
 	        			LOAN1_FIELD +
+	        			HFA_FORMAT_FIELD +
+	        			ELEMENT_FIELD +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.COLOR.getColumnAttributeText() + "'>" + COLOR_BW + "</col>" +		        		
 		        		"<col column='" + HfaRecord.ColumnAttributeText.CONDITION_DEFECTS.getColumnAttributeText() + "'>" + DEFECT + "</col>" +		        		
 		        		"<col column='" + HfaRecord.ColumnAttributeText.CAUTIONS.getColumnAttributeText() + "'>" + CAUTION + "</col>" +		        		

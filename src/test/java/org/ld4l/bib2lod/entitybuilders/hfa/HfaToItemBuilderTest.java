@@ -11,6 +11,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.ld4l.bib2lod.caching.CachingService;
 import org.ld4l.bib2lod.caching.MapCachingService;
+import org.ld4l.bib2lod.conversion.Converter.ConverterException;
 import org.ld4l.bib2lod.datatypes.XsdDatatype;
 import org.ld4l.bib2lod.entity.Attribute;
 import org.ld4l.bib2lod.entity.Entity;
@@ -18,11 +19,14 @@ import org.ld4l.bib2lod.entitybuilders.BuildParams;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilder;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilder.EntityBuilderException;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilderFactory;
+import org.ld4l.bib2lod.ontology.Namespace;
 import org.ld4l.bib2lod.ontology.Type;
 import org.ld4l.bib2lod.ontology.hfa.HfaActivityType;
 import org.ld4l.bib2lod.ontology.hfa.HfaDatatypeProp;
 import org.ld4l.bib2lod.ontology.hfa.HfaEventType;
+import org.ld4l.bib2lod.ontology.hfa.HfaGeneratedType;
 import org.ld4l.bib2lod.ontology.hfa.HfaHistoryType;
+import org.ld4l.bib2lod.ontology.hfa.HfaNamespace;
 import org.ld4l.bib2lod.ontology.hfa.HfaObjectProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lAgentType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lDatatypeProp;
@@ -58,7 +62,7 @@ public class HfaToItemBuilderTest extends AbstractHfaTest {
     }
 
     @Before
-    public void setUp() throws RecordException {
+    public void setUp() throws RecordException, ConverterException {
         itemBuilder = new HfaToItemBuilder();
         hfaRecord = buildHfaRecordFromString(HfaTestData.VALID_ITEM_HFA_RECORD);
         parentEntity = new Entity(Ld4lInstanceType.INSTANCE);
@@ -74,9 +78,12 @@ public class HfaToItemBuilderTest extends AbstractHfaTest {
 		Entity item = itemBuilder.build(params);
 
 		Assert.assertNotNull(item);
-		Type type = item.getType();
-		Assert.assertNotNull(type);
-		Assert.assertEquals(Ld4lItemType.ITEM, type);
+		List<Type> types = item.getTypes();
+		Assert.assertEquals(3, types.size());
+		Assert.assertTrue(types.contains(Ld4lItemType.ITEM));
+		Namespace ns = HfaNamespace.getHfaNamespaceByPrefix("mi");
+		Assert.assertTrue(types.contains( new HfaGeneratedType(ns, "BetamaxVideo") ));
+		Assert.assertTrue(types.contains( new HfaGeneratedType(ns, "Outtakes") ));
 		
 		Attribute labelAttr = item.getAttribute(Ld4lDatatypeProp.LABEL);
 		Assert.assertNotNull(labelAttr);
@@ -91,7 +98,7 @@ public class HfaToItemBuilderTest extends AbstractHfaTest {
 		
 		Entity itemEvent = custodialHistory.getChild(Ld4lObjectProp.HAS_PART);
 		Assert.assertNotNull(itemEvent);
-		type = itemEvent.getType();
+		Type type = itemEvent.getType();
 		Assert.assertNotNull(type);
 		Assert.assertEquals(HfaEventType.ITEM_EVENT, type);
 

@@ -11,11 +11,10 @@ import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.ld4l.bib2lod.conversion.Converter.ConverterException;
-import org.ld4l.bib2lod.conversion.Converter.RecordConversionException;
 import org.ld4l.bib2lod.csv.hfa.SoundConcordanceManager;
 import org.ld4l.bib2lod.entity.Entity;
 import org.ld4l.bib2lod.entitybuilders.BuildParams;
+import org.ld4l.bib2lod.entitybuilders.EntityBuilder.EntityBuilderException;
 import org.ld4l.bib2lod.ontology.hfa.HfaGeneratedNamedIndividual;
 import org.ld4l.bib2lod.ontology.hfa.HfaNamespace;
 import org.ld4l.bib2lod.ontology.hfa.HfaObjectProp;
@@ -36,7 +35,7 @@ public class HfaToSoundConcordanceBuilderTest extends AbstractHfaTest {
 	private static final Logger LOGGER = LogManager.getLogger();
 
     @Before
-    public void setUp() throws RecordException, URISyntaxException, IOException, ConverterException {
+    public void setUp() throws RecordException, URISyntaxException, IOException, EntityBuilderException {
     	HfaToSoundConcordanceBuilder builder = new HfaToSoundConcordanceBuilder();
     	builder.setSoundConcordanceManager(new SoundConcordanceManager("/test_sound.csv"));
         soundBuilder = builder;
@@ -65,7 +64,7 @@ public class HfaToSoundConcordanceBuilderTest extends AbstractHfaTest {
 	
 	@Test
 	public void nullRecord_ThrowsException() throws Exception {
-		expectException(RecordConversionException.class, "A HfaRecord is required to build a title.");
+		expectException(EntityBuilderException.class, "A HfaRecord is required to build a title.");
 		BuildParams params = new BuildParams()
 				.setRecord(null)
 				.setParent(parentEntity);
@@ -75,7 +74,7 @@ public class HfaToSoundConcordanceBuilderTest extends AbstractHfaTest {
 	
 	@Test
 	public void nullParentEntity_ThrowsException() throws Exception {
-		expectException(RecordConversionException.class, "A parent Entity is required to build a title.");
+		expectException(EntityBuilderException.class, "A parent Entity is required to build a title.");
 		BuildParams params = new BuildParams()
 				.setRecord(hfaRecord)
 				.setParent(null);

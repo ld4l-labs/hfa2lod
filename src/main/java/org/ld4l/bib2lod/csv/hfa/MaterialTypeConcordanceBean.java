@@ -3,13 +3,13 @@
 package org.ld4l.bib2lod.csv.hfa;
 
 /**
- * This bean represents one row in the characteristics.csv concordance file.
+ * This bean represents one row in the material_types.csv concordance file.
  */
-public class CharacteristicsConcordanceBean {
+public class MaterialTypeConcordanceBean {
 	
 	private String matchingText;
-	private String field;
-	private String namedIndividual;
+	private String label;
+	private String ontClass;
 	
 	public String getMatchingText() {
 		return matchingText;
@@ -19,20 +19,20 @@ public class CharacteristicsConcordanceBean {
 		this.matchingText = matchingText;
 	}
 	
-	public String getField() {
-		return field;
+	public String getLabel() {
+		return label;
 	}
 	
-	public void setField(String field) {
-		this.field = field;
+	public void setLabel(String label) {
+		this.label = label;
 	}
 	
-	public String getNamedIndividual() {
-		return namedIndividual;
+	public String getOntClass() {
+		return ontClass;
 	}
 	
-	public void setNamedIndividual(String namedIndividual) {
-		this.namedIndividual = namedIndividual;
+	public void setOntClass(String ontClass) {
+		this.ontClass = ontClass;
 	}
 
 	@Override
@@ -40,10 +40,10 @@ public class CharacteristicsConcordanceBean {
 		StringBuilder builder = new StringBuilder(this.getClass().getSimpleName());
 		builder.append(" [matchingText=");
 		builder.append(matchingText);
-		builder.append(", field=");
-		builder.append(field);
-		builder.append(", namedIndividual=");
-		builder.append(namedIndividual);
+		builder.append(", label=");
+		builder.append(label);
+		builder.append(", ontClass=");
+		builder.append(ontClass);
 		builder.append("]");
 		return builder.toString();
 	}

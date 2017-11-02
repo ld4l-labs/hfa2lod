@@ -10,14 +10,17 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.ld4l.bib2lod.caching.CachingService;
 import org.ld4l.bib2lod.caching.MapCachingService;
+import org.ld4l.bib2lod.conversion.Converter.ConverterException;
 import org.ld4l.bib2lod.entity.Attribute;
 import org.ld4l.bib2lod.entity.Entity;
 import org.ld4l.bib2lod.entitybuilders.BuildParams;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilder;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilder.EntityBuilderException;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilderFactory;
+import org.ld4l.bib2lod.ontology.Namespace;
 import org.ld4l.bib2lod.ontology.Type;
 import org.ld4l.bib2lod.ontology.hfa.HfaGeneratedNamedIndividual;
+import org.ld4l.bib2lod.ontology.hfa.HfaGeneratedType;
 import org.ld4l.bib2lod.ontology.hfa.HfaNamespace;
 import org.ld4l.bib2lod.ontology.hfa.HfaObjectProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lDatatypeProp;
@@ -52,7 +55,7 @@ public class HfaToInstanceBuilderTest extends AbstractHfaTest {
     }
 
     @Before
-    public void setUp() throws RecordException {
+    public void setUp() throws RecordException, ConverterException {
         instanceBuilder = new HfaToInstanceBuilder();
         hfaRecord = buildHfaRecordFromString(HfaTestData.VALID_FULL_RECORD);
         parentEntity = new Entity(Ld4lWorkType.MOVING_IMAGE);
@@ -70,8 +73,10 @@ public class HfaToInstanceBuilderTest extends AbstractHfaTest {
 		Assert.assertNotNull(instanceEntity);
 		List<Type> types = instanceEntity.getTypes();
 		Assert.assertNotNull(types);
-		Assert.assertEquals(1, types.size());
+		Assert.assertEquals(2, types.size());
 		Assert.assertTrue(types.contains(Ld4lInstanceType.INSTANCE));
+		Namespace ns = HfaNamespace.getHfaNamespaceByPrefix("mi");
+		Assert.assertTrue(types.contains( new HfaGeneratedType(ns, "70mmFilm") ));
 		
 		Attribute labelAttr = instanceEntity.getAttribute(Ld4lDatatypeProp.LABEL);
 		Assert.assertNotNull(labelAttr);

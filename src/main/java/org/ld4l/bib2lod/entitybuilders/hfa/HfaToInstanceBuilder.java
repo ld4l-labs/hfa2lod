@@ -2,14 +2,22 @@
 
 package org.ld4l.bib2lod.entitybuilders.hfa;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+
 import org.ld4l.bib2lod.conversion.Converter.ConverterException;
+import org.ld4l.bib2lod.csv.hfa.MaterialTypeConcordanceBean;
+import org.ld4l.bib2lod.csv.hfa.MaterialTypeConcordanceManager;
 import org.ld4l.bib2lod.entity.Entity;
 import org.ld4l.bib2lod.entitybuilders.BuildParams;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilder;
 import org.ld4l.bib2lod.externalbuilders.ConcordanceReferenceBuilder;
 import org.ld4l.bib2lod.externalbuilders.HfaToCharacteristicsConcordanceBuilder;
 import org.ld4l.bib2lod.externalbuilders.HfaToSoundConcordanceBuilder;
+import org.ld4l.bib2lod.ontology.Type;
 import org.ld4l.bib2lod.ontology.hfa.HfaCollectionType;
+import org.ld4l.bib2lod.ontology.hfa.HfaGeneratedType;
+import org.ld4l.bib2lod.ontology.hfa.HfaNamespace;
 import org.ld4l.bib2lod.ontology.hfa.HfaObjectProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lDatatypeProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lInstanceType;
@@ -28,7 +36,16 @@ public class HfaToInstanceBuilder extends HfaToLd4lEntityBuilder {
     private HfaRecord record;
     private Entity work;
     private Entity instance;
+	private MaterialTypeConcordanceManager concordanceManager;
   
+	public HfaToInstanceBuilder() throws ConverterException {
+    	try {
+			this.concordanceManager = new MaterialTypeConcordanceManager();
+		} catch ( URISyntaxException | IOException e) {
+			throw new ConverterException("Could not instantiate MaterialTypeConcordanceManager", e);
+		}
+	}
+	
     @Override
     public Entity build(BuildParams params) throws EntityBuilderException {
 
@@ -52,13 +69,7 @@ public class HfaToInstanceBuilder extends HfaToLd4lEntityBuilder {
         buildItem();
         addLanguages();
         addOriginalFormat();
-
-        try {
-			addCharacteristics();			
-		} catch (ConverterException e) {
-            throw new EntityBuilderException(
-            		e.getMessage(), e);
-		}
+		addCharacteristics();			
         
         work.addRelationship(Ld4lObjectProp.HAS_INSTANCE, instance);
         
@@ -173,7 +184,7 @@ public class HfaToInstanceBuilder extends HfaToLd4lEntityBuilder {
     	}
     }
     
-    private void addCharacteristics() throws ConverterException {
+    private void addCharacteristics() throws EntityBuilderException {
         
     	ConcordanceReferenceBuilder builder = new HfaToCharacteristicsConcordanceBuilder();
         BuildParams params = new BuildParams()
@@ -188,7 +199,7 @@ public class HfaToInstanceBuilder extends HfaToLd4lEntityBuilder {
         builder.build(params);
     }
     
-    private void addOriginalFormat() {
+    private void addOriginalFormat() throws EntityBuilderException {
     	
     	HfaTextField originalFormatField = record.getField(ColumnAttributeText.ORIGINAL_FORMAT);
     	if (originalFormatField != null) {
@@ -197,9 +208,21 @@ public class HfaToInstanceBuilder extends HfaToLd4lEntityBuilder {
     		if (fieldText.endsWith(".")) {
     			fieldText = fieldText.substring(0, fieldText.lastIndexOf('.'));
     		}
-    		// FIXME: lookup exteral URI for original format in concordance file
+    		
+    		MaterialTypeConcordanceBean bean = concordanceManager.getConcordanceEntry(fieldText);
+    		if (bean != null) {
+    			String ontClass = bean.getOntClass();
+    			Type type = null;
+    			try {
+    				String[] parts = ontClass.split(":");
+    				HfaNamespace ns = HfaNamespace.getHfaNamespaceByPrefix(parts[0]);
+    				type = new HfaGeneratedType(ns, parts[1]);
+    			} catch (Exception e) {
+    				throw new EntityBuilderException("Could not parse HfaGeneratedNamedIndividual from concordance value: " + ontClass);
+    			}
+    			instance.addType(type);
+    		}
     	}
-    	
     }
 
 }

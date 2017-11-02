@@ -2,7 +2,6 @@
 
 package org.ld4l.bib2lod.externalbuilders;
 
-import org.ld4l.bib2lod.conversion.Converter.RecordConversionException;
 import org.ld4l.bib2lod.entitybuilders.BuildParams;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilder.EntityBuilderException;
 
@@ -34,8 +33,9 @@ public interface ConcordanceReferenceBuilder {
     /**
      * Builds an Entity, including its dependent Entities (e.g., Identifiers
      * and Titles of Works and Instances).
+     * @throws EntityBuilderException TODO
      * @throws EntityBuilderException 
      */
-    public void build(BuildParams params) throws RecordConversionException;
+    public void build(BuildParams params) throws EntityBuilderException;
 
 }
