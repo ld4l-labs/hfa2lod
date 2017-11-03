@@ -45,7 +45,7 @@ public class HfaTestData {
 							   PRODUCTION_COMPANY3;
 	public static final String COUNTRY1 = "Upper Volta";
 	public static final String COUNTRY2 = "Moldova";
-	public static final String COUNTRY3 = "Boreo";
+	public static final String COUNTRY3 = "Transylvania";
 	public static final String COUNTRY4 = "Peoples Republic of Cambridge";
 	public static final String YEAR_OF_RELEASE = "1999";
 	public static final String COUNTRIES = COUNTRY1 + " /" + COUNTRY2 + " , " + COUNTRY3 + " | " + COUNTRY4;
@@ -77,9 +77,6 @@ public class HfaTestData {
 	public static final String HFA_FORMAT = "Betamax";
 	public static final String ELEMENT = "Outtakes";
 	public static final String ORIGINAL_FORMAT = "70mm.";
-	
-	// FIXME: will not need this eventually once concordances are complete
-	public static final String tempUriBase = "http://localhost/bogus-base/";
 
 	public static final String VALID_ITEM_NUMBER_FIELD =
 			"<col column='" + HfaRecord.ColumnAttributeText.ITEM_NUMBER.getColumnAttributeText() + "'>" + ITEM_NUMBER + "</col>";
@@ -139,8 +136,8 @@ public class HfaTestData {
 			"<loan>" +
 					"<col column='" + HfaLoan.ColumnAttributeText.OUTSIDE_BORROWER.getColumnAttributeText() + "'>" + OUTSIDE_BORROWER1 + "</col>" +
 					"<col column='" + HfaLoan.ColumnAttributeText.COMPANY_NAME.getColumnAttributeText() + "'>" + COMPANY1_NAME + "</col>" +
-					"<col column='" + HfaLoan.ColumnAttributeText.CITY.getColumnAttributeText() + "'>" + CITY + "</col>" +
-					"<col column='" + HfaLoan.ColumnAttributeText.STATE_PROVINCE.getColumnAttributeText() + "'>" + STATE + "</col>" +
+//					"<col column='" + HfaLoan.ColumnAttributeText.CITY.getColumnAttributeText() + "'>" + CITY + "</col>" +
+//					"<col column='" + HfaLoan.ColumnAttributeText.STATE_PROVINCE.getColumnAttributeText() + "'>" + STATE + "</col>" +
 					"<col column='" + HfaLoan.ColumnAttributeText.COUNTRY.getColumnAttributeText() + "'>" + COUNTRY1 + "</col>" +
 					"<col column='" + HfaLoan.ColumnAttributeText.DATE_OF_LOAN.getColumnAttributeText() + "'>" + LOAN_DATE + "</col>" +
 					"<col column='" + HfaLoan.ColumnAttributeText.PLAY_DATE.getColumnAttributeText() + "'>" + LOAN_DATE + "</col>" +

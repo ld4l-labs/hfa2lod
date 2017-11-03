@@ -12,8 +12,7 @@ public enum HfaNamespace implements Namespace {
 
     /* Datasets/controlled vocabularies */
     /* List in alpha order */
-	// FIXME: this prefix is the same as LD4LNamespace PROV("http://www.w3.org/ns/prov#", "prov")
-	BIB_PROV("http://prov.bibliotek-o.org/0.1/ontology/", "prov"),
+	BIB_PROV("http://cho.bibliotek-o.org/0.1/ontology/", "cho"),
 	ISNI("http://isni.org/isni/", "isni"),
 	MOVING_IMAGE("http://ontology.library.harvard.edu/film/", "mi"),
 	SOUND_ASPECT("http://www.rdaregistry.info/termList/AspectRatio/", "rdaspc"),

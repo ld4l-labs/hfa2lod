@@ -7,6 +7,8 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 import org.ld4l.bib2lod.conversion.Converter.ConverterException;
+import org.ld4l.bib2lod.csv.hfa.LocationConcordanceBean;
+import org.ld4l.bib2lod.csv.hfa.LocationConcordanceManager;
 import org.ld4l.bib2lod.csv.hfa.MaterialTypeConcordanceBean;
 import org.ld4l.bib2lod.csv.hfa.MaterialTypeConcordanceManager;
 import org.ld4l.bib2lod.datatypes.XsdDatatype;
@@ -43,13 +45,19 @@ public class HfaToItemBuilder extends HfaToLd4lEntityBuilder {
     private Entity instance;
     private Entity item;
     private List<HfaLoan> hfaLoans;
-	private MaterialTypeConcordanceManager concordanceManager;
+	private MaterialTypeConcordanceManager materialTypeConcordanceManager;
+    private LocationConcordanceManager locationConcordanceManager;
 
 	public HfaToItemBuilder() throws ConverterException {
     	try {
-			this.concordanceManager = new MaterialTypeConcordanceManager();
+			this.materialTypeConcordanceManager = new MaterialTypeConcordanceManager();
 		} catch ( URISyntaxException | IOException e) {
 			throw new ConverterException("Could not instantiate MaterialTypeConcordanceManager", e);
+		}
+    	try {
+			this.locationConcordanceManager = new LocationConcordanceManager();
+		} catch ( URISyntaxException | IOException e) {
+			throw new ConverterException("Could not instantiate LocationConcordanceManager", e);
 		}
 	}
 	
@@ -163,17 +171,15 @@ public class HfaToItemBuilder extends HfaToLd4lEntityBuilder {
     		if (dateOfLoan != null) {
     			loanEvent.addAttribute(Ld4lDatatypeProp.DATE, dateOfLoan.getTextValue().trim(), XsdDatatype.DATE);
     		}
-	    	
-	    	// TODO: will not need this eventually once concordances are complete
-	    	String tempUriBase = "http://localhost/bogus-base/";
     		
-    		// FIXME: lookup exteral URI for location in concordance file
-    		// String locationUri = concordance.lookup(location);
     		String location = getLocation(loan, false);
     		if (location != null) {
     			location = location.trim();
-    			loanEvent.addExternalRelationship(Ld4lObjectProp.HAS_LOCATION, tempUriBase + location.replace(' ', '_').replace("\n", "_")
-    					.replace("[", "").replace("]", ""));
+				LocationConcordanceBean bean = locationConcordanceManager.getConcordanceEntry(location);
+	    		if (bean != null) {
+	    			String uri = bean.getUri();
+	    			loanEvent.addExternalRelationship(Ld4lObjectProp.HAS_LOCATION, uri);
+	    		}
     		}
     		
     		HfaTextField outsideBorrower = loan.getField(HfaLoan.ColumnAttributeText.OUTSIDE_BORROWER);
@@ -248,16 +254,13 @@ public class HfaToItemBuilder extends HfaToLd4lEntityBuilder {
     			exhibitionEvent.addAttribute(Ld4lDatatypeProp.DATE, playDate.getTextValue().trim(), XsdDatatype.DATE);
     		}
 	    	
-	    	// TODO: will not need this eventually once concordances are complete
-	    	String tempUriBase = "http://localhost/bogus-base/";
-
-	    	// FIXME: lookup exteral URI for location in concordance file
-			// Agreed to remove "?" from location		
-			// String locationUri = concordance.lookup(location.replace("[", "").replace("]", "").replace("?", ""));
     		if (location != null) {
-    			location = location.trim();
-    			exhibitionEvent.addExternalRelationship(Ld4lObjectProp.HAS_LOCATION, tempUriBase + location.replace(' ', '_').replace("\n", "_")
-    					.replace("[", "").replace("]", "").replace("?", ""));
+    			location = location.trim().replace("?", "");
+				LocationConcordanceBean bean = locationConcordanceManager.getConcordanceEntry(location);
+	    		if (bean != null) {
+	    			String uri = bean.getUri();
+	    			exhibitionEvent.addExternalRelationship(Ld4lObjectProp.HAS_LOCATION, uri);
+	    		}
     		}
 
     		item.addRelationship(Ld4lObjectProp.HAS_ACTIVITY, exhibitionEvent);
@@ -303,7 +306,7 @@ public class HfaToItemBuilder extends HfaToLd4lEntityBuilder {
     
     	HfaTextField hfaFormatField = record.getField(ColumnAttributeText.HFA_FORMAT);
     	if (hfaFormatField!= null) {
-    		MaterialTypeConcordanceBean bean = concordanceManager.getConcordanceEntry(hfaFormatField.getTextValue());
+    		MaterialTypeConcordanceBean bean = materialTypeConcordanceManager.getConcordanceEntry(hfaFormatField.getTextValue());
     		if (bean != null) {
     			String ontClass = bean.getOntClass();
     			Type type = null;
@@ -320,7 +323,7 @@ public class HfaToItemBuilder extends HfaToLd4lEntityBuilder {
     	
     	HfaTextField hfaElementField = record.getField(ColumnAttributeText.ELEMENT);
     	if (hfaElementField != null) {
-    		MaterialTypeConcordanceBean bean = concordanceManager.getConcordanceEntry(hfaElementField.getTextValue());
+    		MaterialTypeConcordanceBean bean = materialTypeConcordanceManager.getConcordanceEntry(hfaElementField.getTextValue());
     		if (bean != null) {
     			String ontClass = bean.getOntClass();
     			Type type = null;

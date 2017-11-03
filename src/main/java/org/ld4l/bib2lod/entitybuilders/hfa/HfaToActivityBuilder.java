@@ -2,6 +2,8 @@
 
 package org.ld4l.bib2lod.entitybuilders.hfa;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -10,6 +12,9 @@ import org.apache.logging.log4j.Logger;
 import org.ld4l.bib2lod.caching.CachingService;
 import org.ld4l.bib2lod.caching.CachingService.CachingServiceException;
 import org.ld4l.bib2lod.caching.CachingService.MapType;
+import org.ld4l.bib2lod.conversion.Converter.ConverterException;
+import org.ld4l.bib2lod.csv.hfa.LocationConcordanceBean;
+import org.ld4l.bib2lod.csv.hfa.LocationConcordanceManager;
 import org.ld4l.bib2lod.datatypes.Ld4lCustomDatatypes.BibDatatype;
 import org.ld4l.bib2lod.entity.Attribute;
 import org.ld4l.bib2lod.entity.Entity;
@@ -36,6 +41,7 @@ public class HfaToActivityBuilder extends HfaToLd4lEntityBuilder {
     private Entity activityEntity;
     private String agentText;
     private CachingService cachingService;
+    private LocationConcordanceManager locationConcordanceManager;
     
     private static Pattern commaRegex;
 
@@ -43,6 +49,14 @@ public class HfaToActivityBuilder extends HfaToLd4lEntityBuilder {
     
     static {
     	commaRegex = Pattern.compile(",|/|\\|"); // includes pipe '|' char as well as ',' and '/'
+    }
+    
+    public HfaToActivityBuilder() throws ConverterException {
+    	try {
+			this.locationConcordanceManager = new LocationConcordanceManager();
+		} catch ( URISyntaxException | IOException e) {
+			throw new ConverterException("Could not instantiate LocationConcordanceManager", e);
+		}
     }
 
     /**
@@ -85,7 +99,6 @@ public class HfaToActivityBuilder extends HfaToLd4lEntityBuilder {
     	// Date and location are only specific to a Provider Activity while, at the same time,
     	// there are no Agents to add.
     	if (HfaActivityType.PROVIDER_ACTIVITY.equals(activityType)) {
-    		// TODO: ignore "[unknown]" and "[various]" and similar
     		HfaTextField dateField = this.record.getField(ColumnAttributeText.YEAR_OF_RELEASE);
     		String dateText = null;
     		if (dateField != null && 
@@ -110,18 +123,15 @@ public class HfaToActivityBuilder extends HfaToLd4lEntityBuilder {
     		}
     		// parse possible multiple country names
     		if (countryField != null) {
-    	    	
-    	    	// TODO: will not need this eventually once concordances are complete
-    	    	String tempUriBase = "http://localhost/bogus-base/";
-
     	    	String[] locations = commaRegex.split(countryField.getTextValue());
     			for (String location : locations) {
-    				// FIXME: lookup exteral URI for location in concordance file
-					// Agreed to remove "?" from location		
-    				// String locationUri = concordance.lookup(location.replace("[", "").replace("]", "").replace("?", ""));
-    				location = location.trim().replace(' ', '_').replace("\n", "_").replace("?", "")
-    						.replace("[", "").replace("]", ""); // TODO: remove - temporary until there is a URI
-    				this.activityEntity.addExternalRelationship(Ld4lObjectProp.HAS_LOCATION, tempUriBase + location.trim());
+					// Agreed to remove "?" from location
+    				location = location.trim().replace("?", "");
+    				LocationConcordanceBean bean = locationConcordanceManager.getConcordanceEntry(location);
+    	    		if (bean != null) {
+    	    			String uri = bean.getUri();
+    	    			this.activityEntity.addExternalRelationship(Ld4lObjectProp.HAS_LOCATION, uri);
+    	    		}
     			}
     		}
     	} else if (HfaActivityType.LENDER_ACTIVITY.equals(activityType)) {

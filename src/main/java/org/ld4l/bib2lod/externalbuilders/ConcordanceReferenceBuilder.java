@@ -33,7 +33,7 @@ public interface ConcordanceReferenceBuilder {
     /**
      * Builds an Entity, including its dependent Entities (e.g., Identifiers
      * and Titles of Works and Instances).
-     * @throws EntityBuilderException TODO
+     * 
      * @throws EntityBuilderException 
      */
     public void build(BuildParams params) throws EntityBuilderException;

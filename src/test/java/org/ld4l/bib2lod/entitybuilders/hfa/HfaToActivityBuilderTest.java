@@ -10,6 +10,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.ld4l.bib2lod.caching.CachingService;
 import org.ld4l.bib2lod.caching.MapCachingService;
+import org.ld4l.bib2lod.conversion.Converter.ConverterException;
 import org.ld4l.bib2lod.datatypes.Ld4lCustomDatatypes.BibDatatype;
 import org.ld4l.bib2lod.entity.Attribute;
 import org.ld4l.bib2lod.entity.Entity;
@@ -51,7 +52,7 @@ public class HfaToActivityBuilderTest extends AbstractHfaTest {
     }
 
     @Before
-    public void setUp() throws RecordException {
+    public void setUp() throws RecordException, ConverterException {
         activityBuilder = new HfaToActivityBuilder();
         hfaRecord = buildHfaRecordFromString(HfaTestData.VALID_FULL_RECORD);
         parentEntity = new Entity(Ld4lWorkType.MOVING_IMAGE);
@@ -133,7 +134,7 @@ public class HfaToActivityBuilderTest extends AbstractHfaTest {
 		Assert.assertEquals(BibDatatype.EDTF, dateAttr.getDatatype());
 		
 		List<String> locations = activityEntity.getExternals(Ld4lObjectProp.HAS_LOCATION);
-		Assert.assertEquals(4, locations.size());
+		Assert.assertEquals(2, locations.size()); // only 2 of 4 should be pulled from concordance
 	}
 	
 	@Test
@@ -190,8 +191,7 @@ public class HfaToActivityBuilderTest extends AbstractHfaTest {
 		List<String> locations = activityEntity.getExternals(Ld4lObjectProp.HAS_LOCATION);
 		Assert.assertEquals(1, locations.size());
 		String location = locations.get(0);
-		// FIXME: this is just to accommodate kludge until concordances are complete
-		Assert.assertEquals(HfaTestData.tempUriBase + HfaTestData.COUNTRY1.replace(' ', '_'), location);
+		Assert.assertEquals("http://someplace.org/language/UpperVolta", location);
 
 		Attribute dateAttr = activityEntity.getAttribute(Ld4lDatatypeProp.DATE);
 		Assert.assertNull(dateAttr);

@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 import org.ld4l.bib2lod.conversion.Converter.ConverterException;
+import org.ld4l.bib2lod.csv.hfa.LanguageConcordanceBean;
+import org.ld4l.bib2lod.csv.hfa.LanguageConcordanceManager;
 import org.ld4l.bib2lod.csv.hfa.MaterialTypeConcordanceBean;
 import org.ld4l.bib2lod.csv.hfa.MaterialTypeConcordanceManager;
 import org.ld4l.bib2lod.entity.Entity;
@@ -36,13 +38,19 @@ public class HfaToInstanceBuilder extends HfaToLd4lEntityBuilder {
     private HfaRecord record;
     private Entity work;
     private Entity instance;
-	private MaterialTypeConcordanceManager concordanceManager;
+	private MaterialTypeConcordanceManager materialTypeConcordanceManager;
+	private LanguageConcordanceManager languageConcordanceManager;
   
 	public HfaToInstanceBuilder() throws ConverterException {
     	try {
-			this.concordanceManager = new MaterialTypeConcordanceManager();
+			this.materialTypeConcordanceManager = new MaterialTypeConcordanceManager();
 		} catch ( URISyntaxException | IOException e) {
 			throw new ConverterException("Could not instantiate MaterialTypeConcordanceManager", e);
+		}
+    	try {
+			this.languageConcordanceManager = new LanguageConcordanceManager();
+		} catch ( URISyntaxException | IOException e) {
+			throw new ConverterException("Could not instantiate LanguageConcordanceManager", e);
 		}
 	}
 	
@@ -147,40 +155,31 @@ public class HfaToInstanceBuilder extends HfaToLd4lEntityBuilder {
     
     private void addLanguages() {
     	
-    	// TODO: will not need this eventually once concordances are complete
-    	String tempUriBase = "http://localhost/bogus-base/";
-    	
-    	// FIXME: lookup exteral URI for language in concordance file
     	HfaTextField field = record.getField(ColumnAttributeText.LANGUAGE);
     	if (field != null) {
-    		// String uri = concordance.getLanguage(field.field.getTextValue().trim()
-    		// if (uri != null) { add external relationship, otherwise do nothing }
-    		String fieldText = field.getTextValue().trim();
-    		fieldText = fieldText.replace(' ', '_').replace("\n", "_")
-    				.replace("[", "").replace("]", ""); // TODO: remove - temporary until there is a URI
-    		instance.addExternalRelationship(Ld4lObjectProp.HAS_LANGUAGE, tempUriBase + fieldText);
+    		LanguageConcordanceBean bean = languageConcordanceManager.getConcordanceEntry(field.getTextValue().trim());
+    		if (bean != null) {
+    			String uri = bean.getUri();
+    			instance.addExternalRelationship(Ld4lObjectProp.HAS_LANGUAGE, uri);
+    		}
     	}
     	
-    	// FIXME: lookup exteral URI for language in concordance file
     	field = record.getField(ColumnAttributeText.SUBTITLES_LANGUAGE);
     	if (field != null) {
-    		// String uri = concordance.getLanguage(field.field.getTextValue().trim()
-    		// if (uri != null) { add external relationship, otherwise do nothing }
-    		String fieldText = field.getTextValue().trim();
-    		fieldText = fieldText.replace(' ', '_').replace("\n", "_")
-    				.replace("[", "").replace("]", ""); // TODO: remove - temporary until there is a URI
-    		instance.addExternalRelationship(HfaObjectProp.HAS_SUBTITLE_LANGUAGE, tempUriBase + fieldText);
+    		LanguageConcordanceBean bean = languageConcordanceManager.getConcordanceEntry(field.getTextValue().trim());
+    		if (bean != null) {
+    			String uri = bean.getUri();
+    			instance.addExternalRelationship(HfaObjectProp.HAS_SUBTITLE_LANGUAGE, uri);
+    		}
     	}
     	
-    	// FIXME: lookup exteral URI for language in concordance file
     	field = record.getField(ColumnAttributeText.INTERTITLES_LANGUAGE);
     	if (field != null) {
-    		// String uri = concordance.getLanguage(field.field.getTextValue().trim()
-    		// if (uri != null) { add external relationship, otherwise do nothing }
-    		String fieldText = field.getTextValue().trim();
-    		fieldText = fieldText.replace(' ', '_').replace("\n", "_")
-    				.replace("[", "").replace("]", ""); // TODO: remove - temporary until there is a URI
-    		instance.addExternalRelationship(HfaObjectProp.HAS_INTERTITLE_LANGUAGE, tempUriBase + fieldText);
+    		LanguageConcordanceBean bean = languageConcordanceManager.getConcordanceEntry(field.getTextValue().trim());
+    		if (bean != null) {
+    			String uri = bean.getUri();
+    			instance.addExternalRelationship(HfaObjectProp.HAS_INTERTITLE_LANGUAGE, uri);
+    		}
     	}
     }
     
@@ -209,7 +208,7 @@ public class HfaToInstanceBuilder extends HfaToLd4lEntityBuilder {
     			fieldText = fieldText.substring(0, fieldText.lastIndexOf('.'));
     		}
     		
-    		MaterialTypeConcordanceBean bean = concordanceManager.getConcordanceEntry(fieldText);
+    		MaterialTypeConcordanceBean bean = materialTypeConcordanceManager.getConcordanceEntry(fieldText);
     		if (bean != null) {
     			String ontClass = bean.getOntClass();
     			Type type = null;

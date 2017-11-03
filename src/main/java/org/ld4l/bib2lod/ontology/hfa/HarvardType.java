@@ -9,7 +9,6 @@ import org.ld4l.bib2lod.ontology.Type;
  * Enumerates the Harvard Film Archive types used in the LD4L BIBFRAME 2 extensions and
  * application profile.
  */
-//TODO This should be moved to someplace common for both FGDC and HFA use.
 public enum HarvardType implements Type {
     
     HFA_NUMBER(HarvardNamespace.METAL, "HFANumber");
