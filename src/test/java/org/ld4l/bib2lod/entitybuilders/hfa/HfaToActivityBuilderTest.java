@@ -191,7 +191,7 @@ public class HfaToActivityBuilderTest extends AbstractHfaTest {
 		List<String> locations = activityEntity.getExternals(Ld4lObjectProp.HAS_LOCATION);
 		Assert.assertEquals(1, locations.size());
 		String location = locations.get(0);
-		Assert.assertEquals("http://someplace.org/language/UpperVolta", location);
+		Assert.assertEquals("http://www.geonames.org/3624060", location);
 
 		Attribute dateAttr = activityEntity.getAttribute(Ld4lDatatypeProp.DATE);
 		Assert.assertNull(dateAttr);

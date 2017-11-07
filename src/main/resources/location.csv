@@ -1,3 +1,157 @@
-Value,Label,URI
-Transylvania,Transylvania,http://someplace.org/location/Transylvania
-Upper Volta,Upper Volta,http://someplace.org/language/UpperVolta
+value,URI,label
+Algeria,http://www.geonames.org/2589581,Algeria
+Argentina,http://www.geonames.org/3865483,Argentina
+Armenia,http://www.geonames.org/174982,Armenia
+Austrailia,http://www.geonames.org/2077456,Australia
+Australia,http://www.geonames.org/2077456,Australia
+Australian,http://www.geonames.org/2077456,Australia
+Austria,http://www.geonames.org/2782113,Austria
+Bali,http://www.geonames.org/1650535,Bali
+Belgium,http://www.geonames.org/2802361,Belgium
+Bessie,http://www.geonames.org/2261151,Béssié
+Bolivia,http://www.geonames.org/3923057,Bolivia
+Bosnia,http://www.geonames.org/3277605,Bosnia and Herzegovina
+Bosnia and Herzegovina,http://www.geonames.org/3277605,Bosnia and Herzegovina
+Bosnia-Herzegovina,http://www.geonames.org/3277605,Bosnia and Herzegovina
+Brazil,http://www.geonames.org/3469034,Brazil
+Bulgaria,http://www.geonames.org/732800,Bulgaria
+Bulgaria ?,http://www.geonames.org/732800,Bulgaria
+Bulgaria [?],http://www.geonames.org/732800,Bulgaria
+Bulgarian,http://www.geonames.org/732800,Bulgaria
+Burkina Faso,http://www.geonames.org/2361809,Burkina Faso
+Cameroon,http://www.geonames.org/2233387,Cameroon
+Canada,http://www.geonames.org/6251999,Canada
+Canda,http://www.geonames.org/11398777,Canda
+Chad,http://www.geonames.org/2434508,Chad
+Chile,http://www.geonames.org/3895114,Chile
+China,http://www.geonames.org/1814991,China
+Colombia,http://www.geonames.org/3686110,Colombia
+Costa Rica,http://www.geonames.org/3624060,Costa Rica
+Croatia,http://www.geonames.org/3202326,Croatia
+Cuba,http://www.geonames.org/3562981,Cuba
+Czech Republic,http://www.geonames.org/3077311,Czechia
+Czechosalvakia,http://www.geonames.org/8505031,Czechoslovakia
+Czechoslovakia,http://www.geonames.org/8505031,Czechoslovakia
+Czechoslovakia ?,http://www.geonames.org/8505031,Czechoslovakia
+Czechoslovakia[?],http://www.geonames.org/8505031,Czechoslovakia
+Czechslovakia,http://www.geonames.org/8505031,Czechoslovakia
+Denmark,http://www.geonames.org/2623032,Denmark
+Denmark ?,http://www.geonames.org/2623032,Denmark
+Denmark?,http://www.geonames.org/2623032,Denmark
+Egypt,http://www.geonames.org/357994,Egypt
+Ethiopia,http://www.geonames.org/337996,Ethiopia
+Federal Republic of Yugoslavia,http://www.geonames.org/7500737,Yugoslavia
+Finland,http://www.geonames.org/660013,Finland
+France,http://www.geonames.org/3017382,France
+French,http://www.geonames.org/3017382,France
+Georgia,http://www.geonames.org/614540,Georgia
+German,http://www.geonames.org/2921044,Germany
+Germany,http://www.geonames.org/2921044,Germany
+Germany  ?,http://www.geonames.org/2921044,Germany
+Germany (East),http://www.geonames.org/8354410,East Germany
+Germany (West),http://www.geonames.org/11612754,Bundesrepublik Deutschland (bis 1990)
+Germany[?],http://www.geonames.org/2921044,Germany
+Great Britain,http://www.geonames.org/2635167,United Kingdom
+Great Britain  (?),http://www.geonames.org/2635167,United Kingdom
+Great Britain ?,http://www.geonames.org/2635167,United Kingdom
+Great Britain [?],http://www.geonames.org/2635167,United Kingdom
+Greece,http://www.geonames.org/390903,Greece
+Greece[?],http://www.geonames.org/390903,Greece
+Guatmala,http://www.geonames.org/3595528,Guatemala
+Guinea,http://www.geonames.org/2309096,Equatorial Guinea
+Hong Kong,http://www.geonames.org/1819729,Hong Kong
+Hong Kong (China),http://www.geonames.org/1819729,Hong Kong
+Hungary,http://www.geonames.org/719819,Hungary
+Hungary ?,http://www.geonames.org/719819,Hungary
+Hungary[?],http://www.geonames.org/719819,Hungary
+Iceland,http://www.geonames.org/2629691,Iceland
+India,http://www.geonames.org/1269750,India
+Iran,http://www.geonames.org/130758,Iran
+Iran ?,http://www.geonames.org/130758,Iran
+Ireland,http://www.geonames.org/2963597,Ireland
+Israel,http://www.geonames.org/294640,Israel
+Italy,http://www.geonames.org/3175395,Italy
+Italy ?,http://www.geonames.org/3175395,Italy
+Ivory Coast,http://www.geonames.org/2287781,Ivory Coast
+Japan,http://www.geonames.org/1861060,Japan
+Kenya,http://www.geonames.org/192950,Kenya
+Korea,http://www.geonames.org/1835841,South Korea
+Latvia,http://www.geonames.org/458258,Latvia
+Latvia (USSR),http://www.geonames.org/458258,Latvia
+Latvia [?],http://www.geonames.org/458258,Latvia
+Latvian,http://www.geonames.org/458258,Latvia
+Lebanon,http://www.geonames.org/272103,Lebanon
+Lesotho,http://www.geonames.org/932692,Lesotho
+Lithuania,http://www.geonames.org/597427,Lithuania
+Luxembourg,http://www.geonames.org/2960313,Luxembourg
+Mali,http://www.geonames.org/2453866,Mali
+Mauritania,http://www.geonames.org/2378080,Mauritania
+Mexico,http://www.geonames.org/3996063,Mexico
+Nederlands,http://www.geonames.org/2750405,Netherlands
+Netherland,http://www.geonames.org/2750405,Netherlands
+Netherlands,http://www.geonames.org/2750405,Netherlands
+New Guinea,http://www.geonames.org/2088628,Papua New Guinea
+New Zealand,http://www.geonames.org/2186224,New Zealand
+Nigeria,http://www.geonames.org/2328926,Nigeria
+Norway,http://www.geonames.org/3144096,Norway
+Palestine,http://www.geonames.org/6254930,Palestine
+Peru,http://www.geonames.org/3932488,Peru
+Philippines,http://www.geonames.org/1694008,Philippines
+Poland,http://www.geonames.org/798544,Poland
+Portugal,http://www.geonames.org/2264397,Portugal
+Romania,http://www.geonames.org/798549,Romania
+Rrance,http://www.geonames.org/3017382,France
+Russia,http://www.geonames.org/2017370,Russia
+Scotland,http://www.geonames.org/2638360,Scotland
+Senegal,http://www.geonames.org/2245662,Senegal
+Serbia,http://www.geonames.org/8505033,Serbia and Montenegro
+Slovenia,http://www.geonames.org/3190538,Slovenia
+South Africa,http://www.geonames.org/953987,South Africa
+South Africa ?,http://www.geonames.org/953987,South Africa
+South Korea,http://www.geonames.org/1835841,South Korea
+Soviet Union,http://www.geonames.org/8354411,Soviet Union
+Spain,http://www.geonames.org/2510769,Spain
+Spain ?,http://www.geonames.org/2510769,Spain
+Sweden,http://www.geonames.org/2661886,Sweden
+Switzerland,http://www.geonames.org/2658434,Switzerland
+Taiwan,http://www.geonames.org/1668284,Taiwan
+Thailand,http://www.geonames.org/1605651,Thailand
+The Netherlands,http://www.geonames.org/2750405,Netherlands
+Tunisia,http://www.geonames.org/2464461,Tunisia
+Turkey,http://www.geonames.org/298795,Turkey
+UK,http://www.geonames.org/2635167,United Kingdom
+Ukraine,http://www.geonames.org/690791,Ukraine
+United Arab Emirates,http://www.geonames.org/290557,United Arab Emirates
+United States,http://www.geonames.org/6252001,United States
+United States ?,http://www.geonames.org/6252001,United States
+United States [?],http://www.geonames.org/6252001,United States
+United States[?],http://www.geonames.org/6252001,United States
+Uraguay,http://www.geonames.org/3439705,Uruguay
+Uruguay,http://www.geonames.org/3439705,Uruguay
+US,http://www.geonames.org/6252001,United States
+USA,http://www.geonames.org/6252001,United States
+USSR,http://www.geonames.org/8354411,Soviet Union
+USSR - Latvia,http://www.geonames.org/458258,Latvia
+USSR - Ukraine,http://www.geonames.org/690791,Ukraine
+USSR ?,http://www.geonames.org/8354411,Soviet Union
+USSR (Armeni)a,http://www.geonames.org/174982,Armenia
+USSR (Armenia),http://www.geonames.org/174982,Armenia
+USSR (Azerbaijan),http://www.geonames.org/8303512,Azerbaijan
+USSR (Belarus),http://www.geonames.org/630336,Belarus
+USSR (Estonia),http://www.geonames.org/453733,Estonia
+USSR (Georgia),http://www.geonames.org/614540,Georgia
+USSR (Kazakhstan),http://www.geonames.org/1522867,Kazakhstan
+USSR (Kyrgyzstan),http://www.geonames.org/1527747,Kyrgyzstan
+USSR (Latvia),http://www.geonames.org/458258,Latvia
+USSR (Lithuania),http://www.geonames.org/597427,Lithuania
+USSR (Moldova),http://www.geonames.org/617790,Moldova
+USSR (Russia),http://www.geonames.org/2017370,Russia
+USSR (Ukraine),http://www.geonames.org/690791,Ukraine
+USSR (Uzbekistan),http://www.geonames.org/1512440,Uzbekistan
+Viaggio in Italia,http://www.geonames.org/3175395,Italy
+W Germany,http://www.geonames.org/11612754,Bundesrepublik Deutschland (bis 1990)
+W.Germany,http://www.geonames.org/11612754,Bundesrepublik Deutschland (bis 1990)
+Wales,http://www.geonames.org/2634895,Wales
+West Germany,http://www.geonames.org/11612754,Bundesrepublik Deutschland (bis 1990)
+Yugoslavia,http://www.geonames.org/7500737,Yugoslavia
+Zimbabwe,http://www.geonames.org/878675,Zimbabwe

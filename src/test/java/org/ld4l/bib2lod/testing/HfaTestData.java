@@ -43,9 +43,9 @@ public class HfaTestData {
 	public static final String PRODUCTION_COMPANIES = PRODUCTION_COMPANY1 + " /" +
 							   PRODUCTION_COMPANY2 + " , " +
 							   PRODUCTION_COMPANY3;
-	public static final String COUNTRY1 = "Upper Volta";
+	public static final String COUNTRY1 = "Costa Rica";
 	public static final String COUNTRY2 = "Moldova";
-	public static final String COUNTRY3 = "Transylvania";
+	public static final String COUNTRY3 = "Bulgaria";
 	public static final String COUNTRY4 = "Peoples Republic of Cambridge";
 	public static final String YEAR_OF_RELEASE = "1999";
 	public static final String COUNTRIES = COUNTRY1 + " /" + COUNTRY2 + " , " + COUNTRY3 + " | " + COUNTRY4;

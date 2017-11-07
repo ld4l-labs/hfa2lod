@@ -115,7 +115,7 @@ public class HfaToItemBuilderTest extends AbstractHfaTest {
 		
 		String location = loanEvent.getExternal(Ld4lObjectProp.HAS_LOCATION);
 		Assert.assertNotNull(location);
-		Assert.assertEquals("http://someplace.org/language/UpperVolta", location);
+		Assert.assertEquals("http://www.geonames.org/3624060", location);
 		
 		Entity borrower = loanEvent.getChild(Ld4lObjectProp.HAS_ACTIVITY, HfaActivityType.BORROWER_ACTIVITY);
 		Assert.assertNotNull(borrower);

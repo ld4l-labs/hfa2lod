@@ -20,9 +20,9 @@ public class LocationConcordanceManager extends AbstractConcordanceManager<Locat
 	
 	private enum ConcordanceCsvColumn {
 		
-		MATCHING_TEXT("matchingText"),
-		LABEL("label"),
-		URI("uri");
+		VALUE("matchingText"),
+		URI("uri"),
+		LABEL("label");
 		
 		private String columnName;
 		
