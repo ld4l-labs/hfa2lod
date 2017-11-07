@@ -40,13 +40,13 @@ public class LanguageConcordanceManagerTest {
 			Map<String, LanguageConcordanceBean> map = mgr.getMap();
 			Assert.assertNotNull(map);
 			Assert.assertFalse(map.isEmpty());
-			Assert.assertEquals(3, map.size());
+			Assert.assertEquals(5, map.size());
 			
-			LanguageConcordanceBean bean = mgr.getConcordanceEntry("Pig Latin");
+			LanguageConcordanceBean bean = mgr.getConcordanceEntry("English");
 			Assert.assertNotNull(bean);
-			Assert.assertEquals("Pig Latin", bean.getMatchingText());
-			Assert.assertEquals("Pig Latin", bean.getLabel());
-			Assert.assertEquals("http://someplace.org/language/PigLatin", bean.getUri());
+			Assert.assertEquals("English", bean.getMatchingText());
+			Assert.assertEquals("English", bean.getLabel());
+			Assert.assertEquals("http://www.lexvo.org/page/iso639-3/eng", bean.getUri());
 			
 			bean = mgr.getConcordanceEntry("no-entry");
 			Assert.assertNull(bean);

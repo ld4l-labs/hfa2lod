@@ -92,15 +92,15 @@ public class HfaToInstanceBuilderTest extends AbstractHfaTest {
 		
 		String language = instanceEntity.getExternal(Ld4lObjectProp.HAS_LANGUAGE);
 		Assert.assertNotNull(language);
-		Assert.assertEquals("http://someplace.org/language/English", language);
+		Assert.assertEquals("http://www.lexvo.org/page/iso639-3/eng", language);
 		
 		language = instanceEntity.getExternal(HfaObjectProp.HAS_SUBTITLE_LANGUAGE);
 		Assert.assertNotNull(language);
-		Assert.assertEquals("http://someplace.org/language/English", language);
+		Assert.assertEquals("http://www.lexvo.org/page/iso639-3/eng", language);
 		
 		language = instanceEntity.getExternal(HfaObjectProp.HAS_INTERTITLE_LANGUAGE);
 		Assert.assertNotNull(language);
-		Assert.assertEquals("http://someplace.org/language/English", language);
+		Assert.assertEquals("http://www.lexvo.org/page/iso639-3/eng", language);
 		
 		List<String> uris = instanceEntity.getExternals(HfaObjectProp.HAS_CHARACTERISTIC);
 		Assert.assertEquals(2, uris.size());

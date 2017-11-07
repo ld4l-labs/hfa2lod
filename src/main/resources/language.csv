@@ -1,4 +1,6 @@
-Value,Label,URI
-English,English,http://someplace.org/language/English
-French,French,http://someplace.org/language/French
-Pig Latin,Pig Latin,http://someplace.org/language/PigLatin
+Value,URI,Label
+English,http://www.lexvo.org/page/iso639-3/eng,English
+French,http://www.lexvo.org/page/iso639-3/fra,French
+Italian,http://www.lexvo.org/page/iso639-3/ita,Italian
+Russian,http://www.lexvo.org/page/iso639-3/rus,Russian
+Spanish,http://www.lexvo.org/page/iso639-3/spa,Spanish
