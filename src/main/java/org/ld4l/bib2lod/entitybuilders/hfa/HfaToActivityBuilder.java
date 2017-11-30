@@ -21,6 +21,7 @@ import org.ld4l.bib2lod.entity.Entity;
 import org.ld4l.bib2lod.entitybuilders.BuildParams;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilder;
 import org.ld4l.bib2lod.ontology.hfa.HfaActivityType;
+import org.ld4l.bib2lod.ontology.hfa.HfaObjectProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lAgentType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lDatatypeProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lObjectProp;
@@ -129,8 +130,10 @@ public class HfaToActivityBuilder extends HfaToLd4lEntityBuilder {
     				location = location.trim().replace("?", "");
     				LocationConcordanceBean bean = locationConcordanceManager.getConcordanceEntry(location);
     	    		if (bean != null) {
-    	    			String uri = bean.getUri();
-    	    			this.activityEntity.addExternalRelationship(Ld4lObjectProp.HAS_LOCATION, uri);
+    	    	        Entity locationEntity = new Entity();
+    	    	        locationEntity.addAttribute(Ld4lDatatypeProp.LABEL, location);
+    	    	        locationEntity.buildResource(bean.getUri());
+    	    	        activityEntity.addRelationship(Ld4lObjectProp.HAS_LOCATION, locationEntity);
     	    		}
     			}
     		}

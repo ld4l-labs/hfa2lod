@@ -6,6 +6,7 @@ import static org.ld4l.bib2lod.testing.HfaTestData.ENTRY_NOT_IN_CONCORDANCE;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -20,6 +21,7 @@ import org.ld4l.bib2lod.entity.Entity;
 import org.ld4l.bib2lod.entitybuilders.BuildParams;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilder.EntityBuilderException;
 import org.ld4l.bib2lod.ontology.hfa.HfaDatatypeProp;
+import org.ld4l.bib2lod.ontology.ld4l.Ld4lDatatypeProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lObjectProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lWorkType;
 import org.ld4l.bib2lod.record.xml.hfa.HfaRecord;
@@ -56,9 +58,22 @@ public class HfaToGenreConcordanceTest extends AbstractHfaTest {
 		
 		genreBuilder.build(params);
 		
-		List<String> uris = parentEntity.getExternals(Ld4lObjectProp.GENRE_FORM);
-		Assert.assertNotNull(uris);
-		Assert.assertEquals(2, uris.size());
+		List<Entity> genreFormEntities = parentEntity.getChildren(Ld4lObjectProp.GENRE_FORM);
+		Assert.assertEquals(2, genreFormEntities.size());
+
+		List<String> genreFormUris = new ArrayList<String>(2);
+		genreFormUris.add("http://id.loc.gov/authorities/genreForms/gf2011026250");
+		genreFormUris.add("http://id.worldcat.org/fast/1710264");
+		
+		Entity genreFormEntity = genreFormEntities.get(0);
+		Assert.assertTrue(genreFormUris.contains(genreFormEntity.getResource().getURI()));
+		Attribute attr = genreFormEntity.getAttribute(Ld4lDatatypeProp.LABEL);
+		Assert.assertEquals(HfaTestData.FICTION_GENRE, attr.getValue());
+
+		genreFormEntity = genreFormEntities.get(1);
+		Assert.assertTrue(genreFormUris.contains(genreFormEntity.getResource().getURI()));
+		attr = genreFormEntity.getAttribute(Ld4lDatatypeProp.LABEL);
+		Assert.assertEquals(HfaTestData.FICTION_GENRE, attr.getValue());
 	}
 	
 	@Test
@@ -71,9 +86,9 @@ public class HfaToGenreConcordanceTest extends AbstractHfaTest {
 		
 		genreBuilder.build(params);
 		
-		List<String> uris = parentEntity.getExternals(Ld4lObjectProp.GENRE_FORM);
-		Assert.assertNotNull(uris);
-		Assert.assertEquals(5, uris.size());
+		List<Entity> genreFormEntities = parentEntity.getChildren(Ld4lObjectProp.GENRE_FORM);
+		Assert.assertNotNull(genreFormEntities);
+		Assert.assertEquals(5, genreFormEntities.size());
 	}
 	
 	@Test
@@ -86,9 +101,9 @@ public class HfaToGenreConcordanceTest extends AbstractHfaTest {
 		
 		genreBuilder.build(params);
 		
-		List<String> uris = parentEntity.getExternals(Ld4lObjectProp.GENRE_FORM);
-		Assert.assertNotNull(uris);
-		Assert.assertEquals(2, uris.size());
+		List<Entity> genreFormEntities = parentEntity.getChildren(Ld4lObjectProp.GENRE_FORM);
+		Assert.assertNotNull(genreFormEntities);
+		Assert.assertEquals(2, genreFormEntities.size());
 		
 		List<Attribute> attrs = parentEntity.getAttributes(HfaDatatypeProp.KEYWORDS);
 		Assert.assertNotNull(attrs);
@@ -107,9 +122,8 @@ public class HfaToGenreConcordanceTest extends AbstractHfaTest {
 		
 		genreBuilder.build(params);
 		
-		List<String> uris = parentEntity.getExternals(Ld4lObjectProp.GENRE_FORM);
-		Assert.assertNotNull(uris);
-		Assert.assertEquals(2, uris.size());
+		List<Entity> genreFormEntities = parentEntity.getChildren(Ld4lObjectProp.GENRE_FORM);
+		Assert.assertEquals(2, genreFormEntities.size());
 	}
 	
 	@Test
@@ -122,14 +136,27 @@ public class HfaToGenreConcordanceTest extends AbstractHfaTest {
 		
 		genreBuilder.build(params);
 		
-		List<String> uris = parentEntity.getExternals(Ld4lObjectProp.GENRE_FORM);
-		Assert.assertNotNull(uris);
-		Assert.assertEquals(2, uris.size());
+		List<Entity> genreFormEntities = parentEntity.getChildren(Ld4lObjectProp.GENRE_FORM);
+		Assert.assertEquals(2, genreFormEntities.size());
+
+		List<String> genreFormUris = new ArrayList<String>(2);
+		genreFormUris.add("http://id.loc.gov/authorities/genreForms/gf2011026680");
+		genreFormUris.add("http://id.worldcat.org/fast/1710566");
+		
+		Entity genreFormEntity = genreFormEntities.get(0);
+		Assert.assertTrue(genreFormUris.contains(genreFormEntity.getResource().getURI()));
+		Attribute attr = genreFormEntity.getAttribute(Ld4lDatatypeProp.LABEL);
+		Assert.assertEquals(HfaTestData.TELEVISION_SERIAL_GENRE, attr.getValue());
+
+		genreFormEntity = genreFormEntities.get(1);
+		Assert.assertTrue(genreFormUris.contains(genreFormEntity.getResource().getURI()));
+		attr = genreFormEntity.getAttribute(Ld4lDatatypeProp.LABEL);
+		Assert.assertEquals(HfaTestData.TELEVISION_SERIAL_GENRE, attr.getValue());
 		
 		List<Attribute> attrs = parentEntity.getAttributes(HfaDatatypeProp.KEYWORDS);
 		Assert.assertNotNull(attrs);
 		Assert.assertEquals(1, attrs.size());
-		Attribute attr = attrs.get(0);
+		attr = attrs.get(0);
 		Assert.assertEquals(ENTRY_NOT_IN_CONCORDANCE, attr.getValue());
 	}
 	

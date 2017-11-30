@@ -113,9 +113,12 @@ public class HfaToItemBuilderTest extends AbstractHfaTest {
 		Assert.assertEquals(HfaTestData.LOAN_DATE, loanDate.getValue());
 		Assert.assertEquals(XsdDatatype.DATE, loanDate.getDatatype());
 		
-		String location = loanEvent.getExternal(Ld4lObjectProp.HAS_LOCATION);
+		Entity location = loanEvent.getChild(Ld4lObjectProp.HAS_LOCATION);
 		Assert.assertNotNull(location);
-		Assert.assertEquals("http://www.geonames.org/3624060", location);
+		Assert.assertEquals("http://www.geonames.org/3624060", location.getResource().getURI());
+		Attribute attr = location.getAttribute(Ld4lDatatypeProp.LABEL);
+		Assert.assertNotNull(attr);
+		Assert.assertEquals(HfaTestData.COUNTRY1, attr.getValue());
 		
 		Entity borrower = loanEvent.getChild(Ld4lObjectProp.HAS_ACTIVITY, HfaActivityType.BORROWER_ACTIVITY);
 		Assert.assertNotNull(borrower);
@@ -126,6 +129,12 @@ public class HfaToItemBuilderTest extends AbstractHfaTest {
 		Assert.assertNotNull(exhibition);
 		label = exhibition.getValue(Ld4lDatatypeProp.LABEL);
 		Assert.assertEquals(HfaEventType.EXHIBITION_EVENT.label(), label);
+		location = exhibition.getChild(Ld4lObjectProp.HAS_LOCATION);
+		Assert.assertNotNull(location);
+		Assert.assertEquals("http://www.geonames.org/3624060", location.getResource().getURI());
+		attr = location.getAttribute(Ld4lDatatypeProp.LABEL);
+		Assert.assertNotNull(attr);
+		Assert.assertEquals(HfaTestData.COUNTRY1, attr.getValue());
 		
 		Attribute exhibitionDate = exhibition.getAttribute(Ld4lDatatypeProp.DATE);
 		Assert.assertNotNull(exhibitionDate);

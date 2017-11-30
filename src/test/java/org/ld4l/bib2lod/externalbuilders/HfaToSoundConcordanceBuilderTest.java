@@ -4,8 +4,10 @@ package org.ld4l.bib2lod.externalbuilders;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.jena.rdf.model.Resource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
@@ -52,14 +54,17 @@ public class HfaToSoundConcordanceBuilderTest extends AbstractHfaTest {
 		
 		soundBuilder.build(params);
 		
-		List<String> uris = parentEntity.getExternals(HfaObjectProp.HAS_CHARACTERISTIC);
-		Assert.assertEquals(2, uris.size());
-		String uri = uris.get(0);
+		List<Entity> characteristicEntities = parentEntity.getChildren(HfaObjectProp.HAS_CHARACTERISTIC);
+		Assert.assertEquals(2, characteristicEntities.size());
+		
+		List<Resource> resources = new ArrayList<Resource>(2);
 		HfaGeneratedNamedIndividual namedIndividual = new HfaGeneratedNamedIndividual(HfaNamespace.SOUND_ASPECT, "1005");
-		Assert.assertEquals(namedIndividual.uri(), uri);
-		uri = uris.get(1);
+		resources.add(namedIndividual.resource());
 		namedIndividual = new HfaGeneratedNamedIndividual(HfaNamespace.SOUND_CONTENT, "1001");
-		Assert.assertTrue(uris.contains(namedIndividual.uri()));
+		resources.add(namedIndividual.resource());
+
+		Assert.assertTrue(resources.contains(characteristicEntities.get(0).getResource()));
+		Assert.assertTrue(resources.contains(characteristicEntities.get(0).getResource()));
 	}
 	
 	@Test

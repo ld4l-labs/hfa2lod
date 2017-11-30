@@ -19,7 +19,6 @@ import org.ld4l.bib2lod.entitybuilders.EntityBuilder.EntityBuilderException;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilderFactory;
 import org.ld4l.bib2lod.ontology.Namespace;
 import org.ld4l.bib2lod.ontology.Type;
-import org.ld4l.bib2lod.ontology.hfa.HfaGeneratedNamedIndividual;
 import org.ld4l.bib2lod.ontology.hfa.HfaGeneratedType;
 import org.ld4l.bib2lod.ontology.hfa.HfaNamespace;
 import org.ld4l.bib2lod.ontology.hfa.HfaObjectProp;
@@ -90,26 +89,29 @@ public class HfaToInstanceBuilderTest extends AbstractHfaTest {
 		Entity collectionEntity = instanceEntity.getChild(HfaObjectProp.IS_PART_OF);
 		Assert.assertNotNull(collectionEntity);
 		
-		String language = instanceEntity.getExternal(Ld4lObjectProp.HAS_LANGUAGE);
+		Entity language = instanceEntity.getChild(Ld4lObjectProp.HAS_LANGUAGE);
 		Assert.assertNotNull(language);
-		Assert.assertEquals("http://www.lexvo.org/page/iso639-3/eng", language);
+		Assert.assertEquals("http://www.lexvo.org/page/iso639-3/eng", language.getResource().getURI());
+		Attribute attr = language.getAttribute(Ld4lDatatypeProp.LABEL);
+		Assert.assertNotNull(attr);
+		Assert.assertEquals("English", attr.getValue());
 		
-		language = instanceEntity.getExternal(HfaObjectProp.HAS_SUBTITLE_LANGUAGE);
+		language = instanceEntity.getChild(HfaObjectProp.HAS_SUBTITLE_LANGUAGE);
 		Assert.assertNotNull(language);
-		Assert.assertEquals("http://www.lexvo.org/page/iso639-3/eng", language);
+		Assert.assertEquals("http://www.lexvo.org/page/iso639-3/eng", language.getResource().getURI());
+		attr = language.getAttribute(Ld4lDatatypeProp.LABEL);
+		Assert.assertNotNull(attr);
+		Assert.assertEquals("English", attr.getValue());
 		
-		language = instanceEntity.getExternal(HfaObjectProp.HAS_INTERTITLE_LANGUAGE);
+		language = instanceEntity.getChild(HfaObjectProp.HAS_INTERTITLE_LANGUAGE);
 		Assert.assertNotNull(language);
-		Assert.assertEquals("http://www.lexvo.org/page/iso639-3/eng", language);
+		Assert.assertEquals("http://www.lexvo.org/page/iso639-3/eng", language.getResource().getURI());
+		attr = language.getAttribute(Ld4lDatatypeProp.LABEL);
+		Assert.assertNotNull(attr);
+		Assert.assertEquals("English", attr.getValue());
 		
-		List<String> uris = instanceEntity.getExternals(HfaObjectProp.HAS_CHARACTERISTIC);
-		Assert.assertEquals(2, uris.size());
-		String uri = uris.get(0);
-		HfaGeneratedNamedIndividual namedIndividual = new HfaGeneratedNamedIndividual(HfaNamespace.SOUND_ASPECT, "1005");
-		Assert.assertEquals(namedIndividual.uri(), uri);
-		uri = uris.get(1);
-		namedIndividual = new HfaGeneratedNamedIndividual(HfaNamespace.SOUND_CONTENT, "1001");
-		Assert.assertTrue(uris.contains(namedIndividual.uri()));
+		List<Entity> characteristicEntities = instanceEntity.getChildren(HfaObjectProp.HAS_CHARACTERISTIC);
+		Assert.assertEquals(2, characteristicEntities.size());
 	}
 	
 	@Test

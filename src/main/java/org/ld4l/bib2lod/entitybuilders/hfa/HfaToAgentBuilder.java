@@ -13,6 +13,7 @@ import org.ld4l.bib2lod.csv.hfa.NamesConcordanceManager;
 import org.ld4l.bib2lod.entity.Attribute;
 import org.ld4l.bib2lod.entity.Entity;
 import org.ld4l.bib2lod.entitybuilders.BuildParams;
+import org.ld4l.bib2lod.ontology.OwlThingType;
 import org.ld4l.bib2lod.ontology.hfa.HfaObjectProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lAgentType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lDatatypeProp;
@@ -62,16 +63,20 @@ public class HfaToAgentBuilder extends HfaToLd4lEntityBuilder {
                     "A value is required containing the agent name.");
         }
         
+        agentName = agentName.trim();
         Entity agentEntity = new Entity(Ld4lAgentType.AGENT);
         agentEntity.addAttribute(Ld4lDatatypeProp.LABEL, new Attribute(agentName));
         parentEntity.addRelationship(Ld4lObjectProp.HAS_AGENT, agentEntity);
         
-        NamesConcordanceBean nameConcordanceBean = concordanceManager.getConcordanceEntry(agentName.trim());
+        NamesConcordanceBean nameConcordanceBean = concordanceManager.getConcordanceEntry(agentName);
         if (nameConcordanceBean != null) {
         	String isniUri = nameConcordanceBean.getIsni();
         	if (isniUri != null && !isniUri.isEmpty()) {
-        		agentEntity.addExternalRelationship(HfaObjectProp.HAS_PUBLIC_IDENTITY, isniUri);
-        	}
+    	        Entity publicIdentityEntity = new Entity(OwlThingType.THING);
+    	        publicIdentityEntity.addAttribute(Ld4lDatatypeProp.LABEL, agentName);
+    	        publicIdentityEntity.buildResource(isniUri);
+    	        agentEntity.addRelationship(HfaObjectProp.HAS_PUBLIC_IDENTITY, publicIdentityEntity);
+       	}
         	
         	String webPageUrl = nameConcordanceBean.getWebPage();
         	if (webPageUrl != null && !webPageUrl.isEmpty()) {

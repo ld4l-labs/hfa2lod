@@ -53,7 +53,7 @@ public class HfaTestData {
 	public static final String CAST2 = "Person 2";
 	public static final String CAST3 = "Person 3";
 	public static final String CAST_MEMBERS = CAST1 + "," + CAST2 + " , " + CAST3;
-	public static final String LANGUAGE = "English ";
+	public static final String ENGLISH_LANGUAGE = "English ";
 	public static final String LANGUAGE_UNKNOWN = "[unknown]";
 	public static final String SYNOPSIS = "This is the synopsis.";
 	public static final String OUTSIDE_BORROWER1 = "Borrower One Name";
@@ -200,9 +200,9 @@ public class HfaTestData {
 		        		"<col column='" + HfaRecord.ColumnAttributeText.EDITOR.getColumnAttributeText() + "'>" + EDITOR + "</col>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.MUSIC.getColumnAttributeText() + "'>" + MUSIC + "</col>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.PRODUCER.getColumnAttributeText() + "'>" + PRODUCERS + "</col>" +
-		        		"<col column='" + HfaRecord.ColumnAttributeText.LANGUAGE.getColumnAttributeText() + "'>" + LANGUAGE + "</col>" +
-		        		"<col column='" + HfaRecord.ColumnAttributeText.SUBTITLES_LANGUAGE.getColumnAttributeText() + "'>" + LANGUAGE + "</col>" +
-		        		"<col column='" + HfaRecord.ColumnAttributeText.INTERTITLES_LANGUAGE.getColumnAttributeText() + "'>" + LANGUAGE + "</col>" +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.LANGUAGE.getColumnAttributeText() + "'>" + ENGLISH_LANGUAGE + "</col>" +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.SUBTITLES_LANGUAGE.getColumnAttributeText() + "'>" + ENGLISH_LANGUAGE + "</col>" +
+		        		"<col column='" + HfaRecord.ColumnAttributeText.INTERTITLES_LANGUAGE.getColumnAttributeText() + "'>" + ENGLISH_LANGUAGE + "</col>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.SYNOPSIS.getColumnAttributeText() + "'>" + SYNOPSIS + "</col>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.HFA_TIME.getColumnAttributeText() + "'>" + DURATION + "</col>" +
 		        		"<col column='" + HfaRecord.ColumnAttributeText.RUNNING_TIME.getColumnAttributeText() + "'>" + DURATION + "</col>" +

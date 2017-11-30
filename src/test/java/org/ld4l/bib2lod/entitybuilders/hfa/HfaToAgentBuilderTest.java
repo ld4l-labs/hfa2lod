@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.ld4l.bib2lod.conversion.Converter.ConverterException;
 import org.ld4l.bib2lod.csv.hfa.NamesConcordanceManager;
+import org.ld4l.bib2lod.entity.Attribute;
 import org.ld4l.bib2lod.entity.Entity;
 import org.ld4l.bib2lod.entitybuilders.BuildParams;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilder;
@@ -63,7 +64,11 @@ public class HfaToAgentBuilderTest extends AbstractHfaTest {
 		Assert.assertNotNull(types);
 		Assert.assertTrue(types.contains(Ld4lAgentType.AGENT));
 		Assert.assertNotNull(agentEntity.getAttribute(Ld4lDatatypeProp.LABEL));
-		Assert.assertNotNull(agentEntity.getExternal(HfaObjectProp.HAS_PUBLIC_IDENTITY));
+		Entity publicIdentityEntity = agentEntity.getChild(HfaObjectProp.HAS_PUBLIC_IDENTITY);
+		Assert.assertNotNull(publicIdentityEntity);
+		Attribute attr = publicIdentityEntity.getAttribute(Ld4lDatatypeProp.LABEL);
+		Assert.assertNotNull(attr);
+		Assert.assertEquals("Tony Conrad", attr.getValue());
 		Assert.assertNotNull(agentEntity.getExternal(HfaObjectProp.HAS_WEB_PAGE));
 	}
 	

@@ -12,12 +12,14 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.ld4l.bib2lod.csv.hfa.AspectRatioConcordanceManager;
+import org.ld4l.bib2lod.entity.Attribute;
 import org.ld4l.bib2lod.entity.Entity;
 import org.ld4l.bib2lod.entitybuilders.BuildParams;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilder.EntityBuilderException;
 import org.ld4l.bib2lod.ontology.hfa.HfaGeneratedNamedIndividual;
 import org.ld4l.bib2lod.ontology.hfa.HfaNamespace;
 import org.ld4l.bib2lod.ontology.hfa.HfaObjectProp;
+import org.ld4l.bib2lod.ontology.ld4l.Ld4lDatatypeProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lWorkType;
 import org.ld4l.bib2lod.record.xml.hfa.HfaRecord;
 import org.ld4l.bib2lod.records.Record.RecordException;
@@ -54,10 +56,14 @@ public class HfaToAspectRatioConcordanceBuilderTest extends AbstractHfaTest {
 		
 		aspectRatioBuilder.build(params);
 		
-		List<String> uris = parentEntity.getExternals(HfaObjectProp.HAS_CHARACTERISTIC);
-		Assert.assertNotNull(uris);
-		Assert.assertEquals(1, uris.size());
-		String uri = uris.get(0);
+		List<Entity> entities = parentEntity.getChildren(HfaObjectProp.HAS_CHARACTERISTIC);
+		Assert.assertEquals(1, entities.size());
+		Entity entity = entities.get(0);
+		String uri = entity.getResource().getURI();
+		Attribute attr = entity.getAttribute(Ld4lDatatypeProp.LABEL);
+		Assert.assertNotNull(attr);
+		String label = attr.getValue();
+		Assert.assertEquals("1.66:1", label);
 		HfaGeneratedNamedIndividual namedIndividual = new HfaGeneratedNamedIndividual(HfaNamespace.MOVING_IMAGE, "Widescreen166");
 		Assert.assertEquals(namedIndividual.uri(), uri);
 	}

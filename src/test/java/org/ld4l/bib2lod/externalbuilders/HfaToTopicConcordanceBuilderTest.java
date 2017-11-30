@@ -6,6 +6,7 @@ import static org.ld4l.bib2lod.testing.HfaTestData.ENTRY_NOT_IN_CONCORDANCE;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -19,6 +20,7 @@ import org.ld4l.bib2lod.entity.Entity;
 import org.ld4l.bib2lod.entitybuilders.BuildParams;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilder.EntityBuilderException;
 import org.ld4l.bib2lod.ontology.hfa.HfaDatatypeProp;
+import org.ld4l.bib2lod.ontology.ld4l.Ld4lDatatypeProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lObjectProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lWorkType;
 import org.ld4l.bib2lod.record.xml.hfa.HfaRecord;
@@ -54,9 +56,31 @@ public class HfaToTopicConcordanceBuilderTest extends AbstractHfaTest {
 		
 		genreBuilder.build(params);
 		
-		List<String> uris = parentEntity.getExternals(Ld4lObjectProp.HAS_SUBJECT);
-		Assert.assertNotNull(uris);
-		Assert.assertEquals(3, uris.size());
+		List<Entity> subjectEntities = parentEntity.getChildren(Ld4lObjectProp.HAS_SUBJECT);
+		Assert.assertEquals(3, subjectEntities.size());
+		
+		List<String> concordanceUris = new ArrayList<String>(3);
+		concordanceUris.add("http://vocab.getty.edu/aat/300400818");
+		concordanceUris.add("http://id.worldcat.org/fast/958730");
+		concordanceUris.add("http://id.loc.gov/authorities/subjects/sh85061453");
+		
+		Entity subjectEntity = subjectEntities.get(0);
+		Assert.assertTrue(concordanceUris.contains(subjectEntity.getResource().getURI()));
+		Attribute attr = subjectEntity.getAttribute(Ld4lDatatypeProp.LABEL);
+		Assert.assertNotNull(attr);
+		Assert.assertEquals(HfaTestData.HOLIDAY_TOPIC, attr.getValue());
+
+		subjectEntity = subjectEntities.get(1);
+		Assert.assertTrue(concordanceUris.contains(subjectEntities.get(1).getResource().getURI()));
+		attr = subjectEntity.getAttribute(Ld4lDatatypeProp.LABEL);
+		Assert.assertNotNull(attr);
+		Assert.assertEquals(HfaTestData.HOLIDAY_TOPIC, attr.getValue());
+
+		subjectEntity = subjectEntities.get(2);
+		Assert.assertTrue(concordanceUris.contains(subjectEntities.get(2).getResource().getURI()));
+		attr = subjectEntity.getAttribute(Ld4lDatatypeProp.LABEL);
+		Assert.assertNotNull(attr);
+		Assert.assertEquals(HfaTestData.HOLIDAY_TOPIC, attr.getValue());
 	}
 	
 	@Test
@@ -69,9 +93,8 @@ public class HfaToTopicConcordanceBuilderTest extends AbstractHfaTest {
 		
 		genreBuilder.build(params);
 		
-		List<String> uris = parentEntity.getExternals(Ld4lObjectProp.HAS_SUBJECT);
-		Assert.assertNotNull(uris);
-		Assert.assertEquals(4, uris.size());
+		List<Entity> subjectEntities = parentEntity.getChildren(Ld4lObjectProp.HAS_SUBJECT);
+		Assert.assertEquals(4, subjectEntities.size());
 	}
 	
 	@Test
@@ -84,9 +107,8 @@ public class HfaToTopicConcordanceBuilderTest extends AbstractHfaTest {
 		
 		genreBuilder.build(params);
 		
-		List<String> uris = parentEntity.getExternals(Ld4lObjectProp.HAS_SUBJECT);
-		Assert.assertNotNull(uris);
-		Assert.assertEquals(3, uris.size());
+		List<Entity> subjectEntities = parentEntity.getChildren(Ld4lObjectProp.HAS_SUBJECT);
+		Assert.assertEquals(3, subjectEntities.size());
 		
 		List<Attribute> attrs = parentEntity.getAttributes(HfaDatatypeProp.KEYWORDS);
 		Assert.assertNotNull(attrs);

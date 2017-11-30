@@ -14,9 +14,11 @@ import org.ld4l.bib2lod.csv.hfa.CharacteristicsConcordanceManager;
 import org.ld4l.bib2lod.entity.Entity;
 import org.ld4l.bib2lod.entitybuilders.BuildParams;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilder.EntityBuilderException;
+import org.ld4l.bib2lod.ontology.OwlThingType;
 import org.ld4l.bib2lod.ontology.hfa.HfaGeneratedNamedIndividual;
 import org.ld4l.bib2lod.ontology.hfa.HfaNamespace;
 import org.ld4l.bib2lod.ontology.hfa.HfaObjectProp;
+import org.ld4l.bib2lod.ontology.ld4l.Ld4lDatatypeProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lItemType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lWorkType;
 import org.ld4l.bib2lod.record.xml.hfa.HfaRecord;
@@ -59,7 +61,8 @@ public class HfaToCharacteristicsConcordanceBuilder implements ConcordanceRefere
         if (Ld4lWorkType.MOVING_IMAGE.equals(parentEntity.getType())) {
         	HfaTextField hfaField = record.getField(ColumnAttributeText.COLOR);
         	if (hfaField != null) {
-        		CharacteristicsConcordanceBean characteristicBean = characteristicsConcordanceManager.getConcordanceEntry(hfaField.getTextValue().trim());
+        		String color = hfaField.getTextValue().trim();
+        		CharacteristicsConcordanceBean characteristicBean = characteristicsConcordanceManager.getConcordanceEntry(color);
         		if (characteristicBean != null) {
         			String ni = characteristicBean.getNamedIndividual();
         			HfaGeneratedNamedIndividual namedIndividual = null;
@@ -70,7 +73,10 @@ public class HfaToCharacteristicsConcordanceBuilder implements ConcordanceRefere
         			} catch (Exception e) {
         				throw new EntityBuilderException("Could not parse HfaGeneratedNamedIndividual from concordance value: " + ni);
         			}
-        			parentEntity.addExternalRelationship(HfaObjectProp.HAS_COLOR_CONTENT, namedIndividual);
+        			Entity colorEntity = new Entity(OwlThingType.THING);
+        			colorEntity.addAttribute(Ld4lDatatypeProp.LABEL, color);
+        			colorEntity.buildResource(namedIndividual.uri());
+        			parentEntity.addRelationship(HfaObjectProp.HAS_COLOR_CONTENT, colorEntity);
         		} else {
         			LOGGER.warn("No concordance match for [{}]", hfaField.getTextValue());
         		}
@@ -95,8 +101,8 @@ public class HfaToCharacteristicsConcordanceBuilder implements ConcordanceRefere
         	
         	// go through all fields and tokenize each by newline character then loop through each token
         	for (HfaTextField field : hfaTextFields) {
-        		String fieldText = field.getTextValue();
-        		CharacteristicsConcordanceBean characteristicBean = characteristicsConcordanceManager.getConcordanceEntry(fieldText.trim());
+        		String characteristic = field.getTextValue().trim();
+        		CharacteristicsConcordanceBean characteristicBean = characteristicsConcordanceManager.getConcordanceEntry(characteristic);
         		if (characteristicBean != null) {
         			String ni = characteristicBean.getNamedIndividual();
         			HfaGeneratedNamedIndividual namedIndividual = null;
@@ -107,7 +113,10 @@ public class HfaToCharacteristicsConcordanceBuilder implements ConcordanceRefere
         			} catch (Exception e) {
         				throw new EntityBuilderException("Could not parse HfaGeneratedNamedIndividual from concordance value: " + ni);
         			}
-        			parentEntity.addExternalRelationship(HfaObjectProp.HAS_CHARACTERISTIC, namedIndividual);
+        			Entity characteristicEntity = new Entity(OwlThingType.THING);
+        			characteristicEntity.addAttribute(Ld4lDatatypeProp.LABEL, characteristic);
+        			characteristicEntity.buildResource(namedIndividual.uri());
+        			parentEntity.addRelationship(HfaObjectProp.HAS_CHARACTERISTIC, characteristicEntity);
         		} else {
         			LOGGER.warn("No concordance match for [{}]", field.getTextValue());
         		}

@@ -14,9 +14,11 @@ import org.ld4l.bib2lod.csv.hfa.SoundConcordanceManager;
 import org.ld4l.bib2lod.entity.Entity;
 import org.ld4l.bib2lod.entitybuilders.BuildParams;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilder.EntityBuilderException;
+import org.ld4l.bib2lod.ontology.OwlThingType;
 import org.ld4l.bib2lod.ontology.hfa.HfaGeneratedNamedIndividual;
 import org.ld4l.bib2lod.ontology.hfa.HfaNamespace;
 import org.ld4l.bib2lod.ontology.hfa.HfaObjectProp;
+import org.ld4l.bib2lod.ontology.ld4l.Ld4lDatatypeProp;
 import org.ld4l.bib2lod.record.xml.hfa.HfaRecord;
 import org.ld4l.bib2lod.record.xml.hfa.HfaRecord.ColumnAttributeText;
 import org.ld4l.bib2lod.record.xml.hfa.HfaTextField;
@@ -63,7 +65,8 @@ public class HfaToSoundConcordanceBuilder implements ConcordanceReferenceBuilder
         for (ColumnAttributeText fieldName : attrs){
         	HfaTextField hfaField = record.getField(fieldName);
         	if (hfaField != null) {
-        		SoundConcordanceBean characteristicBean = soundConcordanceManager.getConcordanceEntry(hfaField.getTextValue().trim());
+        		String sound = hfaField.getTextValue().trim();
+        		SoundConcordanceBean characteristicBean = soundConcordanceManager.getConcordanceEntry(sound);
         		if (characteristicBean != null) {
         			String ni = characteristicBean.getNamedIndividual();
         			HfaGeneratedNamedIndividual namedIndividual = null;
@@ -74,7 +77,10 @@ public class HfaToSoundConcordanceBuilder implements ConcordanceReferenceBuilder
         			} catch (Exception e) {
         				throw new EntityBuilderException("Could not parse HfaGeneratedNamedIndividual from concordance value: " + ni);
         			}
-        			parentEntity.addExternalRelationship(HfaObjectProp.HAS_CHARACTERISTIC, namedIndividual);
+        			Entity characteristicEntity = new Entity(OwlThingType.THING);
+        			characteristicEntity.addAttribute(Ld4lDatatypeProp.LABEL, sound);
+        			characteristicEntity.buildResource(namedIndividual.uri());
+        			parentEntity.addRelationship(HfaObjectProp.HAS_CHARACTERISTIC, characteristicEntity);
         		} else {
         			LOGGER.warn("No concordance match for [{}]", hfaField.getTextValue());
         		}

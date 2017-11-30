@@ -140,15 +140,18 @@ public class HfaToMovingImageBuilderTest extends AbstractHfaTest {
 		Assert.assertNotNull(runningTime);
 		Assert.assertEquals(HfaTestData.DURATION, runningTime.getValue());
 		
-		String color = movingImageEntity.getExternal(HfaObjectProp.HAS_COLOR_CONTENT);
+		Entity color = movingImageEntity.getChild(HfaObjectProp.HAS_COLOR_CONTENT);
 		Assert.assertNotNull(color);
 		NamedIndividual namedIndividual = new HfaGeneratedNamedIndividual(HfaNamespace.MOVING_IMAGE, "BW");
-		Assert.assertEquals(namedIndividual.uri(), color);
+		Assert.assertEquals(namedIndividual.uri(), color.getResource().getURI());
+		Attribute attr = color.getAttribute(Ld4lDatatypeProp.LABEL);
+		Assert.assertNotNull(attr);
+		Assert.assertEquals(HfaTestData.COLOR_BW, attr.getValue());
 		
-		String aspectRatio = movingImageEntity.getExternal(HfaObjectProp.HAS_CHARACTERISTIC);
-		Assert.assertNotNull(aspectRatio);
+		Entity aspectEntity = movingImageEntity.getChild(HfaObjectProp.HAS_CHARACTERISTIC);
+		Assert.assertNotNull(aspectEntity);
 		namedIndividual = new HfaGeneratedNamedIndividual(HfaNamespace.MOVING_IMAGE, "Widescreen166");
-		Assert.assertEquals(namedIndividual.uri(), aspectRatio);
+		Assert.assertEquals(namedIndividual.uri(), aspectEntity.getResource().getURI());
 	}
 	
 	@Test

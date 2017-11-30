@@ -4,21 +4,24 @@ package org.ld4l.bib2lod.externalbuilders;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.jena.rdf.model.Resource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.ld4l.bib2lod.conversion.Converter.RecordConversionException;
 import org.ld4l.bib2lod.csv.hfa.CharacteristicsConcordanceManager;
+import org.ld4l.bib2lod.entity.Attribute;
 import org.ld4l.bib2lod.entity.Entity;
 import org.ld4l.bib2lod.entitybuilders.BuildParams;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilder.EntityBuilderException;
 import org.ld4l.bib2lod.ontology.hfa.HfaGeneratedNamedIndividual;
 import org.ld4l.bib2lod.ontology.hfa.HfaNamespace;
 import org.ld4l.bib2lod.ontology.hfa.HfaObjectProp;
+import org.ld4l.bib2lod.ontology.ld4l.Ld4lDatatypeProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lItemType;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lWorkType;
 import org.ld4l.bib2lod.record.xml.hfa.HfaRecord;
@@ -55,14 +58,16 @@ public class HfaToCharacteristicsConcordanceBuilderTest extends AbstractHfaTest 
 		
 		characteristicsBuilder.build(params);
 		
-		List<String> uris = parentEntity.getExternals(HfaObjectProp.HAS_COLOR_CONTENT);
-		Assert.assertNotNull(uris);
-		Assert.assertEquals(1, uris.size());
-		String uri = uris.get(0);
+		List<Entity> colors = parentEntity.getChildren(HfaObjectProp.HAS_COLOR_CONTENT);
+		Assert.assertEquals(1, colors.size());
+		Entity color = colors.get(0);
 		HfaGeneratedNamedIndividual namedIndividual = new HfaGeneratedNamedIndividual(HfaNamespace.MOVING_IMAGE, "BW");
-		Assert.assertEquals(namedIndividual.uri(), uri);
+		Assert.assertEquals(namedIndividual.uri(), color.getResource().getURI());
+		Attribute attr = color.getAttribute(Ld4lDatatypeProp.LABEL);
+		Assert.assertNotNull(attr);
+		Assert.assertEquals(HfaTestData.COLOR_BW, attr.getValue());
 		
-		uris = parentEntity.getExternals(HfaObjectProp.HAS_CHARACTERISTIC);
+		List<String> uris = parentEntity.getExternals(HfaObjectProp.HAS_CHARACTERISTIC);
 		Assert.assertEquals(0, uris.size()); // should be on bf:Item, not bf:MovingImage
 
 	}
@@ -82,14 +87,20 @@ public class HfaToCharacteristicsConcordanceBuilderTest extends AbstractHfaTest 
 		String uri = parentEntity.getExternal(HfaObjectProp.HAS_COLOR_CONTENT);
 		Assert.assertNull(uri); // should be on bf:MovingImage, not bf:Item
 		
-		List<String> uris = parentEntity.getExternals(HfaObjectProp.HAS_CHARACTERISTIC);
-		Assert.assertEquals(3, uris.size());
+		List<Entity> characteristics = parentEntity.getChildren(HfaObjectProp.HAS_CHARACTERISTIC);
+		Assert.assertEquals(3, characteristics.size());
+		
+		List<Resource> resources = new ArrayList<Resource>(3);
 		HfaGeneratedNamedIndividual namedIndividual = new HfaGeneratedNamedIndividual(HfaNamespace.MOVING_IMAGE, "Incomplete");
-		Assert.assertTrue(uris.contains(namedIndividual.uri()));
+		resources.add(namedIndividual.resource());
 		namedIndividual = new HfaGeneratedNamedIndividual(HfaNamespace.MOVING_IMAGE, "PoorSound");
-		Assert.assertTrue(uris.contains(namedIndividual.uri()));
+		resources.add(namedIndividual.resource());
 		namedIndividual = new HfaGeneratedNamedIndividual(HfaNamespace.MOVING_IMAGE, "ExcellentCondition");
-		Assert.assertTrue(uris.contains(namedIndividual.uri()));
+		resources.add(namedIndividual.resource());
+
+		Assert.assertTrue(resources.contains(characteristics.get(0).getResource()));
+		Assert.assertTrue(resources.contains(characteristics.get(1).getResource()));
+		Assert.assertTrue(resources.contains(characteristics.get(2).getResource()));
 	}
 	
 	@Test

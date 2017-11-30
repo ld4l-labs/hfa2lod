@@ -133,7 +133,7 @@ public class HfaToActivityBuilderTest extends AbstractHfaTest {
 		Assert.assertEquals(HfaTestData.YEAR_OF_RELEASE, dateAttr.getValue());
 		Assert.assertEquals(BibDatatype.EDTF, dateAttr.getDatatype());
 		
-		List<String> locations = activityEntity.getExternals(Ld4lObjectProp.HAS_LOCATION);
+		List<Entity> locations = activityEntity.getChildren(Ld4lObjectProp.HAS_LOCATION);
 		Assert.assertEquals(2, locations.size()); // only 2 of 4 should be pulled from concordance
 	}
 	
@@ -188,10 +188,14 @@ public class HfaToActivityBuilderTest extends AbstractHfaTest {
 		Entity activityEntity = activityBuilder.build(params);
 		Assert.assertNotNull(activityEntity);
 		
-		List<String> locations = activityEntity.getExternals(Ld4lObjectProp.HAS_LOCATION);
+		List<Entity> locations = activityEntity.getChildren(Ld4lObjectProp.HAS_LOCATION);
 		Assert.assertEquals(1, locations.size());
-		String location = locations.get(0);
-		Assert.assertEquals("http://www.geonames.org/3624060", location);
+		Entity locationEntity = locations.get(0);
+		Attribute attr = locationEntity.getAttribute(Ld4lDatatypeProp.LABEL);
+		Assert.assertNotNull(attr);
+		String label = attr.getValue();
+		Assert.assertEquals("Costa Rica", label);
+		Assert.assertEquals("http://www.geonames.org/3624060", locationEntity.getResource().getURI());
 
 		Attribute dateAttr = activityEntity.getAttribute(Ld4lDatatypeProp.DATE);
 		Assert.assertNull(dateAttr);

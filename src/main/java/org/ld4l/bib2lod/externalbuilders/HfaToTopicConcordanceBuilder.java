@@ -18,7 +18,9 @@ import org.ld4l.bib2lod.entity.Attribute;
 import org.ld4l.bib2lod.entity.Entity;
 import org.ld4l.bib2lod.entitybuilders.BuildParams;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilder.EntityBuilderException;
+import org.ld4l.bib2lod.ontology.OwlThingType;
 import org.ld4l.bib2lod.ontology.hfa.HfaDatatypeProp;
+import org.ld4l.bib2lod.ontology.ld4l.Ld4lDatatypeProp;
 import org.ld4l.bib2lod.ontology.ld4l.Ld4lObjectProp;
 import org.ld4l.bib2lod.record.xml.hfa.HfaRecord;
 import org.ld4l.bib2lod.record.xml.hfa.HfaTextField;
@@ -59,8 +61,8 @@ public class HfaToTopicConcordanceBuilder implements ConcordanceReferenceBuilder
     @Override
     public void build(BuildParams params) throws EntityBuilderException {
         
-        Entity bibEntity = params.getParent();
-        if (bibEntity == null) {
+        Entity parentEntity = params.getParent();
+        if (parentEntity == null) {
         	throw new EntityBuilderException("A parent Entity is required to build a title.");
         }
         
@@ -79,9 +81,12 @@ public class HfaToTopicConcordanceBuilder implements ConcordanceReferenceBuilder
         		token = token.trim();
         		ExternalUriBean concordanceBean = subjectConcordanceManager.getConcordanceEntry(token);
         		if (concordanceBean != null) {
-        			// for concordance matches add external relationship to corresponding URI
+        			// for concordance matches add relationship to corresponding URI
         			for (String externalUri : concordanceBean.getExternalUris()) {
-        				bibEntity.addExternalRelationship(Ld4lObjectProp.HAS_SUBJECT, externalUri);
+            			Entity subjectEntity = new Entity(OwlThingType.THING);
+            			subjectEntity.addAttribute(Ld4lDatatypeProp.LABEL, token);
+            			subjectEntity.buildResource(externalUri);
+         				parentEntity.addRelationship(Ld4lObjectProp.HAS_SUBJECT, subjectEntity);
         			}        			
         		} else {
         			// if no match found in concordance file AND the value from the Genre field
@@ -89,7 +94,7 @@ public class HfaToTopicConcordanceBuilder implements ConcordanceReferenceBuilder
     				ExternalUriBean filmConcordanceBean = filmConcordanceManager.getConcordanceEntry(token);
     				ExternalUriBean televisionConcordanceBean = televisionConcordanceManager.getConcordanceEntry(token);
     				if (filmConcordanceBean == null && televisionConcordanceBean == null) {
-    					bibEntity.addAttribute(HfaDatatypeProp.KEYWORDS, new Attribute(token, "en") );
+    					parentEntity.addAttribute(HfaDatatypeProp.KEYWORDS, new Attribute(token, "en") );
     				}
         		}
         	}

@@ -18,6 +18,7 @@ import org.ld4l.bib2lod.entitybuilders.BuildParams;
 import org.ld4l.bib2lod.entitybuilders.EntityBuilder;
 import org.ld4l.bib2lod.externalbuilders.ConcordanceReferenceBuilder;
 import org.ld4l.bib2lod.externalbuilders.HfaToCharacteristicsConcordanceBuilder;
+import org.ld4l.bib2lod.ontology.OwlThingType;
 import org.ld4l.bib2lod.ontology.Type;
 import org.ld4l.bib2lod.ontology.hfa.HfaActivityType;
 import org.ld4l.bib2lod.ontology.hfa.HfaDatatypeProp;
@@ -177,8 +178,10 @@ public class HfaToItemBuilder extends HfaToLd4lEntityBuilder {
     			location = location.trim();
 				LocationConcordanceBean bean = locationConcordanceManager.getConcordanceEntry(location);
 	    		if (bean != null) {
-	    			String uri = bean.getUri();
-	    			loanEvent.addExternalRelationship(Ld4lObjectProp.HAS_LOCATION, uri);
+	    	        Entity locationEntity = new Entity(OwlThingType.THING);
+	    	        locationEntity.addAttribute(Ld4lDatatypeProp.LABEL, location);
+	    	        locationEntity.buildResource(bean.getUri());
+	    			loanEvent.addRelationship(Ld4lObjectProp.HAS_LOCATION, locationEntity);
 	    		}
     		}
     		
@@ -258,8 +261,10 @@ public class HfaToItemBuilder extends HfaToLd4lEntityBuilder {
     			location = location.trim().replace("?", "");
 				LocationConcordanceBean bean = locationConcordanceManager.getConcordanceEntry(location);
 	    		if (bean != null) {
-	    			String uri = bean.getUri();
-	    			exhibitionEvent.addExternalRelationship(Ld4lObjectProp.HAS_LOCATION, uri);
+	    	        Entity locationEntity = new Entity(OwlThingType.THING);
+	    	        locationEntity.addAttribute(Ld4lDatatypeProp.LABEL, location);
+	    	        locationEntity.buildResource(bean.getUri());
+	    			exhibitionEvent.addRelationship(Ld4lObjectProp.HAS_LOCATION, locationEntity);
 	    		}
     		}
 

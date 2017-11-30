@@ -16,6 +16,7 @@ import org.ld4l.bib2lod.entitybuilders.EntityBuilder;
 import org.ld4l.bib2lod.externalbuilders.ConcordanceReferenceBuilder;
 import org.ld4l.bib2lod.externalbuilders.HfaToCharacteristicsConcordanceBuilder;
 import org.ld4l.bib2lod.externalbuilders.HfaToSoundConcordanceBuilder;
+import org.ld4l.bib2lod.ontology.OwlThingType;
 import org.ld4l.bib2lod.ontology.Type;
 import org.ld4l.bib2lod.ontology.hfa.HfaCollectionType;
 import org.ld4l.bib2lod.ontology.hfa.HfaGeneratedType;
@@ -157,28 +158,37 @@ public class HfaToInstanceBuilder extends HfaToLd4lEntityBuilder {
     	
     	HfaTextField field = record.getField(ColumnAttributeText.LANGUAGE);
     	if (field != null) {
-    		LanguageConcordanceBean bean = languageConcordanceManager.getConcordanceEntry(field.getTextValue().trim());
+    		String language = field.getTextValue().trim();
+    		LanguageConcordanceBean bean = languageConcordanceManager.getConcordanceEntry(language);
     		if (bean != null) {
-    			String uri = bean.getUri();
-    			instance.addExternalRelationship(Ld4lObjectProp.HAS_LANGUAGE, uri);
+    	        Entity languageEntity = new Entity(OwlThingType.THING);
+    	        languageEntity.addAttribute(Ld4lDatatypeProp.LABEL, language);
+    	        languageEntity.buildResource(bean.getUri());
+    			instance.addRelationship(Ld4lObjectProp.HAS_LANGUAGE, languageEntity);
     		}
     	}
     	
     	field = record.getField(ColumnAttributeText.SUBTITLES_LANGUAGE);
     	if (field != null) {
-    		LanguageConcordanceBean bean = languageConcordanceManager.getConcordanceEntry(field.getTextValue().trim());
+    		String language = field.getTextValue().trim();
+    		LanguageConcordanceBean bean = languageConcordanceManager.getConcordanceEntry(language);
     		if (bean != null) {
-    			String uri = bean.getUri();
-    			instance.addExternalRelationship(HfaObjectProp.HAS_SUBTITLE_LANGUAGE, uri);
+    	        Entity languageEntity = new Entity(OwlThingType.THING);
+    	        languageEntity.addAttribute(Ld4lDatatypeProp.LABEL, language);
+    	        languageEntity.buildResource(bean.getUri());
+    			instance.addRelationship(HfaObjectProp.HAS_SUBTITLE_LANGUAGE, languageEntity);
     		}
     	}
     	
     	field = record.getField(ColumnAttributeText.INTERTITLES_LANGUAGE);
     	if (field != null) {
-    		LanguageConcordanceBean bean = languageConcordanceManager.getConcordanceEntry(field.getTextValue().trim());
+    		String language = field.getTextValue().trim();
+    		LanguageConcordanceBean bean = languageConcordanceManager.getConcordanceEntry(language);
     		if (bean != null) {
-    			String uri = bean.getUri();
-    			instance.addExternalRelationship(HfaObjectProp.HAS_INTERTITLE_LANGUAGE, uri);
+    	        Entity languageEntity = new Entity(OwlThingType.THING);
+    	        languageEntity.addAttribute(Ld4lDatatypeProp.LABEL, language);
+    	        languageEntity.buildResource(bean.getUri());
+    			instance.addRelationship(HfaObjectProp.HAS_INTERTITLE_LANGUAGE, languageEntity);
     		}
     	}
     }
